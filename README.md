@@ -4,7 +4,6 @@ Video: https://www.youtube.com/watch?v=IgCfZkR8wME
 
 ## Pasos para empezar
 
-Instalar flask y flask-mysql
 pip3 install flask flask-mysqldb
 
 ## Para empezar la base de datos
