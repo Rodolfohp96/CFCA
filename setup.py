@@ -34,9 +34,29 @@ def setup_db():
     print(data)
 
     # Crear las tablas
-    db.execute("""CREATE TABLE example (
+
+    # Grupo
+    db.execute("""CREATE TABLE Grupo (
         id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-        name VARCHAR(50) NOT NULL
+        nombre VARCHAR(50) NOT NULL,
+        grado: INT
+        )""")
+
+    # Grupo_Materia
+    db.execute("""CREATE TABLE Grupo_Materia (
+        id_grupo INT NOT NULL,
+        id_materia INT NOT NULL,
+        FOREIGN KEY (id_grupo) REFERENCES Grupo(id),
+        FOREIGN KEY (id_materia) REFERENCES Materia(id)
+        )""")
+
+    # Materia
+    db.execute("""CREATE TABLE Materia (
+        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+        nombre VARCHAR(50) NOT NULL,
+        id_maestro INT,
+        hora_entrada TIME,
+        hora_salida TIME
         )""")
 
     # Anadir info a las tablas
