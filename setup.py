@@ -54,7 +54,7 @@ def setup_db():
     db.execute("""CREATE TABLE Materia (
         id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
         nombre VARCHAR(50) NOT NULL,
-        id_maestro INT,
+        id_maestro INT NOT NULL,
         hora_entrada TIME,
         hora_salida TIME
         )""")
