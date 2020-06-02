@@ -46,6 +46,41 @@ def setup_db():
             ("NameB")
         """)
 
+    # Estudiante
+    db.execute("""CREATE TABLE Estudiante (
+        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+        name VARCHAR(50) NOT NULL, 
+        fecha_de_nacimiento DATE NOT NULL,
+        beca INT,
+        id_grado INT
+        )""")
+
+
+
+        # Estudiante_Contacto
+    db.execute("""CREATE TABLE example (
+        id_estudiante INT NOT NULL,
+        id_contacto INT NOT NULL,
+        parentesco VARCHAR(50) NOT NULL,
+        es_responsable BOOLEAN  NOT NULL
+        FOREIGN KEY(id_estudiante) REFERENCES Estudiante(id)
+        FOREIGN KEY(id_contacto) REFERENCES Contacto(id)
+        )""")
+
+   
+
+        # Contacto
+    db.execute("""CREATE TABLE Contacto (
+        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+        name VARCHAR(50) NOT NULL,
+        correo VARCHAR(100) NOT NULL,
+        telefono INT NOT NULL,
+        direccion VARCHAR(100) NOT NULL
+
+        )""")
+
+
+
     db.connection.commit()
     # Terminar la conexion
     return 'success'
