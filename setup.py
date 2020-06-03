@@ -35,6 +35,27 @@ def setup_db():
 
     # Crear las tablas
 
+    db.execute(
+        """CREATE TABLE Maestro (
+        id_maestro INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+        nombre VARCHAR(50) NOT NULL,
+        correo VARCHAR(50) NOT NULL,
+        FOREIGN KEY (id_maestro) REFERENCES Materia(id_maestro)
+        )"""
+    )
+
+    db.execute(
+        """CREATE TABLE Transaccion (
+        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+        monto INT NOT NULL,
+        metodo VARCHAR(50) NOT NULL,
+        fecha_limite DATE,
+        padago BOOLEAN False,
+        FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id),
+        FOREIGN KEY (id_responsable) REFERENCES Contacto(id)
+        )"""
+    )
+
     # Grupo
     db.execute("""CREATE TABLE Grupo (
         id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
