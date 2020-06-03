@@ -35,24 +35,13 @@ def setup_db():
 
     # Crear las tablas
 
+    # Maestro
     db.execute(
         """CREATE TABLE Maestro (
         id_maestro INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
         nombre VARCHAR(50) NOT NULL,
         correo VARCHAR(50) NOT NULL,
-        FOREIGN KEY (id_maestro) REFERENCES Materia(id_maestro)
-        )"""
-    )
-
-    db.execute(
-        """CREATE TABLE Transaccion (
-        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-        monto INT NOT NULL,
-        metodo VARCHAR(50) NOT NULL,
-        fecha_limite DATE,
-        padago BOOLEAN False,
-        FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id),
-        FOREIGN KEY (id_responsable) REFERENCES Contacto(id)
+        fecha_de_nacimiento DATE
         )"""
     )
 
@@ -60,16 +49,43 @@ def setup_db():
     db.execute("""CREATE TABLE Grupo (
         id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
         nombre VARCHAR(50) NOT NULL,
-        grado: INT
+        grado INT
         )""")
 
-    # Grupo_Materia
-    db.execute("""CREATE TABLE Grupo_Materia (
+    # Estudiante
+    db.execute("""CREATE TABLE Estudiante (
+        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+        name VARCHAR(50) NOT NULL, 
+        fecha_de_nacimiento DATE NOT NULL,
+        beca INT,
         id_grupo INT NOT NULL,
-        id_materia INT NOT NULL,
-        FOREIGN KEY (id_grupo) REFERENCES Grupo(id),
-        FOREIGN KEY (id_materia) REFERENCES Materia(id)
+        FOREIGN KEY(id_grupo) REFERENCES Grupo(id)
         )""")
+
+    # Contacto
+    db.execute("""CREATE TABLE Contacto (
+        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+        name VARCHAR(50) NOT NULL,
+        correo VARCHAR(100) NOT NULL,
+        telefono INT NOT NULL,
+        direccion VARCHAR(100) NOT NULL
+        )""")
+
+
+    # Transaccion
+    db.execute(
+        """CREATE TABLE Transaccion (
+        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+        monto INT NOT NULL,
+        metodo VARCHAR(50) NOT NULL,
+        fecha_limite DATE,
+        pagado Bool,
+        id_estudiante INT NOT NULL,
+        id_responsable INT NOT NULL,
+        FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id),
+        FOREIGN KEY (id_responsable) REFERENCES Contacto(id)
+        )"""
+    )
 
     # Materia
     db.execute("""CREATE TABLE Materia (
@@ -80,45 +96,30 @@ def setup_db():
         hora_salida TIME
         )""")
 
-    # Anadir info a las tablas
-    db.execute("""INSERT INTO example (name)
-        VALUES
-            ("NameA"),
-            ("NameB")
-        """)
-
-    # Estudiante
-    db.execute("""CREATE TABLE Estudiante (
-        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-        name VARCHAR(50) NOT NULL, 
-        fecha_de_nacimiento DATE NOT NULL,
-        beca INT,
-        id_grado INT
+    # Grupo_Materia
+    db.execute("""CREATE TABLE Grupo_Materia (
+        id_grupo INT NOT NULL,
+        id_materia INT NOT NULL,
+        FOREIGN KEY (id_grupo) REFERENCES Grupo(id),
+        FOREIGN KEY (id_materia) REFERENCES Materia(id)
         )""")
 
-
-
-        # Estudiante_Contacto
-    db.execute("""CREATE TABLE example (
+    # Estudiante_Contacto
+    db.execute("""CREATE TABLE Estudiante_Contacto (
         id_estudiante INT NOT NULL,
         id_contacto INT NOT NULL,
         parentesco VARCHAR(50) NOT NULL,
-        es_responsable BOOLEAN  NOT NULL
-        FOREIGN KEY(id_estudiante) REFERENCES Estudiante(id)
+        es_responsable BOOLEAN  NOT NULL,
+        FOREIGN KEY(id_estudiante) REFERENCES Estudiante(id),
         FOREIGN KEY(id_contacto) REFERENCES Contacto(id)
         )""")
 
-   
-
-        # Contacto
-    db.execute("""CREATE TABLE Contacto (
-        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-        name VARCHAR(50) NOT NULL,
-        correo VARCHAR(100) NOT NULL,
-        telefono INT NOT NULL,
-        direccion VARCHAR(100) NOT NULL
-
-        )""")
+    # Anadir info a las tablas
+#    db.execute("""INSERT INTO example (name)
+#        VALUES
+#            ("NameA"),
+#            ("NameB")
+#        """)
 
 
 
