@@ -13,8 +13,9 @@ mysql = MySQL(app)
 
 @app.route('/')
 def index():
-    db =mysql.connection.cursor()
-    db.execute('SELECT table_name FROM information_schema.tables WHERE table_schema = \'{}\''.format(DB_NAME))
+    db = mysql.connection.cursor()
+    db.execute("""SELECT table_name FROM information_schema.tables 
+                    WHERE table_schema = \'{}\'""".format(DB_NAME))
     data = db.fetchall() 
     _tables = []
     for tablenames in data:
@@ -22,6 +23,15 @@ def index():
             _tables.append(tablename)
     return render_template('index.html', tables = _tables)
 
+@app.route('/grupo/<id>', methods = ['POST', 'GET'])
+def get_group(_id):
+    db = mysql.connection.cursor()
+    db.execute("""SELECT nombre, beca FROM Estudiante 
+                    WHERE id_grado = \'{}\'""".format(_id))
+    data = db.fetchall()
+    print(data)
+    return render_template('grupo.html', estudiantes = data)
+     
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)

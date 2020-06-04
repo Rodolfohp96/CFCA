@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <td>Nombre</td>
+            <td>Beca</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for estudiante in estudiantes %}
+        <tr>
+            <td>{{estudiante.0}}</td>
+            <td>{{estudiante.1}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
