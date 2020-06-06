@@ -38,8 +38,9 @@ def get_group(id):
     data = db.fetchall()
     _students = []
     for item in data:
+        matricula = "A{:06d}".format(item[1])
         age = gage(item[3])
-        _students.append([item[1], item[2], age, item[4]])
+        _students.append([matricula, item[2], age, item[4]])
     nstud = len(_students)
     _info = {"group": data[0][0], "students": _students, "num": nstud}
     return render_template('group.html', info = _info)

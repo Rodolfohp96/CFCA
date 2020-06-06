@@ -1,4 +1,7 @@
-<h1>All tables</h1>
-{% for table in tables %}
-<p>{{ table }}</p>
-{% endfor %}
+{% extends "layout.html" %}
+{% block body %}
+    <h1>All tables</h1>
+    {% for table in tables %}
+    <p>{{ table }}</p>
+    {% endfor %}
+{% endblock %}
