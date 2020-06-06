@@ -17,8 +17,16 @@ setup_app.config['MYSQL_DB'] = DB_NAME
 
 mysql = MySQL(setup_app)
 
-def gname(_str, n):
-    return "{}{}".format(_str, n)
+NAMES = ["Juan", "José Luis", "José", "María Guadalupe", "Francisco", "Guadalupe", "María", "Juana", "Antonio", "Jesús", "Miguel Ángel", "Pedro", "Alejandro", "Manuel", "Margarita", "María del CARMEN", "Juan Carlos", "Roberto", "Fernando", "Daniel", "Carlos", "Jorge", "Ricardo", "Miguel", "Eduardo", "Javier", "Rafael", "Martín", "Raúl", "David", "Josefina", "José Antonio", "Arturo", "Marco Antonio", "José Manuel", "Francisco Javier", "Enrique", "Verónica", "Gerardo", "María Elena", "Leticia", "Rosa", "Mario", "Francisca"]
+LASTNAMES = ["Martinez", "Lopez", "Gonzalez", "Perez", "Rodriguez", "Sanchez", "Ramirez", "Cruz", "Flores", "Gomez"]
+
+def gname():
+    nname = randint(0,9)
+    nalast = randint(0,9)
+    nblast = randint(0,9)
+    while nalast == nblast:
+        nblast = randint(0,9)
+    return "{} {} {}".format(NAMES[nname], LASTNAMES[nalast], LASTNAMES[nblast])
 
 def gemail(_str, n):
     return "{}{}@email.com".format(_str, n)
@@ -148,7 +156,7 @@ def setup_db():
                 idgrupo = ngrupo + 2 * ngrado + 1
                 idestud = (nestud + 1) + (30 * (idgrupo - 1))
                 nacyear = 2013 - ngrado
-                nomestud = gname("estud", idestud)
+                nomestud = gname()
                 nacestud = gdate(nacyear)
                 bestud = randint(1,8) * 10
                 db.execute("""INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo)

@@ -1,6 +1,7 @@
 # escuelaSQL
 
 Video: https://www.youtube.com/watch?v=IgCfZkR8wME
+Github del video: https://github.com/FaztWeb/flask-crud-contacts-app
 
 ## Pasos para empezar
 

@@ -1,22 +1,25 @@
-<p>Nombre de grupo: {{info.group}}</p>
-<p>Numero de alumnos: {{info.num}}
-<table>
-    <thead>
-        <tr>
-            <td>Id</td>
-            <td>Nombre</td>
-            <td>Age</td>
-            <td>Beca</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for student in info.students %}
-        <tr>
-            <td>{{student.0}}</td>
-            <td>{{student.1}}</td>
-            <td>{{student.2}}</td>
-            <td>{{student.3}}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% extends "layout.html" %}
+{% block body %}
+    <p>Nombre de grupo: {{info.group}}</p>
+    <p>Numero de alumnos: {{info.num}}
+    <table>
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Nombre</td>
+                <td>Age</td>
+                <td>Beca</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in info.students %}
+            <tr>
+                <td>{{student.0}}</td>
+                <td>{{student.1}}</td>
+                <td>{{student.2}}</td>
+                <td>{{student.3}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
