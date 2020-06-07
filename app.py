@@ -15,14 +15,26 @@ mysql = MySQL(app)
 @app.route('/')
 def index():
     db = mysql.connection.cursor()
-    db.execute("""SELECT table_name FROM information_schema.tables 
-                    WHERE table_schema = \'{}\'""".format(DB_NAME))
-    data = db.fetchall() 
-    _tables = []
-    for tablenames in data:
-        for tablename in tablenames:
-            _tables.append(tablename)
-    return render_template('index.html', tables = _tables)
+    db.execute("""SELECT Grupo.nombre, count(Estudiante.id) FROM grupo
+                    JOIN Estudiante ON Grupo.id = Estudiante.id_grupo
+                        GROUP BY Grupo.id""")
+    _grupos = db.fetchall()
+    db.execute("""SELECT count(id) FROM estudiante""")
+    numestud = db.fetchall()[0][0]
+    numgrupo = len(_grupos)
+    db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=TRUE""")
+    totganado = "${:,.2f}".format(db.fetchall()[0][0])
+    db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=FALSE""")
+    totadeudos = "${:,.2f}".format(db.fetchall()[0][0])
+    _info = {   
+        "numestud": numestud,
+        "grupos": _grupos,
+        "numgrupos": numgrupo,
+        "totganado": totganado,
+        "totadeudo": totadeudos
+    }
+    print(_info)
+    return render_template('index.html', info = _info)
 
 @app.route('/grupo/<id>', methods = ['POST', 'GET'])
 def get_group(id):
