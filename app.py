@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
 
 from utils import *
@@ -24,6 +24,22 @@ def index():
             _tables.append(tablename)
     return render_template('index.html', tables = _tables)
 
+@app.route('/AlumnoNuevo') 
+def alumno_nuevo():
+    return render_template('AlumnoNuevo.html')
+
+@app.route('/AlumnoNuevoAgregado', methods = ['POST']) 
+def alumno_nuevo_agregado():
+    if request.method == 'Agregar':
+        NombreCompleto = request.form['NombreCompleto']
+        FechadeNacimiento = request.form['FechadeNacimiento']
+        Grado = request.form['Grado']
+        Grupo = request.form['Grupo']
+        cur = mysql.connection.cursor()
+        db.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, grado) VALUES (%S, %S, %S)',(NombreCompleto, FechadeNacimiento, Grado))
+        mysql.connection.commit()
+    return 'Enterado'
+
 @app.route('/grupo/<id>', methods = ['POST', 'GET'])
 def get_group(id):
     db = mysql.connection.cursor()
@@ -44,7 +60,6 @@ def get_group(id):
     nstud = len(_students)
     _info = {"group": data[0][0], "students": _students, "num": nstud}
     return render_template('group.html', info = _info)
-     
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
