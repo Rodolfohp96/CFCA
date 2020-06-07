@@ -33,7 +33,6 @@ def index():
         "totganado": totganado,
         "totadeudo": totadeudos
     }
-    print(_info)
     return render_template('index.html', info = _info)
 
 @app.route('/AlumnoNuevo') 
@@ -101,7 +100,6 @@ def get_student(id):
                     nombre, parentesco, correo, telefono, direccion
                     FROM Contacto WHERE id_estudiante={}""".format(id))
     cdata = db.fetchall()
-    print(cdata)
     acon = ["", "", "", "", ""]
     bcon = ["", "", "", "", ""]
     for i in range(len(cdata)):
@@ -112,7 +110,7 @@ def get_student(id):
     db.execute("SELECT monto, metodo, fecha_limite, pagado FROM Transaccion WHERE id_estudiante={}".format(id))
     tdata = db.fetchall()
     trans = []
-    for item in tdata
+    for item in tdata:
         monto = "${:,.2f}".format(item[0])
         metodo = item[1]
         fecha_limite = item[2]
@@ -120,8 +118,9 @@ def get_student(id):
         noticia = "PAGADO"
         if item[3] == 0:
             noticia = "ADEUDO"
-        trans.append= {"monto": monto, "metodo": metodo, "limite": :w
-    _info = { "student": student, "acont": acon, "bcon": bcon}
+        trans.append({"monto": monto, "metodo": metodo, "limite": fecha_limite, "pagado": pagado, "noticia": noticia})
+    _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
+    print(_info)
     return render_template('student.html', info=_info)
 
 if __name__ == '__main__':
