@@ -78,7 +78,12 @@ a:hover, a:active {
   cursor: pointer;
 }
 
-
+#homepng{
+position: relative;
+}
+#logoutpng{
+position: relative;
+}
 
 .login{
     width: 100%;
