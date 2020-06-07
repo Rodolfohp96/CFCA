@@ -1,7 +1,23 @@
 {% extends "layout.html" %}
 {% block body %}
-    <h1>All tables</h1>
-    {% for table in tables %}
-    <p>{{ table }}</p>
-    {% endfor %}
+    <div>TOTAL ALUMNOS: {{ info.numestud }}</div>
+    <div>TOTAL GRUPOS: {{ info.numgrupos }}</div>
+    <div>TOTAL PAGADO: {{ info.totganado }}</div>
+    <div>TOTAL ADEUDOS: {{ info.totadeudo }}</div>
+    <table>
+        <thead>
+            <tr>
+                <td>Grupo</td>
+                <td>Total de Alumnos</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grupo in info.grupos %}
+            <tr>
+                <td>{{grupo.0}}</td>
+                <td>{{grupo.1}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

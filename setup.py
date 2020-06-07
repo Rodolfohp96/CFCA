@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_mysqldb import MySQL
 
-from random import randint
+from random import randint, uniform
 
 # Global variables
 HOST_NAME = 'localhost'
@@ -31,7 +31,7 @@ def gname():
 def gemail(_str, n):
     return "{}{}@email.com".format(_str, n)
 
-def gdate(_year):
+def gbdate(_year):
     month = "{:02d}".format(randint(1, 12))
     day = "{:02d}".format(randint(1, 28))
     return "{}-{}-{}".format(_year, month, day)
@@ -42,6 +42,22 @@ def grstr():
 def gphone():
     return "55 {} {} {}".format(randint(10,55),randint(10,55),randint(10,55))
 
+def gamount():
+    return uniform(500.00, 1000.00)
+
+def gmetodo():
+    metodos = ["Transferencia", "Tarjeta de Credito", "Efectivo", "Cheque"]
+    nmet = randint(0, 3)
+    return metodos[nmet]
+
+def gfdate():
+    return "2020-12-12"
+
+def gbool(n):
+    nrand = randint(0, n)
+    eval_ = "TRUE" if nrand > 0 else "FALSE"
+    return eval_
+    
 
 @setup_app.route('/setup')
 def setup_db():
@@ -105,14 +121,12 @@ def setup_db():
     db.execute(
         """CREATE TABLE Transaccion (
         id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-        monto INT NOT NULL,
+        monto FLOAT NOT NULL,
         metodo VARCHAR(50) NOT NULL,
         fecha_limite DATE,
         pagado Bool,
         id_estudiante INT NOT NULL,
-        id_responsable INT NOT NULL,
-        FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id),
-        FOREIGN KEY (id_responsable) REFERENCES Contacto(id)
+        FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id)
         )"""
     )
 
@@ -157,12 +171,16 @@ def setup_db():
                 idestud = (nestud + 1) + (30 * (idgrupo - 1))
                 nacyear = 2013 - ngrado
                 nomestud = gname()
-                nacestud = gdate(nacyear)
+                nacestud = gbdate(nacyear)
                 bestud = randint(1,8) * 10
                 db.execute("""INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo)
                     VALUES
                         (\"{}\", \"{}\", {}, {})
                     """.format(nomestud, nacestud, bestud, idgrupo))
+                db.execute("""INSERT INTO Transaccion 
+                                (monto, metodo, fecha_limite, pagado, id_estudiante)
+                                VALUES ({}, \"{}\", \"{}\", {}, {})
+                            """.format(gamount(), gmetodo(), gfdate(), gbool(4), idestud))
 
 
 
