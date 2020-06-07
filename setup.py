@@ -93,6 +93,15 @@ def setup_db():
 
     # Crear las tablas
 
+    # Account
+    db.execute(
+        """CREATE TABLE Account (
+        id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+        username VARCHAR(50) NOT NULL,
+        password VARCHAR(50) NOT NULL
+        )"""
+    )
+
     # Maestro
     db.execute(
         """CREATE TABLE Maestro (
@@ -174,7 +183,12 @@ def setup_db():
         FOREIGN KEY(id_contacto) REFERENCES Contacto(id)
         )""")
 
-    # Crea estudiantes y grupos
+    # Inserta accounts
+    db.execute("""INSERT INTO Account (username, password)
+                    VALUES ("direccion2020", "dir$$2020"),
+                            ("devadmin", "dev$admin")""")
+
+    # Inserta estudiantes y grupos
     for ngrado in range(6):
         mask_grupo = ["A", "B"]
         for ngrupo in range(2):
