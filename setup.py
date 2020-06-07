@@ -40,7 +40,7 @@ def grstr():
     return "random str{}".format(randint(0,100))
 
 def gphone():
-    return "55 {} {} {}".format(randint(10,55),randint(10,55),randint(10,55))
+    return int("55{}{}{}".format(randint(10,55),randint(10,55),randint(10,55)))
 
 def gamount():
     return uniform(500.00, 1000.00)
@@ -57,7 +57,20 @@ def gbool(n):
     nrand = randint(0, n)
     eval_ = "TRUE" if nrand > 0 else "FALSE"
     return eval_
+
+def gdir():
+    ncalle = randint(0,9)
+    calle = LASTNAMES[ncalle]
+    num = randint(12, 501)
+    ncol = randint(0,9)
+    col = LASTNAMES[ncol]
+    zip_ = randint(10512, 98950)
+    return "Calle {} {}, Col. {}. C.P.{}, HGO".format(calle, num, col, zip_)
     
+def gparentesco():
+    PAR = ["padre", "tio", "tia", "hermano", "hermana"]
+    npar = randint(0,4)
+    return PAR[npar]
 
 @setup_app.route('/setup')
 def setup_db():
@@ -112,9 +125,10 @@ def setup_db():
     db.execute("""CREATE TABLE Contacto (
         id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
         nombre VARCHAR(50) NOT NULL,
+        parentesco VARCHAR(50) NOT NULL,
         correo VARCHAR(100) NOT NULL,
         telefono INT NOT NULL,
-        direccion VARCHAR(100) NOT NULL,
+        direccion VARCHAR(200) NOT NULL,
         id_estudiante INT NOT NULL,
         FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id)
         )""")
@@ -180,14 +194,26 @@ def setup_db():
                     VALUES
                         (\"{}\", \"{}\", {}, {})
                     """.format(nomestud, nacestud, bestud, idgrupo))
+                apagado = gbool(4)
+                ametodo = gmetodo() if apagado == "TRUE" else ""
+                bpagado = gbool(4)
+                bmetodo = gmetodo() if bpagado == "TRUE" else ""
                 db.execute("""INSERT INTO Transaccion 
                                 (monto, metodo, fecha_limite, pagado, id_estudiante)
                                 VALUES ({}, \"{}\", \"{}\", {}, {}),
                                 ({}, \"{}\", \"{}\", {}, {})
-                            """.format(gamount(), gmetodo(), gfdate(), gbool(4), idestud, gamount(), gmetodo(), gfdate(), gbool(4), idestud))
+                            """.format(gamount(), ametodo, gfdate(), apagado, idestud, gamount(), bmetodo, gfdate(), bpagado, idestud))
 
-
-
+                nomacon = gname()
+                mailacon = "{}@mail.com".format(gname().split(" ")[0].lower())
+                nombcon = gname()
+                mailbcon = "{}@mail.com".format(gname().split(" ")[0].lower())
+                db.execute("""INSERT INTO Contacto
+                                    (nombre, parentesco, correo, telefono, direccion, id_estudiante)
+                                    VALUES 
+                                    (\"{}\",\"{}\",\"{}\", {}, \"{}\", {}),
+                                    (\"{}\",\"{}\",\"{}\", {}, \"{}\", {}) 
+                            """.format(nomacon, gparentesco(), mailacon, gphone(), gdir(), idestud, nombcon, gparentesco(), mailbcon, gphone(), gdir(), idestud))
     db.connection.commit()
     # Terminar la conexion
     return 'success'

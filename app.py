@@ -33,7 +33,6 @@ def index():
         "totganado": totganado,
         "totadeudo": totadeudos
     }
-    print(_info)
     return render_template('index.html', info = _info)
 
 @app.route('/AlumnoNuevo', methods = ['POST']) 
@@ -96,7 +95,47 @@ def get_group(id):
      
 @app.route('/alumno/<id>', methods = ['POST', 'GET'])
 def get_student(id):
-    return render_template('student.html', id=id)
+    db = mysql.connection.cursor()
+    db.execute("""SELECT 
+                    Estudiante.nombre, 
+                    Estudiante.fecha_de_nacimiento, 
+                    Estudiante.beca,  
+                    Grupo.nombre
+                    FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
+                    WHERE Estudiante.id={}
+                """.format(id))
+    data = db.fetchall()[0]
+    name = data[0]
+    age = gage(data[1])
+    beca = "{} %".format(data[2])
+    group = data[3]
+    student = {"name": name, "age": age, "beca": beca, "group": group}
+    db.execute("""SELECT
+                    nombre, parentesco, correo, telefono, direccion
+                    FROM Contacto WHERE id_estudiante={}""".format(id))
+    cdata = db.fetchall()
+    acon = ["", "", "", "", ""]
+    bcon = ["", "", "", "", ""]
+    for i in range(len(cdata)):
+        if i == 0:
+            acon = cdata[i]  
+        if i == 1:
+            bcon = cdata[i]
+    db.execute("SELECT monto, metodo, fecha_limite, pagado FROM Transaccion WHERE id_estudiante={}".format(id))
+    tdata = db.fetchall()
+    trans = []
+    for item in tdata:
+        monto = "${:,.2f}".format(item[0])
+        metodo = item[1]
+        fecha_limite = item[2]
+        pagado = item[3]
+        noticia = "PAGADO"
+        if item[3] == 0:
+            noticia = "ADEUDO"
+        trans.append({"monto": monto, "metodo": metodo, "limite": fecha_limite, "pagado": pagado, "noticia": noticia})
+    _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
+    print(_info)
+    return render_template('student.html', info=_info)
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
