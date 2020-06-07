@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
 
 from utils import *
@@ -9,7 +9,7 @@ app.config['MYSQL_HOST'] = HOST_NAME
 app.config["MYSQL_USER"] = USER_NAME
 app.config['MYSQL_PASSWORD'] = USER_PASS
 app.config['MYSQL_DB'] = DB_NAME
-
+app.secret_key = 'MYSECRET_KEY'
 mysql = MySQL(app)
 
 @app.route('/')
@@ -35,6 +35,22 @@ def index():
     }
     print(_info)
     return render_template('index.html', info = _info)
+
+@app.route('/AlumnoNuevo') 
+def alumno_nuevo():
+    return render_template('AlumnoNuevo.html')
+
+@app.route('/AlumnoNuevoAgregado', methods = ['POST']) 
+def alumno_nuevo_agregado():
+    if request.method == 'POST':
+        NombreCompleto = request.form['NombreCompleto']
+        FechadeNacimiento = request.form['FechadeNacimiento']
+        Beca = request.form['Beca']
+        Grupo = request.form['Grupo']
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(NombreCompleto, FechadeNacimiento, Beca, Grupo))
+        cur.connection.commit()
+    return 'Enterado'
 
 @app.route('/grupo/<id>', methods = ['POST', 'GET'])
 def get_group(id):
