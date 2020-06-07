@@ -15,14 +15,26 @@ mysql = MySQL(app)
 @app.route('/')
 def index():
     db = mysql.connection.cursor()
-    db.execute("""SELECT table_name FROM information_schema.tables 
-                    WHERE table_schema = \'{}\'""".format(DB_NAME))
-    data = db.fetchall() 
-    _tables = []
-    for tablenames in data:
-        for tablename in tablenames:
-            _tables.append(tablename)
-    return render_template('index.html', tables = _tables)
+    db.execute("""SELECT Grupo.id, Grupo.nombre, count(Estudiante.id) FROM grupo
+                    JOIN Estudiante ON Grupo.id = Estudiante.id_grupo
+                        GROUP BY Grupo.id""")
+    _grupos = db.fetchall()
+    db.execute("""SELECT count(id) FROM estudiante""")
+    numestud = db.fetchall()[0][0]
+    numgrupo = len(_grupos)
+    db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=TRUE""")
+    totganado = "${:,.2f}".format(db.fetchall()[0][0])
+    db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=FALSE""")
+    totadeudos = "${:,.2f}".format(db.fetchall()[0][0])
+    _info = {   
+        "numestud": numestud,
+        "grupos": _grupos,
+        "numgrupos": numgrupo,
+        "totganado": totganado,
+        "totadeudo": totadeudos
+    }
+    print(_info)
+    return render_template('index.html', info = _info)
 
 @app.route('/AlumnoNuevo') 
 def alumno_nuevo():
@@ -61,19 +73,30 @@ def get_group(id):
                         Grupo.nombre,
                         Estudiante.id,
                         Estudiante.nombre, 
-                        Estudiante.fecha_de_nacimiento, 
-                        Estudiante.beca 
-                    FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
-                    WHERE id_grupo = \'{}\'""".format(id))
+                        T.deuda
+                    FROM Estudiante 
+                    JOIN Grupo ON Estudiante.id_grupo=Grupo.id
+                    LEFT JOIN (SELECT sum(monto) as deuda, id_estudiante
+                            FROM Transaccion WHERE pagado=FALSE
+                            GROUP BY id_estudiante) AS T
+                    ON Estudiante.id=T.id_estudiante
+                    WHERE id_grupo = \'{}\'
+                    """.format(id))
     data = db.fetchall()
     _students = []
     for item in data:
-        matricula = "A{:06d}".format(item[1])
-        age = gage(item[3])
-        _students.append([matricula, item[2], age, item[4]])
+        matricula = "mat{:05d}".format(item[1])
+        deuda = "PAGADO"
+        if item[3] is not None:
+            deuda = "${:,.2f}".format(item[3])
+        _students.append([item[1], matricula, item[2], deuda])
     nstud = len(_students)
     _info = {"group": data[0][0], "students": _students, "num": nstud}
     return render_template('group.html', info = _info)
+     
+@app.route('/alumno/<id>', methods = ['POST', 'GET'])
+def get_student(id):
+    return render_template('student.html', id=id)
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
