@@ -9,7 +9,7 @@ app.config['MYSQL_HOST'] = HOST_NAME
 app.config["MYSQL_USER"] = USER_NAME
 app.config['MYSQL_PASSWORD'] = USER_PASS
 app.config['MYSQL_DB'] = DB_NAME
-
+app.secret_key = 'MYSECRET_KEY'
 mysql = MySQL(app)
 
 @app.route('/')
@@ -30,14 +30,14 @@ def alumno_nuevo():
 
 @app.route('/AlumnoNuevoAgregado', methods = ['POST']) 
 def alumno_nuevo_agregado():
-    if request.method == 'Agregar':
+    if request.method == 'POST':
         NombreCompleto = request.form['NombreCompleto']
         FechadeNacimiento = request.form['FechadeNacimiento']
-        Grado = request.form['Grado']
+        Beca = request.form['Beca']
         Grupo = request.form['Grupo']
         cur = mysql.connection.cursor()
-        db.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, grado) VALUES (%S, %S, %S)',(NombreCompleto, FechadeNacimiento, Grado))
-        mysql.connection.commit()
+        cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, grupo) VALUES (%S, %S, %S, %S)',(NombreCompleto, FechadeNacimiento, Beca, Grupo))
+        cur.connection.commit()
     return 'Enterado'
 
 @app.route('/grupo/<id>', methods = ['POST', 'GET'])
