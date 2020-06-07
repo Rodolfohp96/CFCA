@@ -12,6 +12,15 @@ p{
     display: flex;
     justify-content: space-between;
 }
+article{
+    background: white;
+    color: darkblue;
+    width: 25%;
+    margin-bottom: 10px;
+    float: left;
+    font-size: 13px;
+    
+}
 #nombre{
     float: left;
 }
@@ -41,15 +50,7 @@ tr:hover td{
     background-color: #0096d2; 
     color: white;
 }
-article{
-    background: white;
-    color: darkblue;
-    width: 25%;
-    margin-bottom: 10px;
-    float: left;
-    font-size: 13px;
-    
-}
+
 
 a:link, a:visited {
   background-color: #2271b3;
