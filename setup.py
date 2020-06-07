@@ -103,6 +103,7 @@ def setup_db():
         nombre VARCHAR(50) NOT NULL, 
         fecha_de_nacimiento DATE NOT NULL,
         beca INT,
+        grado INT,
         id_grupo INT NOT NULL,
         FOREIGN KEY(id_grupo) REFERENCES Grupo(id)
         )""")
@@ -113,7 +114,9 @@ def setup_db():
         nombre VARCHAR(50) NOT NULL,
         correo VARCHAR(100) NOT NULL,
         telefono INT NOT NULL,
-        direccion VARCHAR(100) NOT NULL
+        direccion VARCHAR(100) NOT NULL,
+        id_estudiante INT NOT NULL,
+        FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id)
         )""")
 
 
@@ -122,7 +125,7 @@ def setup_db():
         """CREATE TABLE Transaccion (
         id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
         monto FLOAT NOT NULL,
-        metodo VARCHAR(50) NOT NULL,
+        metodo VARCHAR(50),
         fecha_limite DATE,
         pagado Bool,
         id_estudiante INT NOT NULL,
