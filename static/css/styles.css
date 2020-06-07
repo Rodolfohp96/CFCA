@@ -1,3 +1,43 @@
-p {
-    color: red
+body{
+    background-color: darkgrey;
+    font-family: sans-serif;
+}
+
+#conteiner-body{
+    margin: 150px auto;
+    width: 80%;
+}
+p{
+    
+    display: flex;
+    justify-content: space-between;
+}
+#nombre{
+    float: left;
+}
+#numero{
+    float: right;
+}
+table{
+    background-color: white;
+    text-align: left;
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td{
+    padding: 20px;
+    
+}
+thead{
+    background-color: #2271b3;
+    border-bottom: solid 5px darkblue;
+    color: black;
+}
+tr:nth-child(even){
+    background-color: #ddd;
+    
+}
+tr:hover td{
+    background-color: #0096d2; 
+    color: white;
 }
