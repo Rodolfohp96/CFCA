@@ -79,10 +79,12 @@ a:hover, a:active {
 }
 
 #homepng{
-position: relative;
+position: left;
+width: 15%;
 }
 #logoutpng{
-position: relative;
+position: right;
+width: 15%;
 }
 
 .login{
