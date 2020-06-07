@@ -36,7 +36,7 @@ def alumno_nuevo_agregado():
         Beca = request.form['Beca']
         Grupo = request.form['Grupo']
         cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, grupo) VALUES (%S, %S, %S, %S)',(NombreCompleto, FechadeNacimiento, Beca, Grupo))
+        cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(NombreCompleto, FechadeNacimiento, Beca, Grupo))
         cur.connection.commit()
     return 'Enterado'
 
