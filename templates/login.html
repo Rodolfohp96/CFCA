@@ -2,7 +2,7 @@
 {% extends "layout.html" %}
 {% block body %}
 <div class="login">
-    <img src="{{url_for('static', filename='valledelmezquital.jpg.css')}}" alt="logo" id="logo">
+    <img src="{{url_for('static', filename='valledelmezquital.jpg')}}" alt="logo" id="logo">
     <form action="{{ url_for('login') }}" method="post">
         
         <input type="text" name="username" placeholder="Usuario" id="username" required>
