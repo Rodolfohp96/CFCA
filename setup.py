@@ -179,8 +179,9 @@ def setup_db():
                     """.format(nomestud, nacestud, bestud, idgrupo))
                 db.execute("""INSERT INTO Transaccion 
                                 (monto, metodo, fecha_limite, pagado, id_estudiante)
-                                VALUES ({}, \"{}\", \"{}\", {}, {})
-                            """.format(gamount(), gmetodo(), gfdate(), gbool(4), idestud))
+                                VALUES ({}, \"{}\", \"{}\", {}, {}),
+                                ({}, \"{}\", \"{}\", {}, {})
+                            """.format(gamount(), gmetodo(), gfdate(), gbool(4), idestud, gamount(), gmetodo(), gfdate(), gbool(4), idestud))
 
 
 
