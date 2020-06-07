@@ -9,13 +9,15 @@
             <tr>
                 <td>Grupo</td>
                 <td>Total de Alumnos</td>
+                <td></td>
             </tr>
         </thead>
         <tbody>
             {% for grupo in info.grupos %}
             <tr>
-                <td>{{grupo.0}}</td>
                 <td>{{grupo.1}}</td>
+                <td>{{grupo.2}}</td>
+                <td><a href="/grupo/{{grupo.0}}">Ver</a></td>
             </tr>
             {% endfor %}
         </tbody>
