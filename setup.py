@@ -116,6 +116,7 @@ def setup_db():
         nombre VARCHAR(50) NOT NULL, 
         fecha_de_nacimiento DATE NOT NULL,
         beca INT,
+        grado INT,
         id_grupo INT NOT NULL,
         FOREIGN KEY(id_grupo) REFERENCES Grupo(id)
         )""")

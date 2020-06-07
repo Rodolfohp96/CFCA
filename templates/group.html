@@ -2,6 +2,12 @@
 {% block body %}
     <p>Nombre de grupo: {{info.group}}</p>
     <p>Numero de alumnos: {{info.num}}
+    <form action="/AlumnoNuevo" method="POST">
+        <label>Agregar Alumno a este Grupo</label>
+        <button type="submit">
+            Agregar Alumno a grupo
+        </button>
+    </form><br>
     <table>
         <thead>
             <tr>
