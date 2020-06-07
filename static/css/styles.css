@@ -64,3 +64,16 @@ a:link, a:visited {
 a:hover, a:active {
   background-color: #00c3f8;
 }
+
+#tcolor{
+    background-color: #2271b3;
+}
+#botonalumno{
+  background-color: #2271b3;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}

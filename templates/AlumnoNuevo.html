@@ -3,75 +3,95 @@
 
 <form action="/AlumnoNuevoAgregado" method="POST">
 
-    <label>Alumno Nuevo</label><br><br>
-    <label for="NombreCompleto">Nombre Completo</label>
-    <input type="text" name="NombreCompleto" placeholder="NombreCompleto">
-
-    <label for="FechadeNacimiento">Fecha de Nacimiento</label>
-    <input type="text" name="FechadeNacimiento" placeholder="DD/MM/AAAA">
-
-    <label for="Beca">Porcentaje de Beca</label>
-    <input type="text" name="Beca" placeholder="%"><br><br>
-
-    <label for="Grado">Grado</label>
-    <input type="text" name="Grado" placeholder="Grado">   
-
-    <label for="Grupo">Grupo</label>
-    <select id="Grupo" name="Grupo">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select><br><br>    
-
-    <label>Información del primer tutor(Este tutor sera el responable de pago)</label><br><br>
-    <label for="Tutor1Nombre">Tutor 1 Nombre Completo</label>
-    <input type="text" name="Tutor1Nombre" placeholder="Tutor1Nombre">
-
-    <label for="Tutor1Correo">Tutor 1 Correo Electronico</label>
-    <input type="text" name="Tutor1Correo" placeholder="Tutor1Correo"><br><br>
-
-    <label for="Tutor1Direccion">Tutor 1 Dirección</label>
-    <input type="text" name="Tutor1Direccion" placeholder="Tutor1Direccion">
-
-    <label for="Tutor1Telefono">Tutor 1 Telefono</label>
-    <input type="text" name="Tutor1Telefono" placeholder="Tutor1Telefono"><br><br>
-
-    <label>Información del segundo Tutor</label><br><br>
-    <label for="Tutor2Nombre">Tutor 2 Nombre Completo</label>
-    <input type="text" name="Tutor2Nombre" placeholder="Tutor2Nombre">
-
-    <label for="Tutor2Correo">Tutor 2 Correo Electronico</label>
-    <input type="text" name="Tutor2Correo" placeholder="Tutor2Correo"><br><br>
-
-    <label for="Tutor2Direccion">Tutor 2 Dirección</label>
-    <input type="text" name="Tutor2Direccion" placeholder="Tutor2Direccion">
-
-    <label for="Tutor2Telefono">Tutor 2 Telefono</label>
-    <input type="text" name="Tutor2Telefono" placeholder="Tutor2Telefono"><br><br>
-
-    <label>Adeudos a crear</label><br><br>
-    <label for="AdeudoNuevo">Cantidad de nuevo adeudo</label>
-    <input type="text" name="AdeudoNuevo" placeholder="Monto"><br><br>
-
-    <label for="CantidadTransacciones">Cantidad de transacciones para pagar adeudo</label>
-    <select id="CantidadTransacciones" name="CantidadTransacciones">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-    </select><br><br>    
-
-    <button type="submit">
-        Agregar Alumno y Adeudo
-    </button>
+    <table border="10" cellspacing="10"cellpadding="10">
+        <tr>
+                <th colspan ="2" id="tcolor">Alumno Nuevo</th>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="text" name="NombreCompleto" placeholder ="Nombre completo*" size="70" maxlength="60"></td>
+            </tr>
+            
+            <tr>
+                <th>Fecha de nacimiento:</th>
+                <th><input type="date" name="FechadeNacimiento"></th>
+            </tr>
+            <tr>
+                <th>Porcentaje de beca:</th>
+                <th><input type="text"  name="Beca" placeholder="%"></th>
+            </tr>
+            <tr>
+                <th>Grado:</th>
+                <th><input type="text" name=" Grado" placeholder="Grado"></th>
+            </tr>
+            <tr>
+                <th>Grupo:</th>
+                <th><select id="Grupo" name ="Grupo">
+                        <option value ="1">1</option>
+                        <option value ="2">2</option>
+                        <option value="3">3</option>
+                        <option value ="4">4</option>
+                        <option value ="4">5</option>
+                    </select></th>
+            </tr>
+            <tr>
+                <th colspan ="2" id="tcolor">Información del primer tutor (Responsable del pago)</th>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="text" name="Tutor1Nombre" placeholder ="Nombre completo*" size="70" maxlength="60"></td>
+            </tr>
+            
+            <tr>
+                <th>Correo:</th>
+                <th><input type="text" name="Tutor1Correo" placeholder="Correo"></th>
+            </tr>
+            <tr>
+                <th>Dirección:</th>
+                <th><input type="text" name="Tutor1Direccion" placeholder="Dirección"></th>
+            </tr>
+            <tr>
+                <th>Teléfono:</th>
+                <th><input type="text" name="Tutor1Telefono" placeholder="Teléfono"></th>
+            </tr>
+            
+            <tr>
+                <th colspan ="2" id="tcolor">Información del segundo tutor</th>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="text" name="Tutor2Nombre" placeholder ="Nombre completo*" size="70" maxlength="60"></td>
+            </tr>
+            
+            <tr>
+                <th>Correo:</th>
+                <th><input type="text" name="Tutor2Correo" placeholder="Correo"></th>
+            </tr>
+            <tr>
+                <th>Dirección:</th>
+                <th><input type="text" name="Tutor2Direccion" placeholder="Dirección"></th>
+            </tr>
+            <tr>
+                <th>Teléfono:</th>
+                <th><input type="text" name="Tutor2Telefono" placeholder="Teléfono"></th>
+            </tr>
+            <tr>
+                <th colspan ="2">Adeudos a crear</th>
+            </tr>
+            <tr>
+                <th>Cantidad nuevo adeudo:</th>
+                <th><input type="text" name="AdeudoNuevo" placeholder="Monto"></th>
+            </tr>
+            <tr>
+                <th>Cantidad de transacciones para pagar adeudo:</th>
+                <th><select id="CantidadTransacciones" name="CantidadTransacciones">
+                        <option value ="1">1</option>
+                        <option value ="2">11</option>
+                    </select></th>
+            </tr>
+            <tr>
+                <td>Agregar alumno y adeudo</td>
+                <td><input type="submit" value="Agregar" id="botonalumno"></td>
+            </tr>
+        
+        </table>
 
 </form>
 {% endblock %}
