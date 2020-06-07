@@ -36,7 +36,7 @@ def index():
     print(_info)
     return render_template('index.html', info = _info)
 
-@app.route('/AlumnoNuevo') 
+@app.route('/AlumnoNuevo', methods = ['POST']) 
 def alumno_nuevo():
     return render_template('AlumnoNuevo.html')
 
