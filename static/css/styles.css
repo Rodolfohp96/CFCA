@@ -43,7 +43,7 @@ thead{
     color: black;
 }
 tr:nth-child(even){
-    background-color: ;
+    background-color: lightgray;
     
 }
 tr:hover td{
