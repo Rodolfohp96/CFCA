@@ -35,8 +35,22 @@ def alumno_nuevo_agregado():
         FechadeNacimiento = request.form['FechadeNacimiento']
         Beca = request.form['Beca']
         Grupo = request.form['Grupo']
+        Tutor1Nombre = request.form['Tutor1Nombre']
+        Tutor1Direccion = request.form['Tutor1Direccion']
+        Tutor1Correo = request.form['Tutor1Correo']
+        Tutor1Telefono = request.form['Tutor1Telefono']
+        Tutor2Nombre = request.form['Tutor2Nombre']
+        Tutor2Direccion = request.form['Tutor2Direccion']
+        Tutor2Correo = request.form['Tutor2Correo']
+        Tutor2Telefono = request.form['Tutor2Telefono']
+        AdeudoTotal = request.form['AdeudoNuevo']
+        CantidadTransacciones = request.form['CantidadTransacciones']
         cur = mysql.connection.cursor()
         cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(NombreCompleto, FechadeNacimiento, Beca, Grupo))
+        n = cur.lastrowid
+        cur.execute('INSERT INTO Contacto (nombre, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor1Nombre, Tutor1Correo, Tutor1Telefono, Tutor1Direccion, n))
+        cur.execute('INSERT INTO Contacto (nombre, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor2Nombre, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
+        cur.execute('INSERT INTO Transaccion (monto, id_estudiante) VALUES ({},{})'.format(AdeudoTotal, n))
         cur.connection.commit()
     return 'Enterado'
 
