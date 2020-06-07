@@ -41,3 +41,26 @@ tr:hover td{
     background-color: #0096d2; 
     color: white;
 }
+
+.info__columna{
+    background: white;
+    color: darkblue;
+    width: 25%;
+    margin-bottom: 10px;
+    float: left;
+    font-size: 13px;
+    
+}
+
+a:link, a:visited {
+  background-color: #2271b3;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover, a:active {
+  background-color: #00c3f8;
+}
