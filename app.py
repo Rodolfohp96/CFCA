@@ -59,19 +59,30 @@ def get_group(id):
                         Grupo.nombre,
                         Estudiante.id,
                         Estudiante.nombre, 
-                        Estudiante.fecha_de_nacimiento, 
-                        Estudiante.beca 
-                    FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
-                    WHERE id_grupo = \'{}\'""".format(id))
+                        T.deuda
+                    FROM Estudiante 
+                    JOIN Grupo ON Estudiante.id_grupo=Grupo.id
+                    LEFT JOIN (SELECT sum(monto) as deuda, id_estudiante
+                            FROM Transaccion WHERE pagado=FALSE
+                            GROUP BY id_estudiante) AS T
+                    ON Estudiante.id=T.id_estudiante
+                    WHERE id_grupo = \'{}\'
+                    """.format(id))
     data = db.fetchall()
     _students = []
     for item in data:
-        matricula = "A{:06d}".format(item[1])
-        age = gage(item[3])
-        _students.append([matricula, item[2], age, item[4]])
+        matricula = "mat{:05d}".format(item[1])
+        deuda = "PAGADO"
+        if item[3] is not None:
+            deuda = "${:,.2f}".format(item[3])
+        _students.append([item[1], matricula, item[2], deuda])
     nstud = len(_students)
     _info = {"group": data[0][0], "students": _students, "num": nstud}
     return render_template('group.html', info = _info)
+     
+@app.route('/alumno/<id>', methods = ['POST', 'GET'])
+def get_student(id):
+    return render_template('student.html', id=id)
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)

@@ -5,19 +5,19 @@
     <table>
         <thead>
             <tr>
-                <td>Id</td>
+                <td>Matrícula</td>
                 <td>Nombre</td>
-                <td>Age</td>
-                <td>Beca</td>
+                <td>Adeudo</td>
+                <td></td>
             </tr>
         </thead>
         <tbody>
             {% for student in info.students %}
             <tr>
-                <td>{{student.0}}</td>
                 <td>{{student.1}}</td>
                 <td>{{student.2}}</td>
                 <td>{{student.3}}</td>
+                <td><a href="/alumno/{{student.0}}">Ver</a></td>
             </tr>
             {% endfor %}
         </tbody>
