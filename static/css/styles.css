@@ -87,6 +87,7 @@ a:hover, a:active {
 #logo{
     width: 150px;
     margin: 0 auto;
+    display: block;
 }
 
 .login h1{
