@@ -1,19 +1,19 @@
 {% extends "layout.html" %}
 {% block body %}
 <section class="info">
-    <article class="info__columna">
+    <article id="info__columna">
        <h2 class="info__titulo">TOTAL ALUMNOS: </h2>
        <p class="info__txt">{{ info.numestud }}</p>
        </article>
-    <article class="info__columna">
+    <article id="info__columna">
        <h2 class="info__titulo">TOTAL GRUPOS: </h2>
         <p class="info__txt">{{ info.numgrupos }}</p>
         </article>
-    <article class="info__columna">
+    <article id="info__columna">
         <h2 class="info__titulo">TOTAL PAGADO: </h2>
         <p class="info__txt">{{ info.totganado }}</p>
     </article>
-    <article class="info__columna">
+    <article id="info__columna">
         <h2 class="info__titulo">TOTAL ADEUDOS: </h2>
         <p class="info__txt">{{ info.totadeudo }}</p>
     </article>  

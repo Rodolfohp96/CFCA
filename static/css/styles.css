@@ -41,7 +41,7 @@ tr:hover td{
     background-color: #0096d2; 
     color: white;
 }
-.info__columna{
+#info__columna{
     background: white;
     color: darkblue;
     width: 25%;
