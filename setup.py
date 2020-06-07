@@ -149,6 +149,7 @@ def setup_db():
         id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
         monto FLOAT NOT NULL,
         metodo VARCHAR(50),
+        concepto VARCHAR(200),
         fecha_limite DATE,
         pagado Bool,
         id_estudiante INT NOT NULL,
