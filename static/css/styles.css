@@ -42,7 +42,7 @@ th, td{
 thead{
     background-color: #2271b3;
     border-bottom: solid 5px darkblue;
-    color: black;
+    color: white;
 }
 tr:nth-child(even){
     background-color: lightgray;
