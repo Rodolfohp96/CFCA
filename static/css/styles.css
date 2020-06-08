@@ -88,11 +88,13 @@ a:hover, a:active {
 width: 10%;
 position: absolute;
 left: 0;
+top: 0;
 }
 #logoutpng{
 width: 10%;
 position: absolute;
 right: 0;
+top: 0;
 }
 
 .login{
