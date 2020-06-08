@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
-<form action="/actualizar_adeudo/{{info.data.0}}" method="POST">
+<p>{{ info.msg }}</p>
+<form action="/alumno/{{ info.aid }}/editar_adeudo/{{ info.id }}" method="POST">
     <table>
    <tr>
        <td>Monto</td>
