@@ -86,26 +86,34 @@ def alumno_nuevo_agregado():
     if request.method == 'POST':
         NombreCompleto = request.form['NombreCompleto']
         FechadeNacimiento = request.form['FechadeNacimiento']
-        Beca = request.form['Beca']
+        Beca = int(request.form['Beca'])
         GrupoId = request.form['GrupoId']
         Tutor1Nombre = request.form['Tutor1Nombre']
         Tutor1Direccion = request.form['Tutor1Direccion']
         Tutor1Correo = request.form['Tutor1Correo']
         Tutor1Parentesco = request.form['Tutor1Parentesco']
-        Tutor1Telefono = request.form['Tutor1Telefono']
+        Tutor1Telefono = int(request.form['Tutor1Telefono'])
         Tutor2Nombre = request.form['Tutor2Nombre']
         Tutor2Direccion = request.form['Tutor2Direccion']
         Tutor2Correo = request.form['Tutor2Correo']
         Tutor2Parentesco = request.form['Tutor2Parentesco']
-        Tutor2Telefono = request.form['Tutor2Telefono']
-        AdeudoTotal = request.form['AdeudoNuevo']
-        CantidadTransacciones = request.form['CantidadTransacciones']
+        Tutor2Telefono = int(request.form['Tutor2Telefono'])
+        MontoColegiatura = float(request.form['MontoColegiatura'])
+        ModalidadColegiatura = int(request.form['ModalidadColegiatura'])
         cur = mysql.connection.cursor()
         cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(NombreCompleto, FechadeNacimiento, Beca, GrupoId))
         n = cur.lastrowid
         cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor1Nombre, Tutor1Parentesco, Tutor1Correo, Tutor1Telefono, Tutor1Direccion, n))
         cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor2Nombre, Tutor2Parentesco, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
-        cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "", "colegiatura", "2020-12-12", "FALSE", n))
+        desc = 1 - Beca / 100
+        if ModalidadColegiatura == 10:
+            AdeudoTotal = MontoColegiatura * 10 * desc 
+            cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "", "Colegiatura completa", "2020-12-12", "FALSE", n))
+        elif ModalidadColegiatura == 11:
+            AdeudoTotal = MontoColegiatura * desc
+            for nummes in range(1, 12):
+                concepto = "Mensualidad {}".format(nummes)
+                cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "",concepto, "2020-12-12", "FALSE", n))
         cur.connection.commit()
     return redirect(url_for('get_group', id=GrupoId))
 
