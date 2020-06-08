@@ -81,17 +81,17 @@ a:hover, a:active {
     width: 80px;
 }
 #alayout{
-    background-color: lightgray;
+    background-color: darkgray;
 }
 
 #iniciopng{
-width: 10%;
+width: 5%;
 position: absolute;
 left: 0;
 top: 0;
 }
 #logoutpng{
-width: 10%;
+width: 5%;
 position: absolute;
 right: 0;
 top: 0;
