@@ -190,11 +190,16 @@ def setup_db():
                             ("devadmin", "dev$admin")""")
 
     # Inserta estudiantes y grupos
-    for ngrado in range(9):
+    for ngrado in range(12):
         mask_grupo = ["A", "B"]
         for ngrupo in range(2):
             numgrado = ngrado + 1
-            nomgrupo = "{} {}".format(numgrado, mask_grupo[ngrupo])
+            namgrado = ""
+            if numgrado < 4:
+                namgrado = "Kinder {}".format(numgrado)
+            else:
+                namgrado = "{}".format(numgrado - 3)
+            nomgrupo = "{} {}".format(namgrado, mask_grupo[ngrupo])
             db.execute("""INSERT INTO Grupo (nombre, grado)
                             VALUES (\"{}\",{})""".format(nomgrupo, numgrado))
             size = randint(27, 32)
