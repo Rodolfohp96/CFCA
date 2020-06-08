@@ -42,8 +42,12 @@ def grstr():
 def gphone():
     return int("55{}{}{}".format(randint(10,55),randint(10,55),randint(10,55)))
 
-def gamount():
-    return uniform(500.00, 1000.00)
+def gamount(grado):
+    if grado < 3:
+        return 1750.00
+    elif grado < 6:
+        return 1950.00
+    return 2000.00
 
 def gmetodo():
     metodos = ["Transferencia", "Tarjeta de Credito", "Efectivo", "Cheque"]
@@ -55,7 +59,7 @@ def gfdate():
 
 def gbool(n):
     nrand = randint(0, n)
-    eval_ = "TRUE" if nrand > 0 else "FALSE"
+    eval_ = "FALSE" if nrand > 0 else "TRUE"
     return eval_
 
 def gdir():
@@ -190,34 +194,37 @@ def setup_db():
                             ("devadmin", "dev$admin")""")
 
     # Inserta estudiantes y grupos
-    for ngrado in range(9):
+    for ngrado in range(12):
         mask_grupo = ["A", "B"]
         for ngrupo in range(2):
             numgrado = ngrado + 1
-            nomgrupo = "{} {}".format(numgrado, mask_grupo[ngrupo])
+            namgrado = ""
+            if numgrado < 4:
+                namgrado = "Kinder {}".format(numgrado)
+            else:
+                namgrado = "{}".format(numgrado - 3)
+            nomgrupo = "{} {}".format(namgrado, mask_grupo[ngrupo])
             db.execute("""INSERT INTO Grupo (nombre, grado)
                             VALUES (\"{}\",{})""".format(nomgrupo, numgrado))
-            size = randint(27, 32)
-            for nestud in range(size):
+            for nestud in range(30):
                 idgrupo = ngrupo + 2 * ngrado + 1
                 idestud = (nestud + 1) + (30 * (idgrupo - 1))
                 nacyear = 2013 - ngrado
                 nomestud = gname()
                 nacestud = gbdate(nacyear)
-                bestud = randint(1,8) * 10
+                bestud = randint(0,4) * 10
                 db.execute("""INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo)
                     VALUES
                         (\"{}\", \"{}\", {}, {})
                     """.format(nomestud, nacestud, bestud, idgrupo))
                 apagado = gbool(4)
                 ametodo = gmetodo() if apagado == "TRUE" else ""
-                bpagado = gbool(4)
-                bmetodo = gmetodo() if bpagado == "TRUE" else ""
+                desc = 1 - bestud / 100
+                amount = gamount(ngrado) * desc
                 db.execute("""INSERT INTO Transaccion 
                                 (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
-                                VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {}),
-                                ({}, \"{}\", \"{}\", \"{}\", {}, {})
-                            """.format(gamount(), ametodo, "colegiatura", gfdate(), apagado, idestud, gamount(), bmetodo, "colegiatura", gfdate(), bpagado, idestud))
+                                VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
+                            """.format(amount, ametodo, "Colegiatura completa", gfdate(), apagado, idestud))
 
                 nomacon = gname()
                 mailacon = "{}@mail.com".format(gname().split(" ")[0].lower())
