@@ -78,15 +78,21 @@ a:hover, a:active {
   cursor: pointer;
 }
 #navconteiner{
-    width: 30px;
+    width: 80px;
+}
+#alayout{
+    background-color: lightgray;
+}
 }
 #homepng{
-position: left;
-width: 15%;
+width: 100%;
+position: absolute;
+left: 0;
 }
 #logoutpng{
-position: right;
-width: 15%;
+width: 100%;
+position: absolute;
+right: 0;
 }
 
 .login{
