@@ -82,8 +82,6 @@ def alumno_nuevo(gid):
         try:
             NombreCompleto = request.form['NombreCompleto']
             FechadeNacimiento = request.form['FechadeNacimiento']
-            if not FechadeNacimiento:
-                raise ValueError("Error solidarity")
             Beca = int(request.form['Beca'])
             GrupoId = int(request.form['GrupoId'])
             Tutor1Nombre = request.form['Tutor1Nombre']
@@ -98,6 +96,9 @@ def alumno_nuevo(gid):
             Tutor2Telefono = int(request.form['Tutor2Telefono'])
             MontoColegiatura = float(request.form['MontoColegiatura'])
             ModalidadColegiatura = int(request.form['ModalidadColegiatura'])
+            inputs = [NombreCompleto, FechadeNacimiento, Beca, GrupoId, Tutor1Nombre, Tutor1Direccion, Tutor1Correo, Tutor1Parentesco, Tutor1Telefono, Tutor2Nombre, Tutor2Direccion, Tutor2Correo, Tutor2Parentesco, Tutor2Telefono, MontoColegiatura, ModalidadColegiatura]
+            if fempties(inputs):
+                raise ValueError("Error solidarity")
             cur = mysql.connection.cursor()
             cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(NombreCompleto, FechadeNacimiento, Beca, GrupoId))
             n = cur.lastrowid
@@ -116,7 +117,8 @@ def alumno_nuevo(gid):
             return redirect(url_for('get_group', id=GrupoId))
         except ValueError:
             msg = "Ocurrió un error al agregar la información"
-    _info = {"student": {"group": gid}, "msg": msg}
+    _info = {"student": {"group": int(gid)}, "msg": msg}
+    print(_info)
     return render_template('AlumnoNuevo.html', info=_info)
 
 @app.route('/grupo/<id>', methods = ['POST', 'GET'])
@@ -173,7 +175,6 @@ def get_student(id):
                     nombre, parentesco, correo, telefono, direccion
                     FROM Contacto WHERE id_estudiante={}""".format(id))
     cdata = db.fetchall()
-    print("DATA:",cdata)
     acon = ["", "", "", "", ""]
     bcon = ["", "", "", "", ""]
     for i in range(len(cdata)):
@@ -196,7 +197,6 @@ def get_student(id):
             noticia = "ADEUDO"
         trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "concepto": concepto, "limite": fecha_limite, "pagado": pagado, "noticia": noticia})
     _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
-    print(_info)
     return render_template('student.html', info=_info)
 
 @app.route('/editar_alumno/<id>', methods = ['POST', 'GET'])
@@ -224,6 +224,9 @@ def edit_student(id):
             bcparen = request.form['bcparen']
             bctel = int(request.form['bctel'])
             bcdir = request.form['bcdir']
+            inputs = [nombre, id_grupo, nac, beca, acnom, acid, acmail, acparen, actel, acdir, bcnom, bcid, bcmail, bcparen, bctel, bcdir]
+            if fempties(inputs):
+                raise ValueError("Error solidarity")
             db = mysql.connection.cursor()
             db.execute("""UPDATE Estudiante
                         SET nombre=\"{}\",
@@ -265,7 +268,6 @@ def edit_student(id):
     nac = data[1]
     beca = data[2]
     group = data[3]
-    print("Group:",group)
     student = {"name": name, "nac": nac, "beca": beca, "group": group}
     db.execute("""SELECT
                     nombre, parentesco, correo, telefono, direccion, id
@@ -301,11 +303,14 @@ def add_adeudo(aid):
         try:
             monto = float(request.form['monto'])
             metodo = request.form['metodo']
+            if not metodo:
+                metodo = " "
             concepto = request.form['concepto']
             limit = request.form['fechalimite']
-            if not limit:
-                raise ValueError("Error solidarity")
             pagado = "TRUE" if request.form['pagado'] == '1' else "FALSE"
+            inputs = [monto, metodo, concepto, limit, pagado]
+            if fempties(inputs):
+                raise ValueError("Error solidarity")
             db = mysql.connection.cursor()
             db.execute("""INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
                             VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
@@ -328,11 +333,14 @@ def edit_pago(aid, id):
         try:
             monto = float(request.form['monto'])
             metodo = request.form['metodo']
+            if not metodo:
+                metodo = " "
             concepto = request.form['concepto']
             limit = request.form['fechalimite']
-            if not limit:
-                raise ValueError("Error solidarity")
             pagado = "TRUE" if request.form['pagado'] == '1' else "FALSE"
+            inputs = [monto, metodo, concepto, limit, pagado]
+            if fempties(inputs):
+                raise ValueError("Error solidarity")
             db = mysql.connection.cursor()
             db.execute("""UPDATE Transaccion
                             SET monto={}, 
