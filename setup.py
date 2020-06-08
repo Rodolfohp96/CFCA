@@ -44,10 +44,10 @@ def gphone():
 
 def gamount(grado):
     if grado < 3:
-        return 1750.00
+        return 17500.00
     elif grado < 6:
-        return 1950.00
-    return 2000.00
+        return 19500.00
+    return 20000.00
 
 def gmetodo():
     metodos = ["Transferencia", "Tarjeta de Credito", "Efectivo", "Cheque"]
@@ -140,7 +140,7 @@ def setup_db():
         nombre VARCHAR(50) NOT NULL,
         parentesco VARCHAR(50) NOT NULL,
         correo VARCHAR(100) NOT NULL,
-        telefono INT NOT NULL,
+        telefono VARCHAR(20) NOT NULL,
         direccion VARCHAR(200) NOT NULL,
         id_estudiante INT NOT NULL,
         FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id) ON DELETE CASCADE
@@ -206,7 +206,7 @@ def setup_db():
             nomgrupo = "{} {}".format(namgrado, mask_grupo[ngrupo])
             db.execute("""INSERT INTO Grupo (nombre, grado)
                             VALUES (\"{}\",{})""".format(nomgrupo, numgrado))
-            for nestud in range(30):
+            for nestud in range(20):
                 idgrupo = ngrupo + 2 * ngrado + 1
                 idestud = (nestud + 1) + (30 * (idgrupo - 1))
                 nacyear = 2013 - ngrado
@@ -233,8 +233,8 @@ def setup_db():
                 db.execute("""INSERT INTO Contacto
                                     (nombre, parentesco, correo, telefono, direccion, id_estudiante)
                                     VALUES 
-                                    (\"{}\",\"{}\",\"{}\", {}, \"{}\", {}),
-                                    (\"{}\",\"{}\",\"{}\", {}, \"{}\", {}) 
+                                    (\"{}\",\"{}\",\"{}\", \"{}\", \"{}\", {}),
+                                    (\"{}\",\"{}\",\"{}\", \"{}\", \"{}\", {}) 
                             """.format(nomacon, gparentesco(), mailacon, gphone(), gdir(), idestud, nombcon, gparentesco(), mailbcon, gphone(), gdir(), idestud))
     db.connection.commit()
     # Terminar la conexion
