@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
-{% block body %}
-   
+{% block body %}  
     <table>
         <thead>
          <tr>
@@ -44,12 +43,10 @@
          <td>Direccion: {{info.bcon.4 }}</td>
          
      </tr>
-     
-     
     </table>
-    
+     <a href="/editar_alumno/{{info.student_id}}">Editar Alumno</a>
+     <a href="/grupo/{{ info.student.group_id }}/eliminar_alumno/{{ info.student_id }}">Eliminar Alumno</a>
      <a href="/crear_adeudo/{{info.student_id}}">Nuevo Adeudo</a>
-    
      <table id="tablaadeudo">
         <thead>
            <tr>
@@ -60,6 +57,7 @@
              <tr>
                  <td>Monto</td>
                  <td>Metodo</td>
+                 <td>Concepto</td>
                  <td>Fecha Limite</td>
                  <td colspan="2">Estado</td>
              </tr>
@@ -69,12 +67,11 @@
              <tr>
                  <td>{{tran.monto}}</td>
                  <td>{{tran.metodo}}</td>
+                 <td>{{tran.concepto}}</td>
                  <td>{{tran.limite}}</td>
                  <td>{{tran.noticia}}</td>
                  <td>
-                     {%if tran.pagado == 0%}
-                         <a href="/alumno/{{info.student_id}}">Pagar</a>
-                     {% endif %}
+                     <a href="/alumno/{{ info.student_id }}/editar_adeudo/{{tran.id}}">Editar</a>
                  </td>
              </tr>
              {% endfor %}

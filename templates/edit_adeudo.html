@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+    <form action="/actualizar_adeudo/{{info.data.0}}" method="POST">
+        <label>Monto</label>
+        <input type="text" name="monto" value="{{info.data.1}}">
+        <label>Forma de Pago</label>
+        <input type="text" name="metodo" value="{{info.data.2}}">
+        <label>Concepto</label>
+        <input type="text" name="concepto" value="{{info.data.3}}">
+        <label>Fecha Límite</label>
+        <input type="date" name="fechalimite" value="{{info.data.4}}">
+        <label>PAGADO</label>
+        <select id="pagadoselect" name="pagado">
+            {% if info.data.5 == 0 %}
+            <option value="0" selected="selected">Sin pagar</option>
+            <option value="1">Pagado</option>
+            {% endif %}
+            {% if info.data.5 == 1 %}
+            <option value="0" >Sin pagar</option>
+            <option value="1" selected="selected">Pagado</option>
+            {% endif %}
+        </select>
+        <button type="submit">Actualizar</button>
+    </form>
+    <a href='/alumno/{{ info.aid }}/eliminar_adeudo/{{ info.data.0 }}'>Eliminar</a>
+{% endblock %}
