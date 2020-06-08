@@ -1,23 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-    <div>Nombre: {{ info.student.name }}</div>
-    <div>Grupo: {{ info.student.group }}</div>
-    <div>Edad: {{ info.student.age }}</div>
-    <div>Beca: {{ info.student.beca }}</div>
-    <div>Primer Contacto:</div>
-    <div>Nombre: {{info.acon.0 }}</div>
-    <div>Parentesco: {{info.acon.1 }}</div>
-    <div>Correo: {{info.acon.2 }}</div>
-    <div>Telefono: {{info.acon.3 }}</div>
-    <div>Direccion: {{info.acon.4 }}</div>
-    <div>Segundo Contacto:</div>
-    <div>Nombre: {{info.bcon.0 }}</div>
-    <div>Parentesco: {{info.bcon.1 }}</div>
-    <div>Correo: {{info.bcon.2 }}</div>
-    <div>Telefono: {{info.bcon.3 }}</div>
-    <div>Direccion: {{info.bcon.4 }}</div>
-    <a href="/crear_adeudo/{{info.student_id}}">Nuevo Adeudo</a>
-    <div>Adeudos</div>
+   
     <table>
         <thead>
          <tr>
@@ -78,7 +61,7 @@
                  <td>Monto</td>
                  <td>Metodo</td>
                  <td>Fecha Limite</td>
-                 <td>Estado</td>
+                 <td colspan="2">Estado</td>
              </tr>
          </thead>
          <tbody>
