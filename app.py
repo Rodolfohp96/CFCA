@@ -107,7 +107,7 @@ def alumno_nuevo_agregado():
         cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor2Nombre, Tutor2Parentesco, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
         cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "", "colegiatura", "2020-12-12", "FALSE", n))
         cur.connection.commit()
-    return redirect(url_for('get_grupo', id=GrupoId))
+    return redirect(url_for('get_group', id=GrupoId))
 
 @app.route('/grupo/<id>', methods = ['POST', 'GET'])
 def get_group(id):
@@ -163,6 +163,7 @@ def get_student(id):
                     nombre, parentesco, correo, telefono, direccion
                     FROM Contacto WHERE id_estudiante={}""".format(id))
     cdata = db.fetchall()
+    print("DATA:",cdata)
     acon = ["", "", "", "", ""]
     bcon = ["", "", "", "", ""]
     for i in range(len(cdata)):
@@ -277,6 +278,33 @@ def delete_student(gid, id):
     db.execute("DELETE FROM Estudiante WHERE id = {}".format(id))
     db.connection.commit()
     return redirect(url_for('get_group', id=gid))
+
+@app.route('/alumno/<aid>/nuevo_adeudo', methods = ['POST', 'GET'])
+def add_adeudo(aid):
+    if not check_login():
+        return redirect(url_for('login'))
+    msg = ""
+    if request.method == 'POST':
+        try:
+            monto = float(request.form['monto'])
+            metodo = request.form['metodo']
+            concepto = request.form['concepto']
+            limit = request.form['fechalimite']
+            if not limit:
+                raise ValueError("Error solidarity")
+            pagado = "TRUE" if request.form['pagado'] == '1' else "FALSE"
+            db = mysql.connection.cursor()
+            db.execute("""INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
+                            VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
+                        """.format(monto, metodo, concepto, limit, pagado, aid))
+            db.connection.commit()
+            return redirect(url_for('get_student', id=aid))
+        except ValueError:
+            msg = "Ocurrió un error al agregar la informacón"
+    _info = {"aid": aid,"msg": msg}
+    return render_template('nuevo_adeudo.html', info=_info)
+    
+
 
 @app.route('/alumno/<aid>/editar_adeudo/<id>', methods = ['POST', 'GET'])
 def edit_pago(aid, id):
