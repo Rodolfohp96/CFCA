@@ -16,6 +16,7 @@
     <div>Correo: {{info.bcon.2 }}</div>
     <div>Telefono: {{info.bcon.3 }}</div>
     <div>Direccion: {{info.bcon.4 }}</div>
+    <a href="/editar_alumno/{{info.student_id}}">Editar Alumno</a>
     <a href="/crear_adeudo/{{info.student_id}}">Nuevo Adeudo</a>
     <div>Adeudos</div>
     <table>
@@ -35,9 +36,7 @@
                 <td>{{tran.limite}}</td>
                 <td>{{tran.noticia}}</td>
                 <td>
-                    {%if tran.pagado == 0%}
-                        <a href="/editar_adeudo/{{tran.id}}">Pagar</a>
-                    {% endif %}
+                    <a href="/editar_adeudo/{{tran.id}}">Editar</a>
                 </td>
             </tr>
             {% endfor %}

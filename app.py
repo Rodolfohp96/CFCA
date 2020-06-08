@@ -149,18 +149,16 @@ def get_student(id):
     group = data[3]
     student = {"name": name, "age": age, "beca": beca, "group": group}
     db.execute("""SELECT
-                    nombre, parentesco, correo, telefono, direccion, id
+                    nombre, parentesco, correo, telefono, direccion
                     FROM Contacto WHERE id_estudiante={}""".format(id))
     cdata = db.fetchall()
-    acon = ["", "", "", "", "", ""]
-    bcon = ["", "", "", "", "", ""]
+    acon = ["", "", "", "", ""]
+    bcon = ["", "", "", "", ""]
     for i in range(len(cdata)):
         if i == 0:
             acon = cdata[i]  
         if i == 1:
             bcon = cdata[i]
-    acid = acon[-1]
-    bcid = bcon[-1]
     db.execute("SELECT id, monto, metodo, fecha_limite, pagado FROM Transaccion WHERE id_estudiante={}".format(id))
     tdata = db.fetchall()
     trans = []
@@ -174,17 +172,51 @@ def get_student(id):
         if item[4] == 0:
             noticia = "ADEUDO"
         trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "limite": fecha_limite, "pagado": pagado, "noticia": noticia})
-    _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans, "acid": acid, "bcid": bcid}
+    _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
     print(_info)
     return render_template('student.html', info=_info)
 
-@app.route('/editar_alumno/<id>/<acid>/<bcid>', methods =['POST', 'GET'])
-def edit_student(id, acid, bcid):
+@app.route('/editar_alumno/<id>', methods = ['POST', 'GET'])
+def edit_student(id):
+    db = mysql.connection.cursor()
+    db.execute("""SELECT 
+                    Estudiante.nombre, 
+                    Estudiante.fecha_de_nacimiento, 
+                    Estudiante.beca,  
+                    Grupo.id
+                    FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
+                    WHERE Estudiante.id={}
+                """.format(id))
+    data = db.fetchall()[0]
+    name = data[0]
+    nac = data[1]
+    beca = data[2]
+    group = data[3]
+    print("Group:",group)
+    student = {"name": name, "nac": nac, "beca": beca, "group": group}
+    db.execute("""SELECT
+                    nombre, parentesco, correo, telefono, direccion, id
+                    FROM Contacto WHERE id_estudiante={}""".format(id))
+    cdata = db.fetchall()
+    acon = ["", "", "", "", "", ""]
+    bcon = ["", "", "", "", "", ""]
+    for i in range(len(cdata)):
+        if i == 0:
+            acon = cdata[i]  
+        if i == 1:
+            bcon = cdata[i]
+    acid = acon[-1]
+    bcid = bcon[-1]
+    _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "acid": acid, "bcid": bcid}
+    return render_template('edit_student.html', info=_info)
+    
+@app.route('/actualizar_alumno/<id>/<acid>/<bcid>', methods =['POST', 'GET'])
+def actualizar(id, acid, bcid):
     if request.method == 'POST':
         nombre = request.form['nombre']
         id_grupo = int(request.form['idgrupo'])
         nac = request.form['nacimiento']
-        beca = int(request.form['beca']
+        beca = int(request.form['beca'])
         acnom = request.form['acnom']
         acmail = request.form['acmail']
         acparen = request.form['acparen']
@@ -192,19 +224,34 @@ def edit_student(id, acid, bcid):
         acdir = request.form['acdir']
         bcnom = request.form['bcnom']
         bcmail = request.form['bcmail']
-        bcparen = request.forml'bcparen']
+        bcparen = request.form['bcparen']
         bctel = int(request.form['bctel'])
         bcdir = request.form['bcdir']
-         db = mysql.connection.cursor()
-         db.execute("""UPDATE Estudiante
-                        SET nombre=\"{}\",
-                        fecha_de_nacimento=\"{}\",
-                        beca={}
-                        id_grupo={} WHERE id={}
-                    """.format(nombre, nac, beca, id_grupo, id))
-         db.execute("""UPDATE Contacto
-                        SET nombre=\"{}\"
-                         
+        db = mysql.connection.cursor()
+        db.execute("""UPDATE Estudiante
+                    SET nombre=\"{}\",
+                    fecha_de_nacimiento=\"{}\",
+                    beca={},
+                    id_grupo={} WHERE id={}
+                """.format(nombre, nac, beca, id_grupo, id))
+        db.execute("""UPDATE Contacto
+                    SET nombre=\"{}\",
+                    parentesco=\"{}\",
+                    correo=\"{}\",
+                    telefono={},  
+                    direccion=\"{}\"
+                    WHERE id={}
+                """.format(acnom, acparen, acmail, actel, acdir, acid))
+        db.execute("""UPDATE Contacto
+                    SET nombre=\"{}\",
+                    parentesco=\"{}\",
+                    correo=\"{}\",
+                    telefono={},  
+                    direccion=\"{}\"
+                    WHERE id={}
+                """.format(bcnom, bcparen, bcmail, bctel, bcdir, bcid))
+        db.connection.commit()
+        return redirect(url_for('get_student', id=id))
 
 
 @app.route('/editar_adeudo/<id>', methods = ['POST', 'GET'])
