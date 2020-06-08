@@ -1,31 +1,41 @@
 {% extends "layout.html" %}
 {% block body %}
-    <p>Nombre de grupo: {{info.group}}</p>
-    <p>Numero de alumnos: {{info.num}}
-    <form action="/AlumnoNuevo" method="POST">
-        <label>Agregar Alumno a este Grupo</label>
-        <button type="submit">
-            Agregar Alumno a grupo
-        </button>
-    </form><br>
-    <table>
-        <thead>
-            <tr>
-                <td>Matrícula</td>
-                <td>Nombre</td>
-                <td>Adeudo</td>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for student in info.students %}
-            <tr>
-                <td>{{student.1}}</td>
-                <td>{{student.2}}</td>
-                <td>{{student.3}}</td>
-                <td><a href="/alumno/{{student.0}}">Ver</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<section>
+    <article class="mat">
+        <h2>Nombre de grupo:</h2>
+        <p>{{info.group}}</p>
+    </article>
+    <article class="mat">
+        <h2>Numero de alumnos:</h2>
+        <p>{{info.num}}</p>
+    </article>
+    <article class="mat">
+        <h2>Agregar Alumno a este Grupo</h2>
+         <form action="/AlumnoNuevo" method="POST">
+          <p><button type="submit" id="botonactualizar1">
+              Agregar Alumno a grupo
+          </button></p>
+          </form>
+    </article>
+</section>
+<table>
+<thead>
+  <tr>
+      <td>Matrícula</td>
+      <td>Nombre</td>
+      <td>Adeudo</td>
+      <td></td>
+  </tr>
+</thead>
+<tbody>
+  {% for student in info.students %}
+  <tr>
+      <td>{{student.1}}</td>
+      <td>{{student.2}}</td>
+      <td>{{student.3}}</td>
+      <td><a href="/alumno/{{student.0}}">Ver</a></td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
 {% endblock %}
