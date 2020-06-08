@@ -107,7 +107,7 @@ def alumno_nuevo_agregado():
         cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor2Nombre, Tutor2Parentesco, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
         cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "", "colegiatura", "2020-12-12", "FALSE", n))
         cur.connection.commit()
-    return redirect(url_for('get_grupo', id=GrupoId))
+    return redirect(url_for('get_group', id=GrupoId))
 
 @app.route('/grupo/<id>', methods = ['POST', 'GET'])
 def get_group(id):
@@ -277,6 +277,11 @@ def delete_student(gid, id):
     db.execute("DELETE FROM Estudiante WHERE id = {}".format(id))
     db.connection.commit()
     return redirect(url_for('get_group', id=gid))
+
+@app.route('/alumno/<aid>/nuevo_adeudo/', methods = ['POST', 'GET'])
+def add_adeudo(aid, id):
+    return render_template('nuevo_adeudo.html')
+
 
 @app.route('/alumno/<aid>/editar_adeudo/<id>', methods = ['POST', 'GET'])
 def edit_pago(aid, id):
