@@ -149,31 +149,96 @@ def get_student(id):
     group = data[3]
     student = {"name": name, "age": age, "beca": beca, "group": group}
     db.execute("""SELECT
-                    nombre, parentesco, correo, telefono, direccion
+                    nombre, parentesco, correo, telefono, direccion, id
                     FROM Contacto WHERE id_estudiante={}""".format(id))
     cdata = db.fetchall()
-    acon = ["", "", "", "", ""]
-    bcon = ["", "", "", "", ""]
+    acon = ["", "", "", "", "", ""]
+    bcon = ["", "", "", "", "", ""]
     for i in range(len(cdata)):
         if i == 0:
             acon = cdata[i]  
         if i == 1:
             bcon = cdata[i]
-    db.execute("SELECT monto, metodo, fecha_limite, pagado FROM Transaccion WHERE id_estudiante={}".format(id))
+    acid = acon[-1]
+    bcid = bcon[-1]
+    db.execute("SELECT id, monto, metodo, fecha_limite, pagado FROM Transaccion WHERE id_estudiante={}".format(id))
     tdata = db.fetchall()
     trans = []
     for item in tdata:
-        monto = "${:,.2f}".format(item[0])
-        metodo = item[1]
-        fecha_limite = item[2]
-        pagado = item[3]
+        id_adeudo = item[0]
+        monto = "${:,.2f}".format(item[1])
+        metodo = item[2]
+        fecha_limite = item[3]
+        pagado = item[4]
         noticia = "PAGADO"
-        if item[3] == 0:
+        if item[4] == 0:
             noticia = "ADEUDO"
-        trans.append({"monto": monto, "metodo": metodo, "limite": fecha_limite, "pagado": pagado, "noticia": noticia})
-    _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
+        trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "limite": fecha_limite, "pagado": pagado, "noticia": noticia})
+    _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans, "acid": acid, "bcid": bcid}
     print(_info)
     return render_template('student.html', info=_info)
+
+@app.route('/editar_alumno/<id>/<acid>/<bcid>', methods =['POST', 'GET'])
+def edit_student(id, acid, bcid):
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        id_grupo = int(request.form['idgrupo'])
+        nac = request.form['nacimiento']
+        beca = int(request.form['beca']
+        acnom = request.form['acnom']
+        acmail = request.form['acmail']
+        acparen = request.form['acparen']
+        actel = int(request.form['actel'])
+        acdir = request.form['acdir']
+        bcnom = request.form['bcnom']
+        bcmail = request.form['bcmail']
+        bcparen = request.forml'bcparen']
+        bctel = int(request.form['bctel'])
+        bcdir = request.form['bcdir']
+         db = mysql.connection.cursor()
+         db.execute("""UPDATE Estudiante
+                        SET nombre=\"{}\",
+                        fecha_de_nacimento=\"{}\",
+                        beca={}
+                        id_grupo={} WHERE id={}
+                    """.format(nombre, nac, beca, id_grupo, id))
+         db.execute("""UPDATE Contacto
+                        SET nombre=\"{}\"
+                         
+
+
+@app.route('/editar_adeudo/<id>', methods = ['POST', 'GET'])
+def edit_pago(id):
+    db = mysql.connection.cursor()
+    db.execute("""SELECT id, monto, metodo, concepto, fecha_limite, pagado
+                    FROM Transaccion WHERE id={}""".format(id))
+    data = db.fetchone()
+    return render_template('edit_adeudo.html', data=data)
+
+@app.route('/actualizar_adeudo/<id>', methods = ['POST'])
+def update_contact(id):
+    if request.method == 'POST':
+        monto = float(request.form['monto'])
+        metodo = request.form['metodo']
+        concepto = request.form['concepto']
+        limit = request.form['fechalimite']
+        print(request.form['pagado'])
+        pagado = "TRUE" if request.form['pagado'] == '1' else "FALSE"
+        print("Pagado", pagado)
+        db = mysql.connection.cursor()
+        db.execute("""UPDATE Transaccion
+                        SET monto={}, 
+                        metodo=\"{}\",
+                        concepto=\"{}\",
+                        fecha_limite=\"{}\",
+                        pagado={}
+                        WHERE id={}
+                    """.format(monto, metodo, concepto, limit, pagado, id))
+        db.execute("SELECT id_estudiante FROM Transaccion WHERE id={}".format(id))
+        id_estud = db.fetchone()[0]
+        db.connection.commit()
+        return redirect(url_for('get_student', id=id_estud))
+
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)

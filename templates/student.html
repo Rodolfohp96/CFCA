@@ -36,7 +36,7 @@
                 <td>{{tran.noticia}}</td>
                 <td>
                     {%if tran.pagado == 0%}
-                        <a href="/alumno/{{info.student_id}}">Pagar</a>
+                        <a href="/editar_adeudo/{{tran.id}}">Pagar</a>
                     {% endif %}
                 </td>
             </tr>
