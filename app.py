@@ -163,6 +163,7 @@ def get_student(id):
                     nombre, parentesco, correo, telefono, direccion
                     FROM Contacto WHERE id_estudiante={}""".format(id))
     cdata = db.fetchall()
+    print("DATA:",cdata)
     acon = ["", "", "", "", ""]
     bcon = ["", "", "", "", ""]
     for i in range(len(cdata)):
@@ -278,9 +279,31 @@ def delete_student(gid, id):
     db.connection.commit()
     return redirect(url_for('get_group', id=gid))
 
-@app.route('/alumno/<aid>/nuevo_adeudo/', methods = ['POST', 'GET'])
-def add_adeudo(aid, id):
-    return render_template('nuevo_adeudo.html')
+@app.route('/alumno/<aid>/nuevo_adeudo', methods = ['POST', 'GET'])
+def add_adeudo(aid):
+    if not check_login():
+        return redirect(url_for('login'))
+    msg = ""
+    if request.method == 'POST':
+        try:
+            monto = float(request.form['monto'])
+            metodo = request.form['metodo']
+            concepto = request.form['concepto']
+            limit = request.form['fechalimite']
+            if not limit:
+                raise ValueError("Error solidarity")
+            pagado = "TRUE" if request.form['pagado'] == '1' else "FALSE"
+            db = mysql.connection.cursor()
+            db.execute("""INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
+                            VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
+                        """.format(monto, metodo, concepto, limit, pagado, aid))
+            db.connection.commit()
+            return redirect(url_for('get_student', id=aid))
+        except ValueError:
+            msg = "Ocurrió un error al agregar la informacón"
+    _info = {"aid": aid,"msg": msg}
+    return render_template('nuevo_adeudo.html', info=_info)
+    
 
 
 @app.route('/alumno/<aid>/editar_adeudo/<id>', methods = ['POST', 'GET'])
