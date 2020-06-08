@@ -73,49 +73,51 @@ def index():
     }
     return render_template('index.html', info = _info)
 
-@app.route('/AlumnoNuevo', methods = ['POST', 'GET']) 
-def alumno_nuevo():
+@app.route('/grupo/<gid>/AlumnoNuevo', methods = ['POST', 'GET']) 
+def alumno_nuevo(gid):
     if not check_login():
         return redirect(url_for('login'))
-    return render_template('AlumnoNuevo.html')
-
-@app.route('/AlumnoNuevoAgregado', methods = ['POST']) 
-def alumno_nuevo_agregado():
-    if not check_login():
-        return redirect(url_for('login'))
+    msg = ""
     if request.method == 'POST':
-        NombreCompleto = request.form['NombreCompleto']
-        FechadeNacimiento = request.form['FechadeNacimiento']
-        Beca = int(request.form['Beca'])
-        GrupoId = request.form['GrupoId']
-        Tutor1Nombre = request.form['Tutor1Nombre']
-        Tutor1Direccion = request.form['Tutor1Direccion']
-        Tutor1Correo = request.form['Tutor1Correo']
-        Tutor1Parentesco = request.form['Tutor1Parentesco']
-        Tutor1Telefono = int(request.form['Tutor1Telefono'])
-        Tutor2Nombre = request.form['Tutor2Nombre']
-        Tutor2Direccion = request.form['Tutor2Direccion']
-        Tutor2Correo = request.form['Tutor2Correo']
-        Tutor2Parentesco = request.form['Tutor2Parentesco']
-        Tutor2Telefono = int(request.form['Tutor2Telefono'])
-        MontoColegiatura = float(request.form['MontoColegiatura'])
-        ModalidadColegiatura = int(request.form['ModalidadColegiatura'])
-        cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(NombreCompleto, FechadeNacimiento, Beca, GrupoId))
-        n = cur.lastrowid
-        cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor1Nombre, Tutor1Parentesco, Tutor1Correo, Tutor1Telefono, Tutor1Direccion, n))
-        cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor2Nombre, Tutor2Parentesco, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
-        desc = 1 - Beca / 100
-        if ModalidadColegiatura == 10:
-            AdeudoTotal = MontoColegiatura * 10 * desc 
-            cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "", "Colegiatura completa", "2020-12-12", "FALSE", n))
-        elif ModalidadColegiatura == 11:
-            AdeudoTotal = MontoColegiatura * desc
-            for nummes in range(1, 12):
-                concepto = "Mensualidad {}".format(nummes)
-                cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "",concepto, "2020-12-12", "FALSE", n))
-        cur.connection.commit()
-    return redirect(url_for('get_group', id=GrupoId))
+        try:
+            NombreCompleto = request.form['NombreCompleto']
+            FechadeNacimiento = request.form['FechadeNacimiento']
+            if not FechadeNacimiento:
+                raise ValueError("Error solidarity")
+            Beca = int(request.form['Beca'])
+            GrupoId = int(request.form['GrupoId'])
+            Tutor1Nombre = request.form['Tutor1Nombre']
+            Tutor1Direccion = request.form['Tutor1Direccion']
+            Tutor1Correo = request.form['Tutor1Correo']
+            Tutor1Parentesco = request.form['Tutor1Parentesco']
+            Tutor1Telefono = int(request.form['Tutor1Telefono'])
+            Tutor2Nombre = request.form['Tutor2Nombre']
+            Tutor2Direccion = request.form['Tutor2Direccion']
+            Tutor2Correo = request.form['Tutor2Correo']
+            Tutor2Parentesco = request.form['Tutor2Parentesco']
+            Tutor2Telefono = int(request.form['Tutor2Telefono'])
+            MontoColegiatura = float(request.form['MontoColegiatura'])
+            ModalidadColegiatura = int(request.form['ModalidadColegiatura'])
+            cur = mysql.connection.cursor()
+            cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(NombreCompleto, FechadeNacimiento, Beca, GrupoId))
+            n = cur.lastrowid
+            cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor1Nombre, Tutor1Parentesco, Tutor1Correo, Tutor1Telefono, Tutor1Direccion, n))
+            cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor2Nombre, Tutor2Parentesco, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
+            desc = 1 - Beca / 100
+            if ModalidadColegiatura == 10:
+                AdeudoTotal = MontoColegiatura * 10 * desc 
+                cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "", "Colegiatura completa", "2020-12-12", "FALSE", n))
+            elif ModalidadColegiatura == 11:
+                AdeudoTotal = MontoColegiatura * desc
+                for nummes in range(1, 12):
+                    concepto = "Mensualidad {}".format(nummes)
+                    cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "",concepto, "2020-12-12", "FALSE", n))
+            cur.connection.commit()
+            return redirect(url_for('get_group', id=GrupoId))
+        except ValueError:
+            msg = "Ocurrió un error al agregar la información"
+    _info = {"student": {"group": gid}, "msg": msg}
+    return render_template('AlumnoNuevo.html', info=_info)
 
 @app.route('/grupo/<id>', methods = ['POST', 'GET'])
 def get_group(id):
@@ -144,7 +146,7 @@ def get_group(id):
             deuda = "${:,.2f}".format(item[3])
         _students.append([item[1], matricula, item[2], deuda])
     nstud = len(_students)
-    _info = {"group": data[0][0], "students": _students, "num": nstud}
+    _info = {"group_id": id, "group": data[0][0], "students": _students, "num": nstud}
     return render_template('group.html', info = _info)
      
 @app.route('/alumno/<id>', methods = ['POST', 'GET'])
@@ -201,6 +203,54 @@ def get_student(id):
 def edit_student(id):
     if not check_login():
         return redirect(url_for('login'))
+    msg = ""
+    if request.method == 'POST':
+        try:
+            nombre = request.form['nombre']
+            id_grupo = int(request.form['idgrupo'])
+            nac = request.form['nacimiento']
+            if not nac:
+                raise ValueError("Error solidarity")
+            beca = int(request.form['beca'])
+            acnom = request.form['acnom']
+            acid = int(request.form['acid'])
+            acmail = request.form['acmail']
+            acparen = request.form['acparen']
+            actel = int(request.form['actel'])
+            acdir = request.form['acdir']
+            bcnom = request.form['bcnom']
+            bcid = int(request.form['bcid'])
+            bcmail = request.form['bcmail']
+            bcparen = request.form['bcparen']
+            bctel = int(request.form['bctel'])
+            bcdir = request.form['bcdir']
+            db = mysql.connection.cursor()
+            db.execute("""UPDATE Estudiante
+                        SET nombre=\"{}\",
+                        fecha_de_nacimiento=\"{}\",
+                        beca={},
+                        id_grupo={} WHERE id={}
+                    """.format(nombre, nac, beca, id_grupo, id))
+            db.execute("""UPDATE Contacto
+                        SET nombre=\"{}\",
+                        parentesco=\"{}\",
+                        correo=\"{}\",
+                        telefono={},  
+                        direccion=\"{}\"
+                        WHERE id={}
+                    """.format(acnom, acparen, acmail, actel, acdir, acid))
+            db.execute("""UPDATE Contacto
+                        SET nombre=\"{}\",
+                        parentesco=\"{}\",
+                        correo=\"{}\",
+                        telefono={},  
+                        direccion=\"{}\"
+                        WHERE id={}
+                    """.format(bcnom, bcparen, bcmail, bctel, bcdir, bcid))
+            db.connection.commit()
+            return redirect(url_for('get_student', id=id))
+        except ValueError:
+            msg = "Ocurrió un error al insertar la información"
     db = mysql.connection.cursor()
     db.execute("""SELECT 
                     Estudiante.nombre, 
@@ -230,53 +280,8 @@ def edit_student(id):
             bcon = cdata[i]
     acid = acon[-1]
     bcid = bcon[-1]
-    _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "acid": acid, "bcid": bcid}
+    _info = { "msg": msg, "student_id": id, "student": student, "acon": acon, "bcon": bcon, "acid": acid, "bcid": bcid}
     return render_template('edit_student.html', info=_info)
-    
-@app.route('/actualizar_alumno/<id>/<acid>/<bcid>', methods =['POST', 'GET'])
-def actualizar(id, acid, bcid):
-    if not check_login():
-        return redirect(url_for('login'))
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        id_grupo = int(request.form['idgrupo'])
-        nac = request.form['nacimiento']
-        beca = int(request.form['beca'])
-        acnom = request.form['acnom']
-        acmail = request.form['acmail']
-        acparen = request.form['acparen']
-        actel = int(request.form['actel'])
-        acdir = request.form['acdir']
-        bcnom = request.form['bcnom']
-        bcmail = request.form['bcmail']
-        bcparen = request.form['bcparen']
-        bctel = int(request.form['bctel'])
-        bcdir = request.form['bcdir']
-        db = mysql.connection.cursor()
-        db.execute("""UPDATE Estudiante
-                    SET nombre=\"{}\",
-                    fecha_de_nacimiento=\"{}\",
-                    beca={},
-                    id_grupo={} WHERE id={}
-                """.format(nombre, nac, beca, id_grupo, id))
-        db.execute("""UPDATE Contacto
-                    SET nombre=\"{}\",
-                    parentesco=\"{}\",
-                    correo=\"{}\",
-                    telefono={},  
-                    direccion=\"{}\"
-                    WHERE id={}
-                """.format(acnom, acparen, acmail, actel, acdir, acid))
-        db.execute("""UPDATE Contacto
-                    SET nombre=\"{}\",
-                    parentesco=\"{}\",
-                    correo=\"{}\",
-                    telefono={},  
-                    direccion=\"{}\"
-                    WHERE id={}
-                """.format(bcnom, bcparen, bcmail, bctel, bcdir, bcid))
-        db.connection.commit()
-        return redirect(url_for('get_student', id=id))
 
 @app.route('/grupo/<gid>/eliminar_alumno/<id>', methods = ['GET', 'POST'])
 def delete_student(gid, id):
@@ -318,38 +323,35 @@ def add_adeudo(aid):
 def edit_pago(aid, id):
     if not check_login():
         return redirect(url_for('login'))
+    msg = ""
+    if request.method == 'POST':
+        try:
+            monto = float(request.form['monto'])
+            metodo = request.form['metodo']
+            concepto = request.form['concepto']
+            limit = request.form['fechalimite']
+            if not limit:
+                raise ValueError("Error solidarity")
+            pagado = "TRUE" if request.form['pagado'] == '1' else "FALSE"
+            db = mysql.connection.cursor()
+            db.execute("""UPDATE Transaccion
+                            SET monto={}, 
+                            metodo=\"{}\",
+                            concepto=\"{}\",
+                            fecha_limite=\"{}\",
+                            pagado={}
+                            WHERE id={}
+                        """.format(monto, metodo, concepto, limit, pagado, id))
+            db.connection.commit()
+            return redirect(url_for('get_student', id=aid))
+        except ValueError:
+            msg = "Ocurrió un error al agregar la informacón"
     db = mysql.connection.cursor()
     db.execute("""SELECT id, monto, metodo, concepto, fecha_limite, pagado
                     FROM Transaccion WHERE id={}""".format(id))
     data = db.fetchone()
-    _info = {"aid": aid, "data": data}
+    _info = {"msg": msg, "id": id, "aid": aid, "data": data}
     return render_template('edit_adeudo.html', info=_info)
-
-@app.route('/actualizar_adeudo/<id>', methods = ['POST'])
-def update_contact(id):
-    if not check_login():
-        return redirect(url_for('login'))
-    if request.method == 'POST':
-        monto = float(request.form['monto'])
-        metodo = request.form['metodo']
-        concepto = request.form['concepto']
-        limit = request.form['fechalimite']
-        print(request.form['pagado'])
-        pagado = "TRUE" if request.form['pagado'] == '1' else "FALSE"
-        print("Pagado", pagado)
-        db = mysql.connection.cursor()
-        db.execute("""UPDATE Transaccion
-                        SET monto={}, 
-                        metodo=\"{}\",
-                        concepto=\"{}\",
-                        fecha_limite=\"{}\",
-                        pagado={}
-                        WHERE id={}
-                    """.format(monto, metodo, concepto, limit, pagado, id))
-        db.execute("SELECT id_estudiante FROM Transaccion WHERE id={}".format(id))
-        id_estud = db.fetchone()[0]
-        db.connection.commit()
-        return redirect(url_for('get_student', id=id_estud))
 
 @app.route('/alumno/<aid>/eliminar_adeudo/<id>', methods = ['GET', 'POST'])
 def delete_adeudo(aid, id):

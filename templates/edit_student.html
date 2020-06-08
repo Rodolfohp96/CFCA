@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
-
-<form action="/actualizar_alumno/{{info.student_id}}/{{info.acid}}/{{info.bcid}}" method="POST">
+<p>{{ info.msg }}</p>
+<form action="/editar_alumno/{{ info.student_id }}" method="POST">
 
     <table border="10" cellspacing="10"cellpadding="10">
         <tr>
@@ -41,7 +41,7 @@
                         <option value ="5"
                             {% if info.student.group == 5 %}
                             selected="selected"
-                            {% endif %}">Kinder 3 A</option>
+                            {% endif %}>Kinder 3 A</option>
                         <option value ="6"
                             {% if info.student.group == 6 %}
                             selected="selected"
@@ -123,6 +123,7 @@
             <tr>
                 <th colspan ="2" id="tcolor">Información del primer tutor</th>
             </tr>
+            <input type="hidden" name="acid" value="{{ info.acon.5 }}"/>
             <tr>
                 <td colspan="2"><input type="text" name="acnom" value="{{ info.acon.0 }}" size="70" maxlength="60"></td>
             </tr>
@@ -147,10 +148,10 @@
             <tr>
                 <th colspan ="2" id="tcolor">Información del segundo tutor</th>
             </tr>
+            <input type="hidden" name="bcid" value="{{ info.bcon.5 }}"/>
             <tr>
                 <td colspan="2"><input type="text" name="bcnom" value="{{ info.bcon.0 }}" size="70" maxlength="60"></td>
             </tr>
-            
             <tr>
                 <th>Correo:</th>
                 <th><input type="text" name="bcmail" value="{{ info.bcon.2 }}"></th>
