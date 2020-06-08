@@ -4,6 +4,7 @@ body{
 }
 
 #conteiner-body{
+    padding-top: 70px;
     margin: 150px auto;
     width: 80%;
 }
@@ -176,3 +177,26 @@ top: 2px;
    input{
        width: 100%;
    }
+
+   .mat{
+    background: white;
+   color: darkblue;
+   width: 33.3333%;
+   height: 100px;
+   margin-bottom: 10px;
+   float: left;
+   font-size: 13px;
+}
+#botonactualizar1{
+background-color: #2271b3;
+ border: none;
+ color: white;
+ padding: 10px 32px;
+ text-decoration: none;
+ margin: 4px 2px;
+ cursor: pointer;
+   float: left
+}
+h2{
+   padding-left: 5px;
+}
