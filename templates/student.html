@@ -20,28 +20,82 @@
     <div>Adeudos</div>
     <table>
         <thead>
-            <tr>
-                <td>Monto</td>
-                <td>Metodo</td>
-                <td>Fecha Limite</td>
-                <td>Estado</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for tran in info.trans %}
-            <tr>
-                <td>{{tran.monto}}</td>
-                <td>{{tran.metodo}}</td>
-                <td>{{tran.limite}}</td>
-                <td>{{tran.noticia}}</td>
-                <td>
-                    {%if tran.pagado == 0%}
-                        <a href="/alumno/{{info.student_id}}">Pagar</a>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+         <tr>
+         <th colspan="3" rowspan="1">Nombre: {{ info.student.name }}</th>
+         <th colspan="2" rowspan="1" id="centeradeudo">Contactos</th>
+     </tr>
+     </thead>
+      <tr>
+         <th colspan="2"  rowspan="2">Grupo: </th>
+         <td rowspan="2">{{ info.student.group }}</td>
+          <th>Contacto 1</th>
+          <th>Contacto2</th>
+      </tr>
+     <tr>
+         
+         <td>Nombre: {{info.acon.0 }}</td>
+         <td>Nombre: {{info.bcon.0 }}</td>
+         
+     </tr>
+     <tr>
+         <th colspan="2"  rowspan="2">Edad: </th>
+         <td rowspan="2">{{ info.student.age }}</td>
+          <td>Parentesco: {{info.acon.1 }}</td>
+          <td>Parentesco: {{info.bcon.1 }}</td>
+      </tr>
+     <tr>
+         
+         <td>Correo: {{info.acon.2 }}</td>
+         <td>Correo: {{info.bcon.2 }}</td>
+         
+     </tr>
+     <tr>
+         <th colspan="2"  rowspan="2">Beca: </th>
+         <td rowspan="2">{{ info.student.beca }}</td>
+          <td>Telefono: {{info.acon.3 }}</td>
+          <td>Telefono: {{info.bcon.3 }}</td>
+      </tr>
+     <tr>
+         
+         <td>Direccion: {{info.acon.4 }}</td>
+         <td>Direccion: {{info.bcon.4 }}</td>
+         
+     </tr>
+     
+     
     </table>
+    
+     <a href="/crear_adeudo/{{info.student_id}}">Nuevo Adeudo</a>
+    
+     <table id="tablaadeudo">
+        <thead>
+           <tr>
+               <td colspan="6" id="centeradeudo">Adeudos</td>
+           </tr> 
+        </thead>
+         <thead>
+             <tr>
+                 <td>Monto</td>
+                 <td>Metodo</td>
+                 <td>Fecha Limite</td>
+                 <td>Estado</td>
+             </tr>
+         </thead>
+         <tbody>
+             {% for tran in info.trans %}
+             <tr>
+                 <td>{{tran.monto}}</td>
+                 <td>{{tran.metodo}}</td>
+                 <td>{{tran.limite}}</td>
+                 <td>{{tran.noticia}}</td>
+                 <td>
+                     {%if tran.pagado == 0%}
+                         <a href="/alumno/{{info.student_id}}">Pagar</a>
+                     {% endif %}
+                 </td>
+             </tr>
+             {% endfor %}
+         </tbody>
+     </table>
 {% endblock %}
 
