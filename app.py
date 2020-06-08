@@ -88,12 +88,12 @@ def alumno_nuevo(gid):
             Tutor1Direccion = request.form['Tutor1Direccion']
             Tutor1Correo = request.form['Tutor1Correo']
             Tutor1Parentesco = request.form['Tutor1Parentesco']
-            Tutor1Telefono = int(request.form['Tutor1Telefono'])
+            Tutor1Telefono = request.form['Tutor1Telefono']
             Tutor2Nombre = request.form['Tutor2Nombre']
             Tutor2Direccion = request.form['Tutor2Direccion']
             Tutor2Correo = request.form['Tutor2Correo']
             Tutor2Parentesco = request.form['Tutor2Parentesco']
-            Tutor2Telefono = int(request.form['Tutor2Telefono'])
+            Tutor2Telefono = request.form['Tutor2Telefono']
             MontoColegiatura = float(request.form['MontoColegiatura'])
             ModalidadColegiatura = int(request.form['ModalidadColegiatura'])
             inputs = [NombreCompleto, FechadeNacimiento, Beca, GrupoId, Tutor1Nombre, Tutor1Direccion, Tutor1Correo, Tutor1Parentesco, Tutor1Telefono, Tutor2Nombre, Tutor2Direccion, Tutor2Correo, Tutor2Parentesco, Tutor2Telefono, MontoColegiatura, ModalidadColegiatura]
@@ -102,8 +102,8 @@ def alumno_nuevo(gid):
             cur = mysql.connection.cursor()
             cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(NombreCompleto, FechadeNacimiento, Beca, GrupoId))
             n = cur.lastrowid
-            cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor1Nombre, Tutor1Parentesco, Tutor1Correo, Tutor1Telefono, Tutor1Direccion, n))
-            cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor2Nombre, Tutor2Parentesco, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
+            cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',\"{}\",\'{}\',{})'.format(Tutor1Nombre, Tutor1Parentesco, Tutor1Correo, Tutor1Telefono, Tutor1Direccion, n))
+            cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',\"{}\",\'{}\',{})'.format(Tutor2Nombre, Tutor2Parentesco, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
             desc = 1 - Beca / 100
             if ModalidadColegiatura == 10:
                 AdeudoTotal = MontoColegiatura * 10 * desc 
@@ -216,13 +216,13 @@ def edit_student(id):
             acid = int(request.form['acid'])
             acmail = request.form['acmail']
             acparen = request.form['acparen']
-            actel = int(request.form['actel'])
+            actel = request.form['actel']
             acdir = request.form['acdir']
             bcnom = request.form['bcnom']
             bcid = int(request.form['bcid'])
             bcmail = request.form['bcmail']
             bcparen = request.form['bcparen']
-            bctel = int(request.form['bctel'])
+            bctel = request.form['bctel']
             bcdir = request.form['bcdir']
             inputs = [nombre, id_grupo, nac, beca, acnom, acid, acmail, acparen, actel, acdir, bcnom, bcid, bcmail, bcparen, bctel, bcdir]
             if fempties(inputs):
@@ -238,7 +238,7 @@ def edit_student(id):
                         SET nombre=\"{}\",
                         parentesco=\"{}\",
                         correo=\"{}\",
-                        telefono={},  
+                        telefono=\"{}\",  
                         direccion=\"{}\"
                         WHERE id={}
                     """.format(acnom, acparen, acmail, actel, acdir, acid))
@@ -246,7 +246,7 @@ def edit_student(id):
                         SET nombre=\"{}\",
                         parentesco=\"{}\",
                         correo=\"{}\",
-                        telefono={},  
+                        telefono=\"{}\",  
                         direccion=\"{}\"
                         WHERE id={}
                     """.format(bcnom, bcparen, bcmail, bctel, bcdir, bcid))
