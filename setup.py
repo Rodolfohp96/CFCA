@@ -139,7 +139,7 @@ def setup_db():
         telefono INT NOT NULL,
         direccion VARCHAR(200) NOT NULL,
         id_estudiante INT NOT NULL,
-        FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id)
+        FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id) ON DELETE CASCADE
         )""")
 
 
@@ -153,7 +153,7 @@ def setup_db():
         fecha_limite DATE,
         pagado Bool,
         id_estudiante INT NOT NULL,
-        FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id)
+        FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id) ON DELETE CASCADE
         )"""
     )
 
@@ -190,7 +190,7 @@ def setup_db():
                             ("devadmin", "dev$admin")""")
 
     # Inserta estudiantes y grupos
-    for ngrado in range(6):
+    for ngrado in range(9):
         mask_grupo = ["A", "B"]
         for ngrupo in range(2):
             numgrado = ngrado + 1
@@ -214,10 +214,10 @@ def setup_db():
                 bpagado = gbool(4)
                 bmetodo = gmetodo() if bpagado == "TRUE" else ""
                 db.execute("""INSERT INTO Transaccion 
-                                (monto, metodo, fecha_limite, pagado, id_estudiante)
-                                VALUES ({}, \"{}\", \"{}\", {}, {}),
-                                ({}, \"{}\", \"{}\", {}, {})
-                            """.format(gamount(), ametodo, gfdate(), apagado, idestud, gamount(), bmetodo, gfdate(), bpagado, idestud))
+                                (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
+                                VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {}),
+                                ({}, \"{}\", \"{}\", \"{}\", {}, {})
+                            """.format(gamount(), ametodo, "colegiatura", gfdate(), apagado, idestud, gamount(), bmetodo, "colegiatura", gfdate(), bpagado, idestud))
 
                 nomacon = gname()
                 mailacon = "{}@mail.com".format(gname().split(" ")[0].lower())

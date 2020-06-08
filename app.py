@@ -73,38 +73,46 @@ def index():
     }
     return render_template('index.html', info = _info)
 
-@app.route('/AlumnoNuevo', methods = ['POST']) 
+@app.route('/AlumnoNuevo', methods = ['POST', 'GET']) 
 def alumno_nuevo():
+    if not check_login():
+        return redirect(url_for('login'))
     return render_template('AlumnoNuevo.html')
 
 @app.route('/AlumnoNuevoAgregado', methods = ['POST']) 
 def alumno_nuevo_agregado():
+    if not check_login():
+        return redirect(url_for('login'))
     if request.method == 'POST':
         NombreCompleto = request.form['NombreCompleto']
         FechadeNacimiento = request.form['FechadeNacimiento']
         Beca = request.form['Beca']
-        Grupo = request.form['Grupo']
+        GrupoId = request.form['GrupoId']
         Tutor1Nombre = request.form['Tutor1Nombre']
         Tutor1Direccion = request.form['Tutor1Direccion']
         Tutor1Correo = request.form['Tutor1Correo']
+        Tutor1Parentesco = request.form['Tutor1Parentesco']
         Tutor1Telefono = request.form['Tutor1Telefono']
         Tutor2Nombre = request.form['Tutor2Nombre']
         Tutor2Direccion = request.form['Tutor2Direccion']
         Tutor2Correo = request.form['Tutor2Correo']
+        Tutor2Parentesco = request.form['Tutor2Parentesco']
         Tutor2Telefono = request.form['Tutor2Telefono']
         AdeudoTotal = request.form['AdeudoNuevo']
         CantidadTransacciones = request.form['CantidadTransacciones']
         cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(NombreCompleto, FechadeNacimiento, Beca, Grupo))
+        cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(NombreCompleto, FechadeNacimiento, Beca, GrupoId))
         n = cur.lastrowid
-        cur.execute('INSERT INTO Contacto (nombre, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor1Nombre, Tutor1Correo, Tutor1Telefono, Tutor1Direccion, n))
-        cur.execute('INSERT INTO Contacto (nombre, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor2Nombre, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
-        cur.execute('INSERT INTO Transaccion (monto, id_estudiante) VALUES ({},{})'.format(AdeudoTotal, n))
+        cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor1Nombre, Tutor1Parentesco, Tutor1Correo, Tutor1Telefono, Tutor1Direccion, n))
+        cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',{},\'{}\',{})'.format(Tutor2Nombre, Tutor2Parentesco, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
+        cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "", "colegiatura", "2020-12-12", "FALSE", n))
         cur.connection.commit()
-    return 'Enterado'
+    return redirect(url_for('get_grupo', id=GrupoId))
 
 @app.route('/grupo/<id>', methods = ['POST', 'GET'])
 def get_group(id):
+    if not check_login():
+        return redirect(url_for('login'))
     db = mysql.connection.cursor()
     db.execute("""SELECT 
                         Grupo.nombre,
@@ -133,12 +141,15 @@ def get_group(id):
      
 @app.route('/alumno/<id>', methods = ['POST', 'GET'])
 def get_student(id):
+    if not check_login():
+        return redirect(url_for('login'))
     db = mysql.connection.cursor()
     db.execute("""SELECT 
                     Estudiante.nombre, 
                     Estudiante.fecha_de_nacimiento, 
                     Estudiante.beca,  
-                    Grupo.nombre
+                    Grupo.nombre,
+                    Grupo.id
                     FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
                     WHERE Estudiante.id={}
                 """.format(id))
@@ -147,7 +158,7 @@ def get_student(id):
     age = gage(data[1])
     beca = "{} %".format(data[2])
     group = data[3]
-    student = {"name": name, "age": age, "beca": beca, "group": group}
+    student = {"name": name, "age": age, "beca": beca, "group": group, "group_id": data[4]}
     db.execute("""SELECT
                     nombre, parentesco, correo, telefono, direccion
                     FROM Contacto WHERE id_estudiante={}""".format(id))
@@ -159,25 +170,28 @@ def get_student(id):
             acon = cdata[i]  
         if i == 1:
             bcon = cdata[i]
-    db.execute("SELECT id, monto, metodo, fecha_limite, pagado FROM Transaccion WHERE id_estudiante={}".format(id))
+    db.execute("SELECT id, monto, metodo, concepto, fecha_limite, pagado FROM Transaccion WHERE id_estudiante={}".format(id))
     tdata = db.fetchall()
     trans = []
     for item in tdata:
         id_adeudo = item[0]
         monto = "${:,.2f}".format(item[1])
         metodo = item[2]
-        fecha_limite = item[3]
-        pagado = item[4]
+        concepto = item[3]
+        fecha_limite = item[4]
+        pagado = item[5]
         noticia = "PAGADO"
-        if item[4] == 0:
+        if item[5] == 0:
             noticia = "ADEUDO"
-        trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "limite": fecha_limite, "pagado": pagado, "noticia": noticia})
+        trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "concepto": concepto, "limite": fecha_limite, "pagado": pagado, "noticia": noticia})
     _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
     print(_info)
     return render_template('student.html', info=_info)
 
 @app.route('/editar_alumno/<id>', methods = ['POST', 'GET'])
 def edit_student(id):
+    if not check_login():
+        return redirect(url_for('login'))
     db = mysql.connection.cursor()
     db.execute("""SELECT 
                     Estudiante.nombre, 
@@ -212,6 +226,8 @@ def edit_student(id):
     
 @app.route('/actualizar_alumno/<id>/<acid>/<bcid>', methods =['POST', 'GET'])
 def actualizar(id, acid, bcid):
+    if not check_login():
+        return redirect(url_for('login'))
     if request.method == 'POST':
         nombre = request.form['nombre']
         id_grupo = int(request.form['idgrupo'])
@@ -253,17 +269,30 @@ def actualizar(id, acid, bcid):
         db.connection.commit()
         return redirect(url_for('get_student', id=id))
 
+@app.route('/grupo/<gid>/eliminar_alumno/<id>', methods = ['GET', 'POST'])
+def delete_student(gid, id):
+    if not check_login():
+        return redirect(url_for('login'))
+    db = mysql.connection.cursor()
+    db.execute("DELETE FROM Estudiante WHERE id = {}".format(id))
+    db.connection.commit()
+    return redirect(url_for('get_group', id=gid))
 
-@app.route('/editar_adeudo/<id>', methods = ['POST', 'GET'])
-def edit_pago(id):
+@app.route('/alumno/<aid>/editar_adeudo/<id>', methods = ['POST', 'GET'])
+def edit_pago(aid, id):
+    if not check_login():
+        return redirect(url_for('login'))
     db = mysql.connection.cursor()
     db.execute("""SELECT id, monto, metodo, concepto, fecha_limite, pagado
                     FROM Transaccion WHERE id={}""".format(id))
     data = db.fetchone()
-    return render_template('edit_adeudo.html', data=data)
+    _info = {"aid": aid, "data": data}
+    return render_template('edit_adeudo.html', info=_info)
 
 @app.route('/actualizar_adeudo/<id>', methods = ['POST'])
 def update_contact(id):
+    if not check_login():
+        return redirect(url_for('login'))
     if request.method == 'POST':
         monto = float(request.form['monto'])
         metodo = request.form['metodo']
@@ -286,6 +315,14 @@ def update_contact(id):
         db.connection.commit()
         return redirect(url_for('get_student', id=id_estud))
 
+@app.route('/alumno/<aid>/eliminar_adeudo/<id>', methods = ['GET', 'POST'])
+def delete_adeudo(aid, id):
+    if not check_login():
+        return redirect(url_for('login'))
+    db = mysql.connection.cursor()
+    db.execute("DELETE FROM Transaccion WHERE id = {}".format(id))
+    db.connection.commit()
+    return redirect(url_for('get_student', id=aid))
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)

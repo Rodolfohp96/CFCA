@@ -17,6 +17,7 @@
     <div>Telefono: {{info.bcon.3 }}</div>
     <div>Direccion: {{info.bcon.4 }}</div>
     <a href="/editar_alumno/{{info.student_id}}">Editar Alumno</a>
+    <a href="/grupo/{{ info.student.group_id }}/eliminar_alumno/{{ info.student_id }}">Eliminar Alumno</a>
     <a href="/crear_adeudo/{{info.student_id}}">Nuevo Adeudo</a>
     <div>Adeudos</div>
     <table>
@@ -24,6 +25,7 @@
             <tr>
                 <td>Monto</td>
                 <td>Metodo</td>
+                <td>Concepto</td>
                 <td>Fecha Limite</td>
                 <td>Estado</td>
             </tr>
@@ -33,10 +35,11 @@
             <tr>
                 <td>{{tran.monto}}</td>
                 <td>{{tran.metodo}}</td>
+                <td>{{tran.concepto}}</td>
                 <td>{{tran.limite}}</td>
                 <td>{{tran.noticia}}</td>
                 <td>
-                    <a href="/editar_adeudo/{{tran.id}}">Editar</a>
+                    <a href="/alumno/{{ info.student_id }}/editar_adeudo/{{tran.id}}">Editar</a>
                 </td>
             </tr>
             {% endfor %}
