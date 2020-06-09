@@ -208,7 +208,7 @@ def setup_db():
                             VALUES (\"{}\",{})""".format(nomgrupo, numgrado))
             for nestud in range(20):
                 idgrupo = ngrupo + 2 * ngrado + 1
-                idestud = (nestud + 1) + (30 * (idgrupo - 1))
+                idestud = (nestud + 1) + (20 * (idgrupo - 1))
                 nacyear = 2013 - ngrado
                 nomestud = gname()
                 nacestud = gbdate(nacyear)
