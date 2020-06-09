@@ -16,8 +16,9 @@
 ## Para empezar la base de datos
 
 - Con MAMP (que usamos en clase), acceder a myPHP admin
-- Crear una database escueladb y un usuario: admin con password: adminpass 
-- O impotar el dump
+- importar el dump o crear una database con escuela db
+- ***Se tiene que crear un usuario: admin con password: adminpass para la base de datos, es decir que tenga todos los privilegios para leer escueladb.***
+- EL sql dump de phpMyAdmin no exporta a los usuarios y password
 
 ## Setup de la base de datos
 - Iniciar servers con MAMP.
