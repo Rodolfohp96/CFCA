@@ -1,17 +1,23 @@
-# escuelaSQL
+# Centro Escolar Del Valle Del Mezquital - instalacion del codigo
 
-Video: https://www.youtube.com/watch?v=IgCfZkR8wME
-Github del video: https://github.com/FaztWeb/flask-crud-contacts-app
 
 ## Pasos para empezar
 
 - Installar MAMP
 - pip3 install flask flask-mysqldb
+- resolver problemas con la insalacion de flask-mysql
+    - Problemas dependientes de la insalacion local de mysql.
+    - Problemas en mac. MAMP necesita un system link de archivos .sock a /usr/
+    - En linux instalar con apt libmysqlclient-dev
+    - En Windows revisar que la instalacion de cpp sea correcta
+    - En windows revisar las versiones de pip3 o python
+
 
 ## Para empezar la base de datos
 
 - Con MAMP (que usamos en clase), acceder a myPHP admin
 - Crear una database escueladb y un usuario: admin con password: adminpass 
+- O impotar el dump
 
 ## Setup de la base de datos
 - Iniciar servers con MAMP.
@@ -24,3 +30,5 @@ Github del video: https://github.com/FaztWeb/flask-crud-contacts-app
 
 - python app.py
 - Asegurarse que MAMP este corriendo
+- Hay un login para devs (usr, pass): devadmin, dev$admin
+
