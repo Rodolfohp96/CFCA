@@ -73,6 +73,36 @@ def index():
     }
     return render_template('index.html', info = _info)
 
+@app.route('/busqueda', methods = ['POST'])
+def search_student():
+    if not check_login():
+        return redirect(url_for('login'))
+    if request.method == 'POST':
+        qu = request.form['query']
+        db = mysql.connection.cursor()
+        db.execute("""SELECT 
+                            Estudiante.id,
+                            Estudiante.nombre, 
+                            T.deuda
+                        FROM Estudiante 
+                        LEFT JOIN (SELECT sum(monto) as deuda, id_estudiante
+                                FROM Transaccion WHERE pagado=FALSE
+                                GROUP BY id_estudiante) AS T
+                        ON Estudiante.id=T.id_estudiante
+                        WHERE Estudiante.nombre LIKE \'{}%\'
+                        """.format(qu))
+        data = db.fetchall()
+        _students = []
+        for item in data:
+            matricula = "mat{:05d}".format(item[0])
+            deuda = "PAGADO"
+            if item[2] is not None:
+                deuda = "${:,.2f}".format(item[2])
+            _students.append([item[0], matricula, item[1], deuda])
+        nstud = len(_students)
+        _info = {"query": qu, "students": _students, "num": nstud}
+        return render_template('search_student.html', info=_info)
+
 @app.route('/grupo/<gid>/AlumnoNuevo', methods = ['POST', 'GET']) 
 def alumno_nuevo(gid):
     if not check_login():
