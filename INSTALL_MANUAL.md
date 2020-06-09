@@ -26,9 +26,11 @@
     - **Borra todas las tablas en la db**
     - Crea nuevas tablas
     - Inserta datos en las tablas
+- ***Es necesario abrir y correr localhost:3000/setup o haber importado el dump a mysql***
 ## Para correr
 
 - python app.py
+- en el navegador localhost:3000
 - Asegurarse que MAMP este corriendo
 - Hay un login para devs (usr, pass): devadmin, dev$admin
 
