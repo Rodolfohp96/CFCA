@@ -89,7 +89,7 @@ def search_student():
                                 FROM Transaccion WHERE pagado=FALSE
                                 GROUP BY id_estudiante) AS T
                         ON Estudiante.id=T.id_estudiante
-                        WHERE Estudiante.nombre LIKE \'{}%\'
+                        WHERE Estudiante.nombre LIKE \'%{}%\'
                         """.format(qu))
         data = db.fetchall()
         _students = []
