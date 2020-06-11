@@ -57,7 +57,7 @@ def index():
                     JOIN Estudiante ON Grupo.id = Estudiante.id_grupo
                         GROUP BY Grupo.id""")
     _grupos = db.fetchall()
-    db.execute("""SELECT count(id) FROM estudiante""")
+    db.execute("""SELECT count(id) FROM Estudiante""")
     numestud = db.fetchall()[0][0]
     numgrupo = len(_grupos)
     db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=TRUE""")
