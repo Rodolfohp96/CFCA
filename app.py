@@ -53,7 +53,7 @@ def index():
     if not check_login():
         return redirect(url_for('login'))
     db = mysql.connection.cursor()
-    db.execute("""SELECT Grupo.id, Grupo.nombre, count(Estudiante.id) FROM grupo
+    db.execute("""SELECT Grupo.id, Grupo.nombre, count(Estudiante.id) FROM Grupo
                     JOIN Estudiante ON Grupo.id = Estudiante.id_grupo
                         GROUP BY Grupo.id""")
     _grupos = db.fetchall()
