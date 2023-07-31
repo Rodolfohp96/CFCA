@@ -1,13 +1,16 @@
 from flask import Flask
 from flask_mysqldb import MySQL
+import datetime
+from datetime import date, timedelta
+
 
 from random import randint, uniform
 
 # Global variables
 HOST_NAME = 'localhost'
-USER_NAME = 'admin'
-USER_PASS = 'adminpass'
-DB_NAME = 'escueladb'
+USER_NAME = 'root'
+USER_PASS = 'root'
+DB_NAME = 'alumnos'
 
 setup_app = Flask(__name__)
 setup_app.config['MYSQL_HOST'] = HOST_NAME
@@ -44,18 +47,45 @@ def gphone():
 
 def gamount(grado):
     if grado < 3:
-        return 17500.00
+        return 2750.00
     elif grado < 6:
-        return 19500.00
-    return 20000.00
+        return 2800.00
+    return 2800.00
 
+def ginscripcion(grado):
+    if grado < 3:
+        return 2950.00
+    elif grado < 6:
+        return 3100.00
+    return 3100.00
+def gColeg(grado):
+    if grado < 3:
+        return 2750.00
+    elif grado < 6:
+        return 2800.00
+    return 2800.00
+def glibreta(grado):
+    if grado < 3:
+        return 500.00
+    elif grado < 6:
+        return 800.00
+    return 800.00
+def calculate_recargo(mes, dia, pago_normal):
+    recargo = 0
+    if mes > 10:
+        recargo += 200
+    elif mes > 5:
+        recargo += 100
+    if dia > 10:
+        recargo += 200
+    return recargo
 def gmetodo():
     metodos = ["Transferencia", "Tarjeta de Credito", "Efectivo", "Cheque"]
     nmet = randint(0, 3)
     return metodos[nmet]
 
 def gfdate():
-    return "2020-12-12"
+    return "2023-12-12"
 
 def gbool(n):
     nrand = randint(0, n)
@@ -131,6 +161,7 @@ def setup_db():
         beca INT,
         grado INT,
         id_grupo INT NOT NULL,
+        idbarras INT,
         FOREIGN KEY(id_grupo) REFERENCES Grupo(id)
         )""")
 
@@ -142,6 +173,12 @@ def setup_db():
         correo VARCHAR(100) NOT NULL,
         telefono VARCHAR(20) NOT NULL,
         direccion VARCHAR(200) NOT NULL,
+        razonSocial VARCHAR(200),
+        regimenFiscal VARCHAR(200),
+        cfdi VARCHAR(200),
+        rfc VARCHAR(200),
+        cp VARCHAR(200),
+        direccionFact VARCHAR(200),
         id_estudiante INT NOT NULL,
         FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id) ON DELETE CASCADE
         )""")
@@ -155,6 +192,8 @@ def setup_db():
         metodo VARCHAR(50),
         concepto VARCHAR(200),
         fecha_limite DATE,
+        fecha_pago DATE,
+        fechaActivacion DATE,
         pagado Bool,
         id_estudiante INT NOT NULL,
         FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id) ON DELETE CASCADE
@@ -194,7 +233,7 @@ def setup_db():
                             ("devadmin", "dev$admin")""")
 
     # Inserta estudiantes y grupos
-    for ngrado in range(12):
+    for ngrado in range(9):
         mask_grupo = ["A", "B"]
         for ngrupo in range(2):
             numgrado = ngrado + 1
@@ -217,15 +256,38 @@ def setup_db():
                     VALUES
                         (\"{}\", \"{}\", {}, {})
                     """.format(nomestud, nacestud, bestud, idgrupo))
+
+                # Agregar los adeudos de colegiatura
+                for mes in range(1, 12):
+                    fecha_pago = date(2023, mes, 1)
+                    #recargo = calculate_recargo(mes, 1, gColeg(numgrado))
+                    amount = gColeg(numgrado)
+                    db.execute("""INSERT INTO Transaccion 
+                                                    (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
+                                                    VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
+                                                """.format(amount, "", "Colegiatura {}".format(mes), fecha_pago,
+                                                           "FALSE", idestud))
+
+                # ... (código anterior) ...
+
                 apagado = gbool(4)
                 ametodo = gmetodo() if apagado == "TRUE" else ""
                 desc = 1 - bestud / 100
                 amount = gamount(ngrado) * desc
-                db.execute("""INSERT INTO Transaccion 
-                                (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
-                                VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
-                            """.format(amount, ametodo, "Colegiatura completa", gfdate(), apagado, idestud))
+                amountins = ginscripcion(ngrado)
+                amountlib = glibreta(ngrado)
 
+                db.execute("""INSERT INTO Transaccion 
+                                                (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
+                                                VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
+                                            """.format(amountins, ametodo, "Inscripción", gfdate(), apagado,
+                                                       idestud))
+                db.execute("""INSERT INTO Transaccion 
+                                                                (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
+                                                                VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
+                                                            """.format(amountlib, ametodo, "Libreta", gfdate(),
+                                                                       apagado,
+                                                                       idestud))
                 nomacon = gname()
                 mailacon = "{}@mail.com".format(gname().split(" ")[0].lower())
                 nombcon = gname()

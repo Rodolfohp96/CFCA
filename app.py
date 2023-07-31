@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_mysqldb import MySQL
-
+import datetime
+from datetime import date
 from utils import *
 from setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='assets')
 app.config['MYSQL_HOST'] = HOST_NAME
 app.config["MYSQL_USER"] = USER_NAME
 app.config['MYSQL_PASSWORD'] = USER_PASS
@@ -47,6 +48,161 @@ def logout():
     session.pop('id', None)
     session.pop('username', None)
     return redirect(url_for('login'))
+
+
+@app.route('/pago', methods=['GET', 'POST'])
+def get_pago():
+    if not check_login():
+        return redirect(url_for('login'))
+    db = mysql.connection.cursor()
+    db.execute("""SELECT Grupo.id, Grupo.nombre, count(Estudiante.id) FROM Grupo
+                    JOIN Estudiante ON Grupo.id = Estudiante.id_grupo
+                        GROUP BY Grupo.id""")
+    _grupos = db.fetchall()
+    db.execute("""SELECT count(id) FROM Estudiante""")
+    numestud = db.fetchall()[0][0]
+    numgrupo = len(_grupos)
+    db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=TRUE""")
+    totganado = "${:,.2f}".format(db.fetchall()[0][0])
+    db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=FALSE""")
+    totadeudos = "${:,.2f}".format(db.fetchall()[0][0])
+    _info = {
+        "numestud": numestud,
+        "grupos": _grupos,
+        "numgrupos": numgrupo,
+        "totganado": totganado,
+        "totadeudo": totadeudos
+    }
+    return render_template('generarPago.html', info=_info)
+
+@app.route('/nuevorecibo', methods=['GET', 'POST'])
+def get_nuevorecibo():
+    if not check_login():
+        return redirect(url_for('login'))
+    db = mysql.connection.cursor()
+    db.execute("""SELECT Grupo.id, Grupo.nombre, count(Estudiante.id) FROM Grupo
+                    JOIN Estudiante ON Grupo.id = Estudiante.id_grupo
+                        GROUP BY Grupo.id""")
+    _grupos = db.fetchall()
+    db.execute("""SELECT count(id) FROM Estudiante""")
+    numestud = db.fetchall()[0][0]
+    numgrupo = len(_grupos)
+    db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=TRUE""")
+    totganado = "${:,.2f}".format(db.fetchall()[0][0])
+    db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=FALSE""")
+    totadeudos = "${:,.2f}".format(db.fetchall()[0][0])
+    _info = {
+        "numestud": numestud,
+        "grupos": _grupos,
+        "numgrupos": numgrupo,
+        "totganado": totganado,
+        "totadeudo": totadeudos
+    }
+    return render_template('generarRecibo.html', info=_info)
+@app.route('/alumno/<aid>/nuevafactura/<id>', methods=['GET', 'POST'])
+def get_nuevafactura(aid, id):
+    if not check_login():
+        return redirect(url_for('login'))
+    msg = ""
+    if request.method == 'POST':
+        try:
+            monto = float(request.form['monto'])
+            metodo = request.form['metodo']
+            if not metodo:
+                metodo = " "
+            concepto = request.form['concepto']
+            limit = request.form['fechalimite']
+            pagado = "TRUE" if request.form['pagado'] == '1' else "FALSE"
+            inputs = [monto, metodo, concepto, limit, pagado]
+            if fempties(inputs):
+                raise ValueError("Error solidarity")
+            db = mysql.connection.cursor()
+            db.execute("""UPDATE Transaccion
+                                SET monto={}, 
+                                metodo=\"{}\",
+                                concepto=\"{}\",
+                                fecha_limite=\"{}\",
+                                pagado={}
+                                WHERE id={}
+                            """.format(monto, metodo, concepto, limit, pagado, id))
+            db.connection.commit()
+            return redirect(url_for('get_student', id=aid))
+        except ValueError:
+            msg = "Ocurrió un error al agregar la informacón"
+    db = mysql.connection.cursor()
+    db.execute("""SELECT 
+                        Estudiante.nombre, 
+                        Estudiante.fecha_de_nacimiento, 
+                        Estudiante.beca,  
+                        Grupo.nombre,
+                        Grupo.id
+                        FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
+                        WHERE Estudiante.id={}
+                    """.format(aid))
+    datac = db.fetchall()[0]
+    name = datac[0]
+    age = gage(datac[1])
+    beca = "{} %".format(datac[2])
+    group = datac[3]
+    studentsi = {"name": name, "age": age, "beca": beca, "group": group, "group_id": datac[4]}
+    db.execute("""SELECT id, monto, metodo, concepto, fecha_limite, pagado
+                        FROM Transaccion WHERE id={}""".format(id))
+    data = db.fetchone()
+
+    mes_actual = datetime.now().month
+    anio_actual = datetime.now().year
+
+
+
+    tdata = db.fetchall()
+    trans = []
+
+    for item in tdata:
+        id_adeudo = item[0]
+        monto = "${:,.2f}".format(item[1])
+        metodo = item[2]
+        concepto = item[3]
+        fecha_limite = item[4]
+        pagado = item[5]
+        noticia = "PAGADO"
+        if item[5] == 0:
+            noticia = "ADEUDO"
+        trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "concepto": concepto, "limite": fecha_limite,
+                      "pagado": pagado, "noticia": noticia})
+
+
+
+    # Ejemplo de uso
+    transaccion_original = data[1]
+    print(data[1])
+    total_con_recargo = calcular_recargo(transaccion_original, data[4])
+    _info = {"msg": msg, "id": id, "aid": aid, "data": data, "trans": trans}
+    fechahoy = date.today()
+    return render_template('factura.html', info=_info, student=studentsi, fechahoy=fechahoy, total_con_recargo=total_con_recargo, recargo = total_con_recargo[1])
+
+def calcular_recargo(monto, fechalimite):
+    fecha_actual = date.today()
+    fecha_limite = fechalimite
+
+    dias_atraso = (fecha_actual - fecha_limite).days
+
+    if dias_atraso <= 10:
+        return monto
+    elif dias_atraso <= 15:
+        return monto + 100
+    elif dias_atraso <= 31:
+        return monto + 200
+    else:
+        meses_atraso = dias_atraso // 30  # Obtener la cantidad de meses completos de atraso
+        recargo = 200 + (meses_atraso - 1) * 200  # Restar 1 para no contar el primer mes de atraso (que ya está cubierto por el recargo inicial de 200)
+
+        try:
+            monto_float = float(monto)
+            total_con_recargo = monto_float + recargo
+            return total_con_recargo, recargo
+        except ValueError:
+            # Si monto no es un número válido, manejar el error o asignar un valor predeterminado
+            return 0, 0  # Por ejemplo, asignar 0 como valor predeterminado
 
 @app.route('/')
 def index():
@@ -102,6 +258,9 @@ def search_student():
         nstud = len(_students)
         _info = {"query": qu, "students": _students, "num": nstud}
         return render_template('search_student.html', info=_info)
+
+
+
 
 @app.route('/grupo/<gid>/AlumnoNuevo', methods = ['POST', 'GET']) 
 def alumno_nuevo(gid):
@@ -228,6 +387,8 @@ def get_student(id):
         trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "concepto": concepto, "limite": fecha_limite, "pagado": pagado, "noticia": noticia})
     _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
     return render_template('student.html', info=_info)
+
+
 
 @app.route('/editar_alumno/<id>', methods = ['POST', 'GET'])
 def edit_student(id):
@@ -358,6 +519,7 @@ def add_adeudo(aid):
 def edit_pago(aid, id):
     if not check_login():
         return redirect(url_for('login'))
+        # Inicializar la variable msg con un valor predeterminado
     msg = ""
     if request.method == 'POST':
         try:
@@ -399,6 +561,11 @@ def delete_adeudo(aid, id):
     db.execute("DELETE FROM Transaccion WHERE id = {}".format(id))
     db.connection.commit()
     return redirect(url_for('get_student', id=aid))
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
