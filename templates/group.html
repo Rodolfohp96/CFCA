@@ -69,12 +69,12 @@
 
 <body>
     <!-- Left Panel -->
-    <aside id="left-panel" class="left-panel">
+  <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="index.html"><i class="menu-icon fa fa-laptop"></i>Inicio </a>
+                        <a href="/"><i class="menu-icon fa fa-laptop"></i>Inicio </a>
                     </li>
                     <li class="menu-title">Grupos</li><!-- /.menu-title -->
 
@@ -107,33 +107,19 @@
                         </ul>
                     </li>
 
-                    <li class="menu-title">Pagos</li><!-- /.menu-title -->
+                    <li class="menu-title">Opciones</li><!-- /.menu-title -->
 
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Opciones</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="/">Generar Recibo</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="/">Agregar Pago</a></li>
-                        </ul>
+
+                    <li>
+                        <a href="/"> <i class="menu-icon ti-money"></i>Agregar Pago </a>
+                    </li>
+                    <li>
+                        <a href="/"> <i class="menu-icon ti-archive"></i>Buscar Recibo </a>
+                    </li>
+                    <li>
+                        <a href="/logout"> <i class="menu-icon fa fa-sign-in"></i>Cerrar Sesión </a>
                     </li>
 
-                    <li class="menu-title">Facturación</li><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Opciones</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="/">Login</a></li>
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="/">Register</a></li>
-                            <li><i class="menu-icon fa fa-paper-plane"></i><a href="/">Forget Pass</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="menu-title">Extras</li><!-- /.menu-title -->
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Opciones</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="/logout">Cerrar Sesión</a></li>
-                        </ul>
-                    </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -146,7 +132,7 @@
             <div class="top-left">
                 <div class="navbar-header">
                     <a href="/"><i class="pe-7s-home"></i></a>
-                    <a class="navbar-brand hidden" href="/"><img src="/images/logo1.jpg" alt="Logo"></a>
+                    <a class="navbar-brand hidden" href="/"><img src="/assets/images/logo1.jpg" alt="Logo"></a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
             </div>
@@ -281,7 +267,7 @@
                                                   <td>{{student.1}}</td>
                                                   <td>{{student.2}}</td>
                                                   <td>{{student.3}}</td>
-                                                  <td><a href="/alumno/{{student.0}}">Ver</a></td>
+                                                  <td><a href="/alumno/{{student.0}}" class="btn-info">Ver</a></td>
                                               </tr>
                                               {% endfor %}
                                             </tbody>

@@ -7,10 +7,10 @@ from datetime import date, timedelta
 from random import randint, uniform
 
 # Global variables
-HOST_NAME = 'localhost'
-USER_NAME = 'root'
-USER_PASS = 'root'
-DB_NAME = 'alumnos'
+HOST_NAME = 'sql9.freemysqlhosting.net'
+USER_NAME = 'sql9637135'
+USER_PASS = 'ArmH1XNQd7'
+DB_NAME = 'sql9637135'
 
 setup_app = Flask(__name__)
 setup_app.config['MYSQL_HOST'] = HOST_NAME
@@ -66,10 +66,10 @@ def gColeg(grado):
     return 2800.00
 def glibreta(grado):
     if grado < 3:
-        return 500.00
+        return 65.00
     elif grado < 6:
-        return 800.00
-    return 800.00
+        return 65.00
+    return 65.00
 def calculate_recargo(mes, dia, pago_normal):
     recargo = 0
     if mes > 10:
@@ -229,7 +229,7 @@ def setup_db():
 
     # Inserta accounts
     db.execute("""INSERT INTO Account (username, password)
-                    VALUES ("direccion2020", "dir$$2020"),
+                    VALUES ("direccion2023", "dir$$2023"),
                             ("devadmin", "dev$admin")""")
 
     # Inserta estudiantes y grupos
@@ -257,25 +257,44 @@ def setup_db():
                         (\"{}\", \"{}\", {}, {})
                     """.format(nomestud, nacestud, bestud, idgrupo))
 
-                # Agregar los adeudos de colegiatura
-                for mes in range(1, 12):
-                    fecha_pago = date(2023, mes, 1)
-                    #recargo = calculate_recargo(mes, 1, gColeg(numgrado))
-                    amount = gColeg(numgrado)
-                    db.execute("""INSERT INTO Transaccion 
-                                                    (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
-                                                    VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
-                                                """.format(amount, "", "Colegiatura {}".format(mes), fecha_pago,
-                                                           "FALSE", idestud))
-
-                # ... (código anterior) ...
-
                 apagado = gbool(4)
                 ametodo = gmetodo() if apagado == "TRUE" else ""
                 desc = 1 - bestud / 100
                 amount = gamount(ngrado) * desc
                 amountins = ginscripcion(ngrado)
                 amountlib = glibreta(ngrado)
+
+                fecha_activacion = date(2023, 9, 1)
+                # Monto inicial
+                monto_colegiatura = amount
+                # Crear 10 colegiaturas
+                for mes in range(1, 11):
+                    # Obtener la fecha de pago (10 de cada mes)
+                    fecha_pago = date(2023, mes, 10).strftime('%Y-%m-%d')
+                    # Obtener la fecha de activación (1 de cada mes)
+                    fecha_activacion = date(2023, mes, 1).strftime('%Y-%m-%d')
+
+                    # Multiplicar el monto por 2 para las colegiaturas 4 y 10 y ajustar las fechas a 2024
+                    if mes in [4, 10]:
+                        monto_colegiatura *= 2
+                        fecha_activacion = date(2024, mes, 1).strftime('%Y-%m-%d')
+                        fecha_pago = date(2024, mes, 10).strftime('%Y-%m-%d')
+
+                    # Insertar la colegiatura en la base de datos
+                    db.execute("""INSERT INTO Transaccion 
+                                        (monto, metodo, concepto, fecha_limite, fecha_pago, fechaActivacion, pagado, id_estudiante)
+                                        VALUES (%(monto)s, "", %(concepto)s, %(fecha_limite)s, %(fecha_pago)s, %(fecha_activacion)s, %(pagado)s, %(id_estudiante)s)
+                                    """, {
+                        'monto': monto_colegiatura,
+                        'concepto': "Colegiatura {}".format(mes),
+                        'fecha_limite': fecha_pago,
+                        'fecha_pago': fecha_pago,
+                        'fecha_activacion': fecha_activacion,
+                        'pagado': 0,  # Valor entero 0 para False
+                        'id_estudiante': idestud,
+                    })
+
+
 
                 db.execute("""INSERT INTO Transaccion 
                                                 (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)

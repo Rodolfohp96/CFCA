@@ -156,7 +156,7 @@
             <div class="top-left">
                 <div class="navbar-header">
                     <a href="/"><i class="pe-7s-home"></i></a>
-                    <a class="navbar-brand hidden" href="/"><img src="/images/logo1.jpg" alt="Logo"></a>
+                    <a class="navbar-brand hidden" href="/"><img src="/assets/images/logo1.jpg" alt="Logo"></a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
             </div>
@@ -244,16 +244,23 @@
                                     </tr>
                                     <tr>
                                         <td>Interéses</td>
-                                        <td>$ {{ recargo }} </td>
+                                        <td>$ {{ total_con_recargo[1] }} </td>
                                     </tr>
                                     <tr>
                                         <td>Total: </td>
-                                        <td>$ {{ total_con_recargo[0] }} </td>
+                                        <td>$ {{  total_con_recargo[0] }} </td>
                                     </tr>
                                     <tr>
-                                        <td>Forma de Pago</td>
-                                        <td><input type="text" name="metodo" value="{{info.data.2}}"></td>
-                                    </tr>
+    <td>Forma de Pago</td>
+    <td>
+        <select name="metodo">
+            <option value="tarjeta_debito" {% if info.data.2 == 'tarjeta_debito' %} selected {% endif %}>Tarjeta de Débito</option>
+            <option value="tarjeta_credito" {% if info.data.2 == 'tarjeta_credito' %} selected {% endif %}>Tarjeta de Crédito</option>
+            <option value="efectivo" {% if info.data.2 == 'efectivo' %} selected {% endif %}>Efectivo</option>
+            <option value="transferencia" {% if info.data.2 == 'transferencia' %} selected {% endif %}>Transferencia</option>
+        </select>
+    </td>
+</tr>
                                     <tr>
                                         <td>Concepto</td>
                                         <td>{{info.data.3}}</td>
@@ -279,7 +286,11 @@
                                             </td>
                                     </tr>
                                 </table>
+                                <br>
                                 <button class="btn btn-success" type="submit" id="botonactualizar">Pagar</button>
+                                <br><br>
+                                <a class="btn btn-warning" href='/nuevorecibo' id="botonactualizar">Recibo</a>
+                                <br><br>
                             </form>
                             <a class="btn btn-danger" href='/alumno/{{ info.aid }}/eliminar_adeudo/{{ info.data.0 }}' id="botonactualizar">Eliminar</a>
                         </div>

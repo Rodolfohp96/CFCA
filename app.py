@@ -178,7 +178,7 @@ def get_nuevafactura(aid, id):
     total_con_recargo = calcular_recargo(transaccion_original, data[4])
     _info = {"msg": msg, "id": id, "aid": aid, "data": data, "trans": trans}
     fechahoy = date.today()
-    return render_template('factura.html', info=_info, student=studentsi, fechahoy=fechahoy, total_con_recargo=total_con_recargo, recargo = total_con_recargo[1])
+    return render_template('factura.html', info=_info, student=studentsi, fechahoy=fechahoy, total_con_recargo=total_con_recargo)
 
 def calcular_recargo(monto, fechalimite):
     fecha_actual = date.today()
@@ -187,11 +187,11 @@ def calcular_recargo(monto, fechalimite):
     dias_atraso = (fecha_actual - fecha_limite).days
 
     if dias_atraso <= 10:
-        return monto
+        return monto, 0
     elif dias_atraso <= 15:
-        return monto + 100
+        return monto + 100, 100
     elif dias_atraso <= 31:
-        return monto + 200
+        return monto + 200, 200
     else:
         meses_atraso = dias_atraso // 30  # Obtener la cantidad de meses completos de atraso
         recargo = 200 + (meses_atraso - 1) * 200  # Restar 1 para no contar el primer mes de atraso (que ya está cubierto por el recargo inicial de 200)
