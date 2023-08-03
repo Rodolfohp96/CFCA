@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Colegio Felipe Carbajal Arcia</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    </head>
+    <body>
+        <nav id="navconteiner">
+            <a href="/" id="alayout"><img src="/static/css/home.png " id="iniciopng"></a>
+            <div id="tituloescuela">Colegio Felipe Carbajal Arcia</div>
+            <a href="/logout" id="alayout"><img src="/static/css/logout.png" id="logoutpng"></a>
+        </nav>
+        <div class="container-body">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

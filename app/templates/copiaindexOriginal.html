@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block body %}
+<section class="info">
+    <article id="info__columna">
+       <h2 class="info__titulo">TOTAL ALUMNOS: </h2>
+       <p class="info__txt">{{ info.numestud }}</p>
+       </article>
+    <article id="info__columna">
+       <h2 class="info__titulo">TOTAL GRUPOS: </h2>
+        <p class="info__txt">{{ info.numgrupos }}</p>
+        </article>
+    <article id="info__columna">
+        <h2 class="info__titulo">TOTAL PAGADO: </h2>
+        <p class="info__txt">{{ info.totganado }}</p>
+    </article>
+    <article id="info__columna">
+        <h2 class="info__titulo">TOTAL ADEUDOS: </h2>
+        <p class="info__txt">{{ info.totadeudo }}</p>
+    </article>  
+    </section> 
+    <table>
+        <thead>
+            <tr>
+                <th>Grupo</th>
+                <th>Total de Alumnos</th>
+                <th>
+                <form action="/busqueda" method="POST">
+                    <input type="text" name="query" placeholder="Buscar alumno por nombre" size="9" maxlength="100">
+                </form>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grupo in info.grupos %}
+            <tr>
+                <td>{{grupo.1}}</td>
+                <td>{{grupo.2}}</td>
+                <td><a href="/grupo/{{grupo.0}}">Ver</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

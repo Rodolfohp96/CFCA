@@ -1,0 +1,178 @@
+{% extends "layout.html" %}
+{% block body %}
+<p>{{ info.msg }}</p>
+<form action="/editar_alumno/{{ info.student_id }}" method="POST">
+
+    <table border="10" cellspacing="10"cellpadding="10">
+        <tr>
+                <th colspan ="2" id="tcolor">Actualizar información de alumno</th>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="text" name="nombre" value="{{ info.student.name }}" size="70" maxlength="60"></td>
+            </tr>
+            
+            <tr>
+                <th>Fecha de nacimiento:</th>
+                <th><input type="date" name="nacimiento" value="{{ info.student.nac }}"></th>
+            </tr>
+            <tr>
+                <th>Porcentaje de beca:</th>
+                <th><input type="text"  name="beca" value="{{ info.student.beca }}"></th>
+            </tr>
+            <tr>
+                <th>Grupo:</th>
+                <th><select id="gruposelect" name ="idgrupo">
+                        <option value ="1" 
+                            {% if info.student.group == 1 %}
+                            selected="selected"
+                            {% endif %}>Kinder 1 A</option>
+                        <option value ="2" 
+                            {% if info.student.group == 2 %}
+                            selected="selected"
+                            {% endif %}>Kinder 1 B</option>
+                        <option value ="3" 
+                            {% if info.student.group == 3 %}
+                            selected="selected"
+                            {% endif %}>Kinder 2 A</option>
+                        <option value ="4" 
+                            {% if info.student.group == 4 %}
+                            selected="selected"
+                            {% endif %}>Kinder 2 B</option>
+                        <option value ="5"
+                            {% if info.student.group == 5 %}
+                            selected="selected"
+                            {% endif %}>Kinder 3 A</option>
+                        <option value ="6"
+                            {% if info.student.group == 6 %}
+                            selected="selected"
+                            {% endif %}>Kinder 3 B</option>
+                        <option value ="7"
+                            {% if info.student.group == 7 %}
+                            selected="selected"
+                            {% endif %}>1 A</option>
+                        <option value ="8"
+                            {% if info.student.group == 8 %}
+                            selected="selected"
+                            {% endif %}>1 B</option>
+                        <option value ="9"
+                            {% if info.student.group == 9 %}
+                            selected="selected"
+                            {% endif %}>2 A</option>
+                        <option value ="10" 
+                            {% if info.student.group == 10 %}
+                            selected="selected"
+                            {% endif %}>2 B</option>
+                        <option value ="11" 
+                            {% if info.student.group == 11 %}
+                            selected="selected"
+                            {% endif %}>3 A</option>
+                        <option value ="12"
+                            {% if info.student.group == 12 %}
+                            selected="selected"
+                            {% endif %}>3 B</option>
+                        <option value ="13"
+                            {% if info.student.group == 13 %}
+                            selected="selected"
+                            {% endif %}>4 A</option>
+                        <option value ="14"
+                            {% if info.student.group == 14 %}
+                            selected="selected"
+                            {% endif %}>4 B</option>
+                        <option value ="15"
+                            {% if info.student.group == 15 %}
+                            selected="selected"
+                            {% endif %}>5 A</option>
+                        <option value ="16"
+                            {% if info.student.group == 16 %}
+                            selected="selected"
+                            {% endif %}>5 B</option>
+                        <option value ="17"
+                            {% if info.student.group == 17 %}
+                            selected="selected"
+                            {% endif %}>6 A</option>
+                        <option value ="18"
+                            {% if info.student.group == 18 %}
+                            selected="selected"
+                            {% endif %}>6 B</option>
+                        <option value ="19"
+                            {% if info.student.group == 19 %}
+                            selected="selected"
+                            {% endif %}>7 A</option>
+                        <option value ="20"
+                            {% if info.student.group == 20 %}
+                            selected="selected"
+                            {% endif %}>7 B</option>
+                        <option value ="21"
+                            {% if info.student.group == 21 %}
+                            selected="selected"
+                            {% endif %}>8 A</option>
+                        <option value ="22"
+                            {% if info.student.group == 22 %}
+                            selected="selected"
+                            {% endif %}>8 B</option>
+                        <option value ="23"
+                            {% if info.student.group == 23 %}
+                            selected="selected"
+                            {% endif %}>9 A</option>
+                        <option value ="24"
+                            {% if info.student.group == 24 %}
+                            selected="selected"
+                            {% endif %}>9 B</option>
+                    </select></th>
+            </tr>
+            <tr>
+                <th colspan ="2" id="tcolor">Información del primer tutor</th>
+            </tr>
+            <input type="hidden" name="acid" value="{{ info.acon.5 }}"/>
+            <tr>
+                <td colspan="2"><input type="text" name="acnom" value="{{ info.acon.0 }}" size="70" maxlength="60"></td>
+            </tr>
+            
+            <tr>
+                <th>Correo:</th>
+                <th><input type="text" name="acmail" value="{{ info.acon.2 }}" ></th>
+            </tr>
+            <tr>
+                <th>Parentesco:</th>
+                <th><input type="text" name="acparen" value="{{ info.acon.1 }}"></th>
+            </tr>
+            <tr>
+                <th>Dirección:</th>
+                <th><input type="text" name="acdir" value="{{ info.acon.4 }}"></th>
+            </tr>
+            <tr>
+                <th>Teléfono:</th>
+                <th><input type="text" name="actel" value="{{ info.acon.3 }}"></th>
+            </tr>
+            
+            <tr>
+                <th colspan ="2" id="tcolor">Información del segundo tutor</th>
+            </tr>
+            <input type="hidden" name="bcid" value="{{ info.bcon.5 }}"/>
+            <tr>
+                <td colspan="2"><input type="text" name="bcnom" value="{{ info.bcon.0 }}" size="70" maxlength="60"></td>
+            </tr>
+            <tr>
+                <th>Correo:</th>
+                <th><input type="text" name="bcmail" value="{{ info.bcon.2 }}"></th>
+            </tr>
+            <tr>
+                <th>Parentesco:</th>
+                <th><input type="text" name="bcparen" value="{{ info.bcon.1 }}"></th>
+            </tr>
+            <tr>
+                <th>Dirección:</th>
+                <th><input type="text" name="bcdir" value="{{ info.bcon.4 }}"></th>
+            </tr>
+            <tr>
+                <th>Teléfono:</th>
+                <th><input type="text" name="bctel" value="{{ info.bcon.3 }}"></th>
+            </tr>
+            <tr>
+                <td>Actualizar infromación de alumno</td>
+                <td><input type="submit" value="Actualizar" id="botonalumno"></td>
+            </tr>
+        </table>
+
+</form>
+{% endblock %}
