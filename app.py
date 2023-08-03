@@ -567,5 +567,6 @@ def delete_adeudo(aid, id):
 
 
 
-if __name__ == '__main__':
-    app.run(port = 3000, debug = True)
+if __name__=='__main__':
+    app.run(debug=True)
+    #app.run(debug=True, port=5000)
