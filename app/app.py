@@ -2,12 +2,11 @@ from flask import Flask, render_template, request, session, redirect, url_for
 from flask_mysqldb import MySQL
 import datetime
 from datetime import date
-from utils import  *
-from setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
+from app.utils import *
+from app.setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 from dotenv import load_dotenv
 
 load_dotenv()
-
 
 app = Flask(__name__, static_folder='assets')
 app.config['MYSQL_HOST'] = HOST_NAME
@@ -18,7 +17,6 @@ app.secret_key = 'MYSECRET_KEY'
 mysql = MySQL(app)
 
 
-
 # Login
 def check_login():
     try:
@@ -26,6 +24,7 @@ def check_login():
         return True
     except KeyError:
         return False
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -47,6 +46,7 @@ def login():
         else:
             msg = "Usuario o contraseña incorrecto"
     return render_template('login.html', msg=msg)
+
 
 @app.route('/logout')
 def logout():
@@ -81,6 +81,7 @@ def get_pago():
     }
     return render_template('generarPago.html', info=_info)
 
+
 @app.route('/nuevorecibo', methods=['GET', 'POST'])
 def get_nuevorecibo():
     if not check_login():
@@ -105,6 +106,8 @@ def get_nuevorecibo():
         "totadeudo": totadeudos
     }
     return render_template('generarRecibo.html', info=_info)
+
+
 @app.route('/alumno/<aid>/nuevafactura/<id>', methods=['GET', 'POST'])
 def get_nuevafactura(aid, id):
     if not check_login():
@@ -158,8 +161,6 @@ def get_nuevafactura(aid, id):
     mes_actual = datetime.now().month
     anio_actual = datetime.now().year
 
-
-
     tdata = db.fetchall()
     trans = []
 
@@ -176,15 +177,15 @@ def get_nuevafactura(aid, id):
         trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "concepto": concepto, "limite": fecha_limite,
                       "pagado": pagado, "noticia": noticia})
 
-
-
     # Ejemplo de uso
     transaccion_original = data[1]
     print(data[1])
     total_con_recargo = calcular_recargo(transaccion_original, data[4])
     _info = {"msg": msg, "id": id, "aid": aid, "data": data, "trans": trans}
     fechahoy = date.today()
-    return render_template('factura.html', info=_info, student=studentsi, fechahoy=fechahoy, total_con_recargo=total_con_recargo)
+    return render_template('factura.html', info=_info, student=studentsi, fechahoy=fechahoy,
+                           total_con_recargo=total_con_recargo)
+
 
 def calcular_recargo(monto, fechalimite):
     fecha_actual = date.today()
@@ -200,7 +201,8 @@ def calcular_recargo(monto, fechalimite):
         return monto + 200, 200
     else:
         meses_atraso = dias_atraso // 30  # Obtener la cantidad de meses completos de atraso
-        recargo = 200 + (meses_atraso - 1) * 200  # Restar 1 para no contar el primer mes de atraso (que ya está cubierto por el recargo inicial de 200)
+        recargo = 200 + (
+                    meses_atraso - 1) * 200  # Restar 1 para no contar el primer mes de atraso (que ya está cubierto por el recargo inicial de 200)
 
         try:
             monto_float = float(monto)
@@ -209,6 +211,7 @@ def calcular_recargo(monto, fechalimite):
         except ValueError:
             # Si monto no es un número válido, manejar el error o asignar un valor predeterminado
             return 0, 0  # Por ejemplo, asignar 0 como valor predeterminado
+
 
 @app.route('/')
 def index():
@@ -226,16 +229,17 @@ def index():
     totganado = "${:,.2f}".format(db.fetchall()[0][0])
     db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=FALSE""")
     totadeudos = "${:,.2f}".format(db.fetchall()[0][0])
-    _info = {   
+    _info = {
         "numestud": numestud,
         "grupos": _grupos,
         "numgrupos": numgrupo,
         "totganado": totganado,
         "totadeudo": totadeudos
     }
-    return render_template('index.html', info = _info)
+    return render_template('index.html', info=_info)
 
-@app.route('/busqueda', methods = ['POST'])
+
+@app.route('/busqueda', methods=['POST'])
 def search_student():
     if not check_login():
         return redirect(url_for('login'))
@@ -266,9 +270,7 @@ def search_student():
         return render_template('search_student.html', info=_info)
 
 
-
-
-@app.route('/grupo/<gid>/AlumnoNuevo', methods = ['POST', 'GET']) 
+@app.route('/grupo/<gid>/AlumnoNuevo', methods=['POST', 'GET'])
 def alumno_nuevo(gid):
     if not check_login():
         return redirect(url_for('login'))
@@ -291,23 +293,35 @@ def alumno_nuevo(gid):
             Tutor2Telefono = request.form['Tutor2Telefono']
             MontoColegiatura = float(request.form['MontoColegiatura'])
             ModalidadColegiatura = int(request.form['ModalidadColegiatura'])
-            inputs = [NombreCompleto, FechadeNacimiento, Beca, GrupoId, Tutor1Nombre, Tutor1Direccion, Tutor1Correo, Tutor1Parentesco, Tutor1Telefono, Tutor2Nombre, Tutor2Direccion, Tutor2Correo, Tutor2Parentesco, Tutor2Telefono, MontoColegiatura, ModalidadColegiatura]
+            inputs = [NombreCompleto, FechadeNacimiento, Beca, GrupoId, Tutor1Nombre, Tutor1Direccion, Tutor1Correo,
+                      Tutor1Parentesco, Tutor1Telefono, Tutor2Nombre, Tutor2Direccion, Tutor2Correo, Tutor2Parentesco,
+                      Tutor2Telefono, MontoColegiatura, ModalidadColegiatura]
             if fempties(inputs):
                 raise ValueError("Error solidarity")
             cur = mysql.connection.cursor()
-            cur.execute('INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(NombreCompleto, FechadeNacimiento, Beca, GrupoId))
+            cur.execute(
+                'INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(
+                    NombreCompleto, FechadeNacimiento, Beca, GrupoId))
             n = cur.lastrowid
-            cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',\"{}\",\'{}\',{})'.format(Tutor1Nombre, Tutor1Parentesco, Tutor1Correo, Tutor1Telefono, Tutor1Direccion, n))
-            cur.execute('INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',\"{}\",\'{}\',{})'.format(Tutor2Nombre, Tutor2Parentesco, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
+            cur.execute(
+                'INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',\"{}\",\'{}\',{})'.format(
+                    Tutor1Nombre, Tutor1Parentesco, Tutor1Correo, Tutor1Telefono, Tutor1Direccion, n))
+            cur.execute(
+                'INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',\"{}\",\'{}\',{})'.format(
+                    Tutor2Nombre, Tutor2Parentesco, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
             desc = 1 - Beca / 100
             if ModalidadColegiatura == 10:
-                AdeudoTotal = MontoColegiatura * 10 * desc 
-                cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "", "Colegiatura completa", "2020-12-12", "FALSE", n))
+                AdeudoTotal = MontoColegiatura * 10 * desc
+                cur.execute(
+                    'INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(
+                        AdeudoTotal, "", "Colegiatura completa", "2020-12-12", "FALSE", n))
             elif ModalidadColegiatura == 11:
                 AdeudoTotal = MontoColegiatura * desc
                 for nummes in range(1, 12):
                     concepto = "Mensualidad {}".format(nummes)
-                    cur.execute('INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(AdeudoTotal, "",concepto, "2020-12-12", "FALSE", n))
+                    cur.execute(
+                        'INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(
+                            AdeudoTotal, "", concepto, "2020-12-12", "FALSE", n))
             cur.connection.commit()
             return redirect(url_for('get_group', id=GrupoId))
         except ValueError:
@@ -316,7 +330,8 @@ def alumno_nuevo(gid):
     print(_info)
     return render_template('AlumnoNuevo.html', info=_info)
 
-@app.route('/grupo/<id>', methods = ['POST', 'GET'])
+
+@app.route('/grupo/<id>', methods=['POST', 'GET'])
 def get_group(id):
     if not check_login():
         return redirect(url_for('login'))
@@ -344,9 +359,10 @@ def get_group(id):
         _students.append([item[1], matricula, item[2], deuda])
     nstud = len(_students)
     _info = {"group_id": id, "group": data[0][0], "students": _students, "num": nstud}
-    return render_template('group.html', info = _info)
-     
-@app.route('/alumno/<id>', methods = ['POST', 'GET'])
+    return render_template('group.html', info=_info)
+
+
+@app.route('/alumno/<id>', methods=['POST', 'GET'])
 def get_student(id):
     if not check_login():
         return redirect(url_for('login'))
@@ -374,10 +390,11 @@ def get_student(id):
     bcon = ["", "", "", "", ""]
     for i in range(len(cdata)):
         if i == 0:
-            acon = cdata[i]  
+            acon = cdata[i]
         if i == 1:
             bcon = cdata[i]
-    db.execute("SELECT id, monto, metodo, concepto, fecha_limite, pagado FROM Transaccion WHERE id_estudiante={}".format(id))
+    db.execute(
+        "SELECT id, monto, metodo, concepto, fecha_limite, pagado FROM Transaccion WHERE id_estudiante={}".format(id))
     tdata = db.fetchall()
     trans = []
     for item in tdata:
@@ -390,13 +407,13 @@ def get_student(id):
         noticia = "PAGADO"
         if item[5] == 0:
             noticia = "ADEUDO"
-        trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "concepto": concepto, "limite": fecha_limite, "pagado": pagado, "noticia": noticia})
-    _info = { "student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
+        trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "concepto": concepto, "limite": fecha_limite,
+                      "pagado": pagado, "noticia": noticia})
+    _info = {"student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
     return render_template('student.html', info=_info)
 
 
-
-@app.route('/editar_alumno/<id>', methods = ['POST', 'GET'])
+@app.route('/editar_alumno/<id>', methods=['POST', 'GET'])
 def edit_student(id):
     if not check_login():
         return redirect(url_for('login'))
@@ -421,7 +438,8 @@ def edit_student(id):
             bcparen = request.form['bcparen']
             bctel = request.form['bctel']
             bcdir = request.form['bcdir']
-            inputs = [nombre, id_grupo, nac, beca, acnom, acid, acmail, acparen, actel, acdir, bcnom, bcid, bcmail, bcparen, bctel, bcdir]
+            inputs = [nombre, id_grupo, nac, beca, acnom, acid, acmail, acparen, actel, acdir, bcnom, bcid, bcmail,
+                      bcparen, bctel, bcdir]
             if fempties(inputs):
                 raise ValueError("Error solidarity")
             db = mysql.connection.cursor()
@@ -474,15 +492,16 @@ def edit_student(id):
     bcon = ["", "", "", "", "", ""]
     for i in range(len(cdata)):
         if i == 0:
-            acon = cdata[i]  
+            acon = cdata[i]
         if i == 1:
             bcon = cdata[i]
     acid = acon[-1]
     bcid = bcon[-1]
-    _info = { "msg": msg, "student_id": id, "student": student, "acon": acon, "bcon": bcon, "acid": acid, "bcid": bcid}
+    _info = {"msg": msg, "student_id": id, "student": student, "acon": acon, "bcon": bcon, "acid": acid, "bcid": bcid}
     return render_template('edit_student.html', info=_info)
 
-@app.route('/grupo/<gid>/eliminar_alumno/<id>', methods = ['GET', 'POST'])
+
+@app.route('/grupo/<gid>/eliminar_alumno/<id>', methods=['GET', 'POST'])
 def delete_student(gid, id):
     if not check_login():
         return redirect(url_for('login'))
@@ -491,7 +510,8 @@ def delete_student(gid, id):
     db.connection.commit()
     return redirect(url_for('get_group', id=gid))
 
-@app.route('/alumno/<aid>/nuevo_adeudo', methods = ['POST', 'GET'])
+
+@app.route('/alumno/<aid>/nuevo_adeudo', methods=['POST', 'GET'])
 def add_adeudo(aid):
     if not check_login():
         return redirect(url_for('login'))
@@ -516,12 +536,11 @@ def add_adeudo(aid):
             return redirect(url_for('get_student', id=aid))
         except ValueError:
             msg = "Ocurrió un error al agregar la informacón"
-    _info = {"aid": aid,"msg": msg}
+    _info = {"aid": aid, "msg": msg}
     return render_template('nuevo_adeudo.html', info=_info)
-    
 
 
-@app.route('/alumno/<aid>/editar_adeudo/<id>', methods = ['POST', 'GET'])
+@app.route('/alumno/<aid>/editar_adeudo/<id>', methods=['POST', 'GET'])
 def edit_pago(aid, id):
     if not check_login():
         return redirect(url_for('login'))
@@ -559,7 +578,8 @@ def edit_pago(aid, id):
     _info = {"msg": msg, "id": id, "aid": aid, "data": data}
     return render_template('edit_adeudo.html', info=_info)
 
-@app.route('/alumno/<aid>/eliminar_adeudo/<id>', methods = ['GET', 'POST'])
+
+@app.route('/alumno/<aid>/eliminar_adeudo/<id>', methods=['GET', 'POST'])
 def delete_adeudo(aid, id):
     if not check_login():
         return redirect(url_for('login'))
@@ -567,10 +587,6 @@ def delete_adeudo(aid, id):
     db.execute("DELETE FROM Transaccion WHERE id = {}".format(id))
     db.connection.commit()
     return redirect(url_for('get_student', id=aid))
-
-
-
-
 
 
 if __name__ == "__main__":
