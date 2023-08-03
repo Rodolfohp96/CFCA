@@ -1,12 +1,8 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-from flask_mysqldb import MySQL
 import datetime
-import os
-from datetime import date
 from flask_mysqldb import MySQL
 import os
 from utils import *
-from setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 
 app = Flask(__name__, static_folder='assets')
 app.config['MYSQL_USER'] = os.getenv('MYSQL_USER') or 'sql9637135'
