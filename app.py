@@ -6,6 +6,9 @@ from utils import *
 from setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 from dotenv import load_dotenv
 
+load_dotenv()
+
+
 app = Flask(__name__, static_folder='assets')
 app.config['MYSQL_HOST'] = HOST_NAME
 app.config["MYSQL_USER"] = USER_NAME
@@ -15,7 +18,7 @@ app.secret_key = 'MYSECRET_KEY'
 mysql = MySQL(app)
 
 
-load_dotenv()
+
 # Login
 def check_login():
     try:
