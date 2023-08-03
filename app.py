@@ -1,17 +1,21 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_mysqldb import MySQL
 import datetime
+import os
 from datetime import date
 from utils import *
 from setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 
 app = Flask(__name__, static_folder='assets')
-app.config['MYSQL_HOST'] = HOST_NAME
-app.config["MYSQL_USER"] = USER_NAME
-app.config['MYSQL_PASSWORD'] = USER_PASS
-app.config['MYSQL_DB'] = DB_NAME
+app.config['MYSQL_USER'] = os.getenv('MYSQL_USER') or 'sql9637135'
+app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD') or 'ArmH1XNQd7'
+app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST') or 'sql9.freemysqlhosting.net'
+app.config['MYSQL_DB'] = os.getenv('MYSQL_DB') or 'sql9637135'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.secret_key = 'MYSECRET_KEY'
 mysql = MySQL(app)
+
+
 
 # Login
 def check_login():
