@@ -3,6 +3,8 @@ from flask_mysqldb import MySQL
 import datetime
 import os
 from datetime import date
+from flask_mysqldb import MySQL
+import os
 from utils import *
 from setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 
