@@ -5,6 +5,10 @@ from datetime import date, timedelta
 
 
 from random import randint, uniform
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 # Global variables
 HOST_NAME = 'sql9.freemysqlhosting.net'
