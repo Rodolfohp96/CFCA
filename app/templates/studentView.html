@@ -1,0 +1,170 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Felipe Carbajal Arcia</title>
+    <meta name="description" content="Felipe Carbajal Arcia">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
+    <link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/cs-skin-elastic.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+
+</head>
+
+<body>
+    <!-- Left Panel -->
+
+    <!-- /#left-panel -->
+    <!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+        <!-- Header-->
+        <header id="header" class="header">
+            <div class="top-left">
+
+            </div>
+            <div class="top-right">
+                <div class="header-menu">
+
+
+                    <div class="user-area dropdown float-right">
+                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="pe-7s-user"></i>
+                        </a>
+
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Cerrar Sesión</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+        <!-- /#header -->
+        <!-- Content -->
+        <div class="content">
+            <!-- Animated -->
+            <div class="animated fadeIn">
+            <div class="card">
+                                <div class="card-body">
+                                    <div class="col" style="width: 50% !important; float: left"><span><a href=""><img alt="" src="{{ url_for('static', filename= 'images/logocfca.jpg') }}" style="width: 40% !important;"></a></span></div>
+                                    <div class="col" style="width: 50%; float: left; padding-top: 1%; ">
+                                        <p style="color: black; font-weight: bold; font-size: 15px; padding-bottom: 10px;">Colegio Felipe Carbajal Arcia</p>
+                                        <p style="color: black; font-weight: bold; font-size: 15px; padding-bottom: 10px;">CICLO ESCOLAR 2023-2024 </p>
+                                        <p style="color: black; font-weight: bold; font-size: 15px;padding-bottom: 10px;">Fecha: {{ fechahoy }}</p>
+                                    </div>
+                                </div>
+                            </div> <!-- /.card -->
+
+
+                <div class="clearfix"></div>
+                <!-- Orders -->
+                <div class="orders">
+                    <div class="row">
+                        <div class="col-xl">
+                            <div class="card">
+                                <div class="card-body" style="background-color: #294785">
+                                    <h1 class=" " style="text-align: center; color: white"> {{ info.student.name }}</h1>
+                                    <h1 class=" " style="text-align: center; color: white">Matrícula: {{ info.student.matricula }}</h1>
+                                    <h1 class=" " style="text-align: center ; color: white">Grupo: {{ info.student.group }}</h1>
+
+                                    <br>
+
+                                </div>
+                                <div class="card-body--">
+                                    <div class="table-stats order-table ov-h">
+
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Monto</th>
+                                                    <th>Metodo</th>
+                                                    <th>Concepto</th>
+                                                    <th>Fecha Limite</th>
+                                                    <th>Estado</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for tran in info.trans %}
+                                                <tr>
+                                                    <td>{{tran.monto}}</td>
+                                                    <td>{{tran.metodo}}</td>
+                                                    <td>{{tran.concepto}}</td>
+                                                    <td>{{tran.limite}}</td>
+                                                    <td>{{tran.noticia}}</td>
+
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+
+                                    </div> <!-- /.table-stats -->
+                                </div>
+                            </div> <!-- /.card -->
+                        </div> <!-- /.col-lg-8 -->
+
+
+
+
+                    </div>
+                </div>
+                <!-- /.orders -->
+
+
+
+            </div>
+        </div>
+
+    </div>
+    <!-- /#add-category -->
+    </div>
+    <!-- .animated -->
+
+    </div>
+
+    <!-- /.content -->
+    <div class="clearfix"></div>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner bg-white">
+            <div class="row">
+                <div class="col-sm-6">
+                    Copyright &copy; 2023 CFCA
+                </div>
+                <div class="col-sm-6 text-right">
+                    Designed by RHP
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- /.site-footer -->
+    </div>
+    <!-- /#right-panel -->
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+
+</body>
+
+</html>

@@ -68,18 +68,18 @@
                         </ul>
                     </li>
 
-                    <li class="menu-title">Opciones</li><!-- /.menu-title -->
-
-
-                    <li>
-                        <a href="/"> <i class="menu-icon ti-money"></i>Agregar Pago </a>
-                    </li>
-                    <li>
-                        <a href="/"> <i class="menu-icon ti-archive"></i>Buscar Recibo </a>
-                    </li>
-                    <li>
-                        <a href="/logout"> <i class="menu-icon fa fa-sign-in"></i>Cerrar Sesión </a>
-                    </li>
+{#                    <li class="menu-title">Opciones</li><!-- /.menu-title -->#}
+{##}
+{##}
+{#                    <li>#}
+{#                        <a href="/"> <i class="menu-icon ti-money"></i>Agregar Pago </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="/"> <i class="menu-icon ti-archive"></i>Buscar Recibo </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="/logout"> <i class="menu-icon fa fa-sign-in"></i>Cerrar Sesión </a>#}
+{#                    </li>#}
 
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -136,11 +136,14 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h1 class=" " style="text-align: center"> {{ info.student.name }}</h1>
+                                    <h1 class=" " style="text-align: center"> {{ info.student.matricula }}</h1>
+
                                     <br>
                                     <div class="d-flex justify-content-between">
                                         <a class="btn btn-primary flex-fill mr-2" href="/editar_alumno/{{info.student_id}}">Editar Alumno</a>
                                         <a class="btn btn-primary flex-fill mr-2" href="/grupo/{{ info.student.group_id }}/eliminar_alumno/{{ info.student_id }}">Eliminar Alumno</a>
-                                        <a class="btn btn-primary flex-fill" href="/alumno/{{info.student_id}}/nuevo_adeudo">Nuevo Adeudo</a>
+                                        <a class="btn btn-primary flex-fill mr-2" href="/alumno/{{info.student_id}}/nuevo_adeudo">Nuevo Adeudo</a>
+                                        <a class="btn btn-primary flex-fill" href="/alumnoV/{{info.student_id}}">Vista Alumno</a>
                                     </div>
                                 </div>
                                 <div class="card-body--">
@@ -195,20 +198,24 @@
 
 
                                             <tr class="nohover">
-                                                <th colspan="2" rowspan="2" style="background-color: #2e436e !important; color: white; font-weight: bold !important;"> </th>
-                                                <th rowspan="2" style="background-color: #2e436e !important; color: white; font-weight: bold !important;"></th>
+                                                <th colspan="2" rowspan="2" style="background-color: #2e436e !important; color: white; font-weight: bold !important;">Matricula: </th>
+                                                <th rowspan="2" style="background-color: #2e436e !important; color: white; font-weight: bold !important;">{{ info.student.matricula }}</th>
+
+
                                                 <td>RFC: {{info.acon.3 }}</td>
                                                 <td>RFC: {{info.bcon.3 }}</td>
                                             </tr>
                                             <tr class="nohover">
+
+
 
                                                 <td>CFDI: {{info.acon.4 }}</td>
                                                 <td>CFDI: {{info.bcon.4 }}</td>
 
                                             </tr>
                                             <tr class="nohover">
-                                                <th colspan="2" rowspan="2" style="background-color: #2e436e !important; color: white; font-weight: bold !important;"> </th>
-                                                <th rowspan="2" style="background-color: #2e436e !important; color: white; font-weight: bold !important;"></th>
+                                                <th colspan="2" rowspan="2" style="background-color: #2e436e !important; color: white; font-weight: bold !important;">Contraseña: </th>
+                                                <th rowspan="2" style="background-color: #2e436e !important; color: white; font-weight: bold !important;">{{ info.student.password }}</th>
                                                 <td>Razón Social : {{info.acon.3 }}</td>
                                                 <td>Razón Social : {{info.bcon.3 }}</td>
                                             </tr>

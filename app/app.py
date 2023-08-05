@@ -403,7 +403,9 @@ def get_student(id):
     db.execute("""SELECT 
                     Estudiante.nombre, 
                     Estudiante.fecha_de_nacimiento, 
-                    Estudiante.beca,  
+                    Estudiante.beca,
+                    Estudiante.matricula,
+                    Estudiante.password,  
                     Grupo.nombre,
                     Grupo.id
                     FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
@@ -413,8 +415,10 @@ def get_student(id):
     name = data[0]
     age = gage(data[1])
     beca = "{} %".format(data[2])
-    group = data[3]
-    student = {"name": name, "age": age, "beca": beca, "group": group, "group_id": data[4]}
+    matricula = data[3]
+    password = data[4]
+    group = data[5]
+    student = {"name": name, "age": age, "beca": beca, "group": group, "group_id": data[6], "matricula":data[3],"password":data[4]}
     db.execute("""SELECT
                     nombre, parentesco, correo, telefono, direccion
                     FROM Contacto WHERE id_estudiante={}""".format(id))
@@ -678,6 +682,64 @@ def delete_adeudo(aid, id):
     db.execute("DELETE FROM Transaccion WHERE id = {}".format(id))
     db.connection.commit()
     return redirect(url_for('get_student', id=aid))
+
+
+
+@app.route('/alumnoV/<id>', methods=['POST', 'GET'])
+def get_studentV(id):
+    if not check_login():
+        return redirect(url_for('login'))
+    db = mysql.connection.cursor()
+    db.execute("""SELECT 
+                    Estudiante.nombre, 
+                    Estudiante.fecha_de_nacimiento, 
+                    Estudiante.beca,
+                    Estudiante.matricula,
+                    Estudiante.password,  
+                    Grupo.nombre,
+                    Grupo.id
+                    FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
+                    WHERE Estudiante.id={}
+                """.format(id))
+    data = db.fetchall()[0]
+    name = data[0]
+    age = gage(data[1])
+    beca = "{} %".format(data[2])
+    matricula = data[3]
+    password = data[4]
+    group = data[5]
+    student = {"name": name, "age": age, "beca": beca, "group": group, "group_id": data[6], "matricula":data[3],"password":data[4]}
+    db.execute("""SELECT
+                    nombre, parentesco, correo, telefono, direccion
+                    FROM Contacto WHERE id_estudiante={}""".format(id))
+    cdata = db.fetchall()
+    acon = ["", "", "", "", ""]
+    bcon = ["", "", "", "", ""]
+    for i in range(len(cdata)):
+        if i == 0:
+            acon = cdata[i]
+        if i == 1:
+            bcon = cdata[i]
+    db.execute(
+        "SELECT id, monto, metodo, concepto, fecha_limite, pagado FROM Transaccion WHERE id_estudiante={}".format(id))
+    tdata = db.fetchall()
+    trans = []
+    for item in tdata:
+        id_adeudo = item[0]
+        monto = "${:,.2f}".format(item[1])
+        metodo = item[2]
+        concepto = item[3]
+        fecha_limite = item[4]
+        pagado = item[5]
+        noticia = "PAGADO"
+        if item[5] == 0:
+            noticia = "ADEUDO"
+        trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "concepto": concepto, "limite": fecha_limite,
+                      "pagado": pagado, "noticia": noticia})
+    _info = {"student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
+    fechahoy = date.today()
+    return render_template('studentView.html', info=_info, fechahoy=fechahoy)
+
 
 
 if __name__ == "__main__":
