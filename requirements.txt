@@ -15,9 +15,10 @@ marshmallow==3.20.1
 marshmallow-sqlalchemy==0.29.0
 mysqlclient==2.1.1
 packaging==23.1
+pdfkit==1.0.0
 PyMySQL==1.1.0
+python-dotenv==1.0.0
 SQLAlchemy==2.0.19
 typing_extensions==4.7.1
 Werkzeug==2.3.2
-
-python-dotenv~=1.0.0
+wkhtmltopdf==0.2

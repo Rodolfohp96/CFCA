@@ -165,7 +165,7 @@ def setup_db():
         beca INT,
         grado INT,
         id_grupo INT NOT NULL,
-        idbarras INT,
+        matricula INT,
         FOREIGN KEY(id_grupo) REFERENCES Grupo(id)
         )""")
 
@@ -243,7 +243,7 @@ def setup_db():
             numgrado = ngrado + 1
             namgrado = ""
             if numgrado < 4:
-                namgrado = "Kinder {}".format(numgrado)
+                namgrado = "Preescolar {}".format(numgrado)
             else:
                 namgrado = "{}".format(numgrado - 3)
             nomgrupo = "{} {}".format(namgrado, mask_grupo[ngrupo])

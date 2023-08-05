@@ -1,0 +1,4 @@
+nombre,fecha_de_nacimiento,beca,grado,id_grupo,matricula,contactos,parentescos,correos,telefonos,direcciones,materias,hora_entrada,hora_salida
+Estudiante1,2005-03-10,1,6,1,12345,"Contacto1,Contacto2","Madre,Padre","contacto1@ejemplo.com,contacto2@ejemplo.com","1234567890,9876543210","Dirección1,Dirección2","Materia1,Materia2","08:00:00,09:30:00","10:00:00,11:30:00"
+Estudiante2,2004-11-25,0,7,2,56789,"Contacto3,Contacto4","Padre,Madre","contacto3@ejemplo.com,contacto4@ejemplo.com","9876543210,1234567890","Dirección3,Dirección4","Materia3,Materia4","09:00:00,10:30:00","11:00:00,12:30:00"
+Estudiante3,2006-07-05,1,5,1,98765,"Contacto5,Contacto6","Padre,Abuela","contacto5@ejemplo.com,contacto6@ejemplo.com","9876543210,1234567890","Dirección5,Dirección6","Materia1,Materia3","08:30:00,09:45:00","10:00:00,11:15:00"
