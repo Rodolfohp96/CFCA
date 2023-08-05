@@ -4,73 +4,152 @@
 		<meta charset="utf-8">
 		<title>CFCA Recibo</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename= 'css/estilos.css') }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 
 	</head>
-	<body>
+	<body onload="genPDF(
+        '{{ info.student.name }}',
+        '{{ info.student.name }}',
+        '{{ info.student.age }}',
+        '{{ info.student.group }}',
+        '{{ info.data.3 }}',
+        '{{ info.data.4 }}',
+        '{{ info.data.2 }}',
+        '{{ info.data.1 }}',
+        '{{ noticia }}',
+        '{{ url_for('static', filename= 'css/estilos.css') }}',
+        '{{ url_for('static', filename= 'images/logocfca.jpg') }}'
+    )">
+    <a href="/" style="width: 30px;"><i class="menu-icon fa fa-home" ></i></a>
+    <a href="/alumno/{{ id }}"><i class="menu-icon fa fa-user" style="width: 30px;"></i></a>
 		<header>
-			<h1>Recibo # {{ info.id }}</h1>
-			<address contenteditable>
-				<p>Colegio Felipe Carbajal Arcia</p>
-				<p>Puente de Rosas 102, Centro, <br>42800 Tula de Allende, Hgo.</p>
-				<p>+52 773 732 5312</p>
-			</address>
-			<span><img alt="" src="{{ url_for('static', filename= 'images/logocfca.jpg') }}" style="width: 50%"></span>
-		</header>
-        <address contenteditable>
-				<p>Alumno id: {{ info.aid}}</p>
-                <p>Grado: Carbajal Arcia</p>
-			</address>
-		<article>
-			<h1>Recipient</h1>
+			<h1>Recibo #{{ info.aid }}</h1>
 
-			<table class="meta">
+
+		</header>
+        <div class="row">
+            <div class="col" style="width: 50%; float: left"><span><a href="/"><img  alt="" src="{{ url_for('static', filename= 'images/logocfca.jpg') }}" style="width: 80%"></a></span></div>
+            <div class="col" style="width: 50%; float: left; padding-top: 10%; "><address contenteditable>
+				<p style="color: black; font-weight: bold; font-size: 15px; padding-bottom: 10px;">Nombre: {{ info.student.name}}</p>
+				<p style="color: black; font-weight: bold; font-size: 15px; padding-bottom: 10px;">Mátricula: {{ info.student.name}}</p>
+				<p style="color: black; font-weight: bold; font-size: 15px;padding-bottom: 10px;">Edad: {{ info.student.age}}</p>
+				<p style="color: black; font-weight: bold; font-size: 15px; padding-bottom: 10px;">Grupo: {{ info.student.group}}</p>
+			</address></div>
+
+        </div>
+		<article>
+
+			<table class="inventory">
 				<tr>
-					<th><span contenteditable>Recibo # </span></th>
-					<td><span contenteditable>{{ info.id }}</span></td>
+					<th><span contenteditable>Concepto </span></th>
+					<td><span contenteditable>{{ info.data.3 }}</span></td>
 				</tr>
 				<tr>
-					<th><span contenteditable>Fecha</span></th>
-					<td><span contenteditable>{{ info.data1.3 }}</span></td>
+					<th><span contenteditable>Fecha de pago</span></th>
+					<td><span contenteditable>{{ info.data.4 }}</span></td>
+				</tr>
+                <tr>
+					<th><span contenteditable>Método de Pago </span></th>
+					<td><span contenteditable>{{ info.data.2 }}</span></td>
 				</tr>
 				<tr>
 					<th><span contenteditable>Monto</span></th>
-					<td><span id="prefix" contenteditable>$</span><span>{{ info.data1.0 }}</span></td>
-				</tr>
-			</table>
-			<table class="inventory">
-				<thead>
-					<tr>
-						<th><span contenteditable>Concepto</span></th>
-						<th><span contenteditable>Método de pago</span></th>
-						<th><span contenteditable>Fecha de pago</span></th>
-						<th><span contenteditable>Estatus</span></th>
-						<th><span contenteditable>Total</span></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><a class="cut">-</a><span contenteditable>{{ info.data1.2 }}</span></td>
-						<td><span contenteditable>{{ info.data1.1 }}</span></td>
-						<td><span data-prefix></span><span contenteditable>{{ info.data1.3 }}</span></td>
-						<td><span data-prefix></span><span contenteditable>{{ info.data1.4 }}</span></td>
-						<td><span data-prefix>$</span><span>{{ info.data1.0 }}</span></td>
-					</tr>
-				</tbody>
-			</table>
-
-			<table class="balance">
-				<tr>
-					<th><span contenteditable>Total</span></th>
-					<td><span data-prefix>$</span><span>620.00</span></td>
+					<td><span id="prefix" contenteditable>$</span><span>{{ info.data.1 }}</span></td>
 				</tr>
 
+                <tr>
+					<th><span contenteditable>Estatus</span></th>
+					<td><span id="prefix" contenteditable></span><span>{{ noticia }}</span></td>
+				</tr>
 			</table>
+
+
 		</article>
 		<aside>
-<!-- 			<h1><span contenteditable>Additional Notes</span></h1>
-			<div contenteditable>
-				<p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p> -->
-			</div>
-		</aside>
+{#    <a onclick="genPDF(#}
+{#        '{{ info.student.name }}',#}
+{#        '{{ info.student.name }}',#}
+{#        '{{ info.student.age }}',#}
+{#        '{{ info.student.group }}',#}
+{#        '{{ info.data.3 }}',#}
+{#        '{{ info.data.4 }}',#}
+{#        '{{ info.data.2 }}',#}
+{#        '{{ info.data.1 }}',#}
+{#        '{{ noticia }}',#}
+{#        '{{ url_for('static', filename= 'css/estilos.css') }}',#}
+{#        '{{ url_for('static', filename= 'images/logocfca.jpg') }}'#}
+{#    )">Descarga pdf</a>#}
+
+</aside>
 	</body>
 </html>
+<script src="{{ url_for('static', filename='js/jspdf.min.js') }}"></script>
+<!-- Carga de la biblioteca html2pdf -->
+<script src="{{ url_for('static', filename='js/html2pdf.bundle.min.js') }}"></script>
+
+<script>
+    function genPDF(name, matricula, edad, grupo, concepto, fecha, metodo, monto, estatus, rutaCSS, rutaImagen) {
+        var doc = new jsPDF();
+    doc.addPage();
+     name = name;
+     matricula = matricula;
+     edad = edad;
+     monto = monto;
+     fecha = fecha;
+     estatus = estatus;
+
+
+
+    // Código HTML a incluir en el PDF
+    var htmlContent = `
+        <header>
+            <h1>Recibo #{{info.aid}}</h1>
+        </header>
+        <div class="row">
+            <div class="col" style="width: 50%; float: left"><span><a href="/"><img  alt="" src="${rutaImagen}" style="width: 80%"></a></span></div>
+            <div class="col" style="width: 50%; float: left; padding-top: 10%; "><address contenteditable>
+                <p style="color: black; font-weight: bold; font-size: 15px; padding-bottom: 10px;">Nombre: ${name}</p>
+                <p style="color: black; font-weight: bold; font-size: 15px; padding-bottom: 10px;">Mátricula: ${name}</p>
+                <p style="color: black; font-weight: bold; font-size: 15px;padding-bottom: 10px;">Edad: ${edad}</p>
+                <p style="color: black; font-weight: bold; font-size: 15px; padding-bottom: 10px;">Grupo: ${grupo}</p>
+            </address></div>
+        </div>
+        <article>
+            <table class="inventory">
+                <tr>
+                    <th><span contenteditable>Concepto </span></th>
+                    <td><span contenteditable>${concepto}</span></td>
+                </tr>
+                <tr>
+                    <th><span contenteditable>Fecha de pago</span></th>
+                    <td><span contenteditable>${fecha}</span></td>
+                </tr>
+                <tr>
+                    <th><span contenteditable>Método de Pago </span></th>
+                    <td><span contenteditable>${metodo}</span></td>
+                </tr>
+                <tr>
+                    <th><span contenteditable>Monto</span></th>
+                    <td><span id="prefix" contenteditable>$</span><span>${monto}</span></td>
+                </tr>
+                <tr>
+                    <th><span contenteditable>Estatus</span></th>
+                    <td><span id="prefix" contenteditable></span><span>${estatus}</span></td>
+                </tr>
+            </table>
+        </article>
+    `;
+
+    var opt = {
+            margin:       10,
+            filename:     `Recibo_${name}_${concepto}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Crear el PDF con el contenido HTML
+        html2pdf().from(htmlContent).set(opt).save();
+}
+
+</script>

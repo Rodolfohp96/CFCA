@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, session, redirect, url_for, m
 from flask_mysqldb import MySQL
 import datetime
 from datetime import date
-from app.utils import *
-from app.setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
+from utils import *
+from setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 from dotenv import load_dotenv
 import pdfkit
 import os
@@ -84,8 +84,11 @@ def get_pago():
     return render_template('generarPago.html', info=_info)
 
 
-@app.route('/nuevorecibo/<aid>/<id>', methods=['GET', 'POST'])
-def get_nuevorecibo(aid,id):
+
+
+
+@app.route('/nuevorecibol/<aid>/<id>', methods=['GET', 'POST'])
+def get_nuevorecibol(aid,id):
     if not check_login():
         return redirect(url_for('login'))
     db = mysql.connection.cursor()
@@ -223,12 +226,15 @@ def calcular_recargo(monto, fechalimite):
         return monto, 0
     elif dias_atraso <= 15:
         return monto + 100, 100
-    elif dias_atraso <= 31:
-        return monto + 200, 200
+    elif dias_atraso <= 30:
+        return monto + 50, 50
     else:
-        meses_atraso = dias_atraso // 30  # Obtener la cantidad de meses completos de atraso
-        recargo = 200 + (
-                    meses_atraso - 1) * 200  # Restar 1 para no contar el primer mes de atraso (que ya está cubierto por el recargo inicial de 200)
+        meses_atraso = (dias_atraso + 1) // 30  # Obtener la cantidad de meses completos de atraso a partir del mes cumplido
+
+        if meses_atraso >= 2:
+            recargo = 50 + (meses_atraso - 1) * 50  # Restar 1 para no contar el primer mes de atraso (que ya está cubierto por el recargo inicial de 50)
+        else:
+            recargo = 50
 
         try:
             monto_float = float(monto)
@@ -262,7 +268,8 @@ def index():
         "totganado": totganado,
         "totadeudo": totadeudos
     }
-    return render_template('index.html', info=_info)
+    fechahoy = date.today()
+    return render_template('index.html', info=_info, fechahoy = fechahoy)
 
 
 @app.route('/busqueda', methods=['POST'])

@@ -166,6 +166,7 @@ def setup_db():
         grado INT,
         id_grupo INT NOT NULL,
         matricula INT,
+        password VARCHAR(50),
         FOREIGN KEY(id_grupo) REFERENCES Grupo(id)
         )""")
 
@@ -198,6 +199,7 @@ def setup_db():
         fecha_limite DATE,
         fecha_pago DATE,
         fechaActivacion DATE,
+        activado Bool,
         pagado Bool,
         id_estudiante INT NOT NULL,
         FOREIGN KEY (id_estudiante) REFERENCES Estudiante(id) ON DELETE CASCADE
@@ -256,10 +258,12 @@ def setup_db():
                 nomestud = gname()
                 nacestud = gbdate(nacyear)
                 bestud = randint(0,4) * 10
-                db.execute("""INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo)
+                mat  = numgrado + 15
+                passw = str(numgrado) + '$$2023'
+                db.execute("""INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca,matricula, password, id_grupo)
                     VALUES
-                        (\"{}\", \"{}\", {}, {})
-                    """.format(nomestud, nacestud, bestud, idgrupo))
+                        (\"{}\", \"{}\", {},{},"\{}\", {})
+                    """.format(nomestud, nacestud, bestud,mat, passw , idgrupo))
 
                 apagado = gbool(4)
                 ametodo = gmetodo() if apagado == "TRUE" else ""
@@ -286,31 +290,32 @@ def setup_db():
 
                     # Insertar la colegiatura en la base de datos
                     db.execute("""INSERT INTO Transaccion 
-                                        (monto, metodo, concepto, fecha_limite, fecha_pago, fechaActivacion, pagado, id_estudiante)
-                                        VALUES (%(monto)s, "", %(concepto)s, %(fecha_limite)s, %(fecha_pago)s, %(fecha_activacion)s, %(pagado)s, %(id_estudiante)s)
+                                        (monto, metodo, concepto, fecha_limite, fecha_pago, fechaActivacion,activado, pagado, id_estudiante)
+                                        VALUES (%(monto)s, "", %(concepto)s, %(fecha_limite)s, %(fecha_pago)s, %(fecha_activacion)s, %(activado)s, %(pagado)s, %(id_estudiante)s)
                                     """, {
                         'monto': monto_colegiatura,
                         'concepto': "Colegiatura {}".format(mes),
                         'fecha_limite': fecha_pago,
                         'fecha_pago': fecha_pago,
                         'fecha_activacion': fecha_activacion,
+                        'activado': 0,  # Valor entero 0 para False,
                         'pagado': 0,  # Valor entero 0 para False
                         'id_estudiante': idestud,
                     })
 
 
 
-                db.execute("""INSERT INTO Transaccion 
-                                                (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
-                                                VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
-                                            """.format(amountins, ametodo, "Inscripción", gfdate(), apagado,
-                                                       idestud))
-                db.execute("""INSERT INTO Transaccion 
-                                                                (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
-                                                                VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
-                                                            """.format(amountlib, ametodo, "Libreta", gfdate(),
-                                                                       apagado,
-                                                                       idestud))
+                # db.execute("""INSERT INTO Transaccion
+                #                                 (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
+                #                                 VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
+                #                             """.format(amountins, ametodo, "Inscripción", gfdate(), apagado,
+                #                                        idestud))
+                # db.execute("""INSERT INTO Transaccion
+                #                                                 (monto, metodo, concepto, fecha_limite, pagado, id_estudiante)
+                #                                                 VALUES ({}, \"{}\", \"{}\", \"{}\", {}, {})
+                #                                             """.format(amountlib, ametodo, "Libreta", gfdate(),
+                #                                                        apagado,
+                #                                                        idestud))
                 nomacon = gname()
                 mailacon = "{}@mail.com".format(gname().split(" ")[0].lower())
                 nombcon = gname()
