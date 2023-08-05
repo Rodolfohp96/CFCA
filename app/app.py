@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, session, redirect, url_for, m
 from flask_mysqldb import MySQL
 import datetime
 from datetime import date
-from utils import *
-from setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
+from app.utils import *
+from app.setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 from dotenv import load_dotenv
 import pdfkit
 import os
