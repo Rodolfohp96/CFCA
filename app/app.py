@@ -657,7 +657,7 @@ def edit_pagon(aid, id):
                             WHERE id={}
                         """.format(monto, metodo, concepto, fecha_pago, pagado, id))
             db.connection.commit()
-            return redirect(url_for('get_nuevorecibo', aid=aid, id = id))
+            return redirect(url_for('get_nuevorecibol', aid=aid, id = id))
         except ValueError:
             msg = "Ocurrió un error al agregar la información"
 
