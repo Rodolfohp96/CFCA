@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for, make_response
 from flask_mysqldb import MySQL
 import datetime
-from datetime import date
 from app.utils import *
 from app.setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 from dotenv import load_dotenv
@@ -110,10 +109,10 @@ def get_nuevorecibol(aid,id):
                     """.format(aid))
     data1 = db.fetchall()[0]
     name = data1[0]
-    age = gage(data1[1])
+
     beca = "{} %".format(data1[2])
     group = data1[3]
-    student = {"name": name, "age": age, "beca": beca, "group": group, "group_id": data[4]}
+    student = {"name": name,  "beca": beca, "group": group, "group_id": data[4]}
 
     _info = {"msg": msg, "student": student, "id": aid, "aid": id, "data": data}
 
@@ -179,10 +178,10 @@ def get_nuevafactura(aid, id):
                     """.format(aid))
     datac = db.fetchall()[0]
     name = datac[0]
-    age = gage(datac[1])
+
     beca = "{} %".format(datac[2])
     group = datac[3]
-    studentsi = {"name": name, "age": age, "beca": beca, "group": group, "group_id": datac[4]}
+    studentsi = {"name": name, "beca": beca, "group": group, "group_id": datac[4]}
     db.execute("""SELECT id, monto, metodo, concepto, fecha_limite, pagado
                         FROM Transaccion WHERE id={}""".format(id))
     data = db.fetchone()
@@ -220,7 +219,11 @@ def calcular_recargo(monto, fechalimite):
     fecha_actual = date.today()
     fecha_limite = fechalimite
 
-    dias_atraso = (fecha_actual - fecha_limite).days
+    if fecha_limite is not None:
+        dias_atraso = (fecha_actual - fecha_limite).days
+    else:
+        # Handle the case where fecha_limite is None
+        dias_atraso = 0  # or any other appropriate default value
 
     if dias_atraso <= 10:
         return monto, 0
@@ -254,13 +257,25 @@ def index():
                     JOIN Estudiante ON Grupo.id = Estudiante.id_grupo
                         GROUP BY Grupo.id""")
     _grupos = db.fetchall()
-    db.execute("""SELECT count(id) FROM Estudiante""")
-    numestud = db.fetchall()[0][0]
+    try:
+        db.execute("""SELECT count(id) FROM Estudiante""")
+        numestud = db.fetchall()[0][0]
+    except IndexError:
+        numestud = 0
+
     numgrupo = len(_grupos)
-    db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=TRUE""")
-    totganado = "${:,.2f}".format(db.fetchall()[0][0])
-    db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=FALSE""")
-    totadeudos = "${:,.2f}".format(db.fetchall()[0][0])
+
+    try:
+        db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=TRUE""")
+        totganado = "${:,.2f}".format(db.fetchall()[0][0])
+    except (IndexError, TypeError):
+        totganado = "$0.00"
+
+    try:
+        db.execute("""SELECT sum(monto) FROM Transaccion WHERE pagado=FALSE""")
+        totadeudos = "${:,.2f}".format(db.fetchall()[0][0])
+    except (IndexError, TypeError):
+        totadeudos = "$0.00"
     _info = {
         "numestud": numestud,
         "grupos": _grupos,
@@ -269,7 +284,7 @@ def index():
         "totadeudo": totadeudos
     }
     fechahoy = date.today()
-    return render_template('index.html', info=_info, fechahoy = fechahoy)
+    return render_template('index.html', info=_info, fechahoy=fechahoy)
 
 
 @app.route('/busqueda', methods=['POST'])
@@ -373,19 +388,20 @@ def get_group(id):
                         Grupo.nombre,
                         Estudiante.id,
                         Estudiante.nombre, 
-                        T.deuda
+                        T.deuda,
+                        Estudiante.matricula
                     FROM Estudiante 
                     JOIN Grupo ON Estudiante.id_grupo=Grupo.id
                     LEFT JOIN (SELECT sum(monto) as deuda, id_estudiante
                             FROM Transaccion WHERE pagado=FALSE
                             GROUP BY id_estudiante) AS T
                     ON Estudiante.id=T.id_estudiante
-                    WHERE id_grupo = \'{}\'
+                    WHERE id_grupo = '{}'
                     """.format(id))
     data = db.fetchall()
     _students = []
     for item in data:
-        matricula = "mat{:05d}".format(item[1])
+        matricula = item[4]
         deuda = "PAGADO"
         if item[3] is not None:
             deuda = "${:,.2f}".format(item[3])
@@ -413,12 +429,11 @@ def get_student(id):
                 """.format(id))
     data = db.fetchall()[0]
     name = data[0]
-    age = gage(data[1])
     beca = "{} %".format(data[2])
     matricula = data[3]
     password = data[4]
     group = data[5]
-    student = {"name": name, "age": age, "beca": beca, "group": group, "group_id": data[6], "matricula":data[3],"password":data[4]}
+    student = {"name": name,  "beca": beca, "group": group, "group_id": data[6], "matricula":data[3],"password":data[4]}
     db.execute("""SELECT
                     nombre, parentesco, correo, telefono, direccion
                     FROM Contacto WHERE id_estudiante={}""".format(id))
@@ -440,6 +455,7 @@ def get_student(id):
         metodo = item[2]
         concepto = item[3]
         fecha_limite = item[4]
+        print(fecha_limite)
         pagado = item[5]
         noticia = "PAGADO"
         if item[5] == 0:
@@ -703,12 +719,12 @@ def get_studentV(id):
                 """.format(id))
     data = db.fetchall()[0]
     name = data[0]
-    age = gage(data[1])
+
     beca = "{} %".format(data[2])
     matricula = data[3]
     password = data[4]
     group = data[5]
-    student = {"name": name, "age": age, "beca": beca, "group": group, "group_id": data[6], "matricula":data[3],"password":data[4]}
+    student = {"name": name,  "beca": beca, "group": group, "group_id": data[6], "matricula":data[3],"password":data[4]}
     db.execute("""SELECT
                     nombre, parentesco, correo, telefono, direccion
                     FROM Contacto WHERE id_estudiante={}""".format(id))
