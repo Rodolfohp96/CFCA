@@ -6,11 +6,7 @@ from app.setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 from dotenv import load_dotenv
 import pdfkit
 import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.utils import formataddr
 import ssl
-from flask_mail import Mail
 import os
 
 load_dotenv()
