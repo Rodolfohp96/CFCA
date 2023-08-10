@@ -5,6 +5,12 @@ from app.utils import *
 from app.setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 from dotenv import load_dotenv
 import pdfkit
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.utils import formataddr
+import ssl
+from flask_mail import Mail
 import os
 
 load_dotenv()
@@ -83,11 +89,8 @@ def get_pago():
     return render_template('generarPago.html', info=_info)
 
 
-
-
-
 @app.route('/nuevorecibol/<aid>/<id>', methods=['GET', 'POST'])
-def get_nuevorecibol(aid,id):
+def get_nuevorecibol(aid, id):
     if not check_login():
         return redirect(url_for('login'))
     db = mysql.connection.cursor()
@@ -103,7 +106,8 @@ def get_nuevorecibol(aid,id):
                         Estudiante.fecha_de_nacimiento, 
                         Estudiante.beca,  
                         Grupo.nombre,
-                        Grupo.id
+                        Grupo.id,
+                        Estudiante.matricula
                         FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
                         WHERE Estudiante.id={}
                     """.format(aid))
@@ -112,13 +116,12 @@ def get_nuevorecibol(aid,id):
 
     beca = "{} %".format(data1[2])
     group = data1[3]
-    student = {"name": name,  "beca": beca, "group": group, "group_id": data[4]}
+    student = {"name": name, "beca": beca, "group": group, "group_id": data[4], "matricula": data1[5]}
 
     _info = {"msg": msg, "student": student, "id": aid, "aid": id, "data": data}
 
+    return render_template('recibo.html', info=_info, noticia=noticia, id=aid)
 
-
-    return render_template('recibo.html', info=_info, noticia=noticia, id = aid)
 
 @app.route('/generar_pdf', methods=['POST'])
 def generar_pdf():
@@ -135,6 +138,7 @@ def generar_pdf():
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'attachment; filename=recibo.pdf'
     return response
+
 
 @app.route('/alumno/<aid>/nuevafactura/<id>', methods=['GET', 'POST'])
 def get_nuevafactura(aid, id):
@@ -172,7 +176,8 @@ def get_nuevafactura(aid, id):
                         Estudiante.fecha_de_nacimiento, 
                         Estudiante.beca,  
                         Grupo.nombre,
-                        Grupo.id
+                        Grupo.id,
+                        Estudiante.matricula
                         FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
                         WHERE Estudiante.id={}
                     """.format(aid))
@@ -181,7 +186,7 @@ def get_nuevafactura(aid, id):
 
     beca = "{} %".format(datac[2])
     group = datac[3]
-    studentsi = {"name": name, "beca": beca, "group": group, "group_id": datac[4]}
+    studentsi = {"name": name, "beca": beca, "group": group, "group_id": datac[4], "matricula": datac[5]}
     db.execute("""SELECT id, monto, metodo, concepto, fecha_limite, pagado
                         FROM Transaccion WHERE id={}""".format(id))
     data = db.fetchone()
@@ -207,7 +212,7 @@ def get_nuevafactura(aid, id):
 
     # Ejemplo de uso
     transaccion_original = data[1]
-    print(data[1])
+
     total_con_recargo = calcular_recargo(transaccion_original, data[4])
     _info = {"msg": msg, "id": id, "aid": aid, "data": data, "trans": trans}
     fechahoy = date.today()
@@ -232,10 +237,12 @@ def calcular_recargo(monto, fechalimite):
     elif dias_atraso <= 30:
         return monto + 50, 50
     else:
-        meses_atraso = (dias_atraso + 1) // 30  # Obtener la cantidad de meses completos de atraso a partir del mes cumplido
+        meses_atraso = (
+                                   dias_atraso + 1) // 30  # Obtener la cantidad de meses completos de atraso a partir del mes cumplido
 
         if meses_atraso >= 2:
-            recargo = 50 + (meses_atraso - 1) * 50  # Restar 1 para no contar el primer mes de atraso (que ya está cubierto por el recargo inicial de 50)
+            recargo = 50 + (
+                        meses_atraso - 1) * 50  # Restar 1 para no contar el primer mes de atraso (que ya está cubierto por el recargo inicial de 50)
         else:
             recargo = 50
 
@@ -322,60 +329,97 @@ def search_student():
 def alumno_nuevo(gid):
     if not check_login():
         return redirect(url_for('login'))
+
     msg = ""
+
     if request.method == 'POST':
-        try:
-            NombreCompleto = request.form['NombreCompleto']
-            FechadeNacimiento = request.form['FechadeNacimiento']
-            Beca = int(request.form['Beca'])
-            GrupoId = int(request.form['GrupoId'])
-            Tutor1Nombre = request.form['Tutor1Nombre']
-            Tutor1Direccion = request.form['Tutor1Direccion']
-            Tutor1Correo = request.form['Tutor1Correo']
-            Tutor1Parentesco = request.form['Tutor1Parentesco']
-            Tutor1Telefono = request.form['Tutor1Telefono']
-            Tutor2Nombre = request.form['Tutor2Nombre']
-            Tutor2Direccion = request.form['Tutor2Direccion']
-            Tutor2Correo = request.form['Tutor2Correo']
-            Tutor2Parentesco = request.form['Tutor2Parentesco']
-            Tutor2Telefono = request.form['Tutor2Telefono']
-            MontoColegiatura = float(request.form['MontoColegiatura'])
-            ModalidadColegiatura = int(request.form['ModalidadColegiatura'])
-            inputs = [NombreCompleto, FechadeNacimiento, Beca, GrupoId, Tutor1Nombre, Tutor1Direccion, Tutor1Correo,
-                      Tutor1Parentesco, Tutor1Telefono, Tutor2Nombre, Tutor2Direccion, Tutor2Correo, Tutor2Parentesco,
-                      Tutor2Telefono, MontoColegiatura, ModalidadColegiatura]
-            if fempties(inputs):
-                raise ValueError("Error solidarity")
-            cur = mysql.connection.cursor()
-            cur.execute(
-                'INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, id_grupo) VALUES (\'{}\',\'{}\',{},{})'.format(
-                    NombreCompleto, FechadeNacimiento, Beca, GrupoId))
-            n = cur.lastrowid
-            cur.execute(
-                'INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',\"{}\",\'{}\',{})'.format(
-                    Tutor1Nombre, Tutor1Parentesco, Tutor1Correo, Tutor1Telefono, Tutor1Direccion, n))
-            cur.execute(
-                'INSERT INTO Contacto (nombre, parentesco, correo, telefono, direccion, id_estudiante) VALUES (\'{}\',\'{}\',\'{}\',\"{}\",\'{}\',{})'.format(
-                    Tutor2Nombre, Tutor2Parentesco, Tutor2Correo, Tutor2Telefono, Tutor2Direccion, n))
-            desc = 1 - Beca / 100
-            if ModalidadColegiatura == 10:
-                AdeudoTotal = MontoColegiatura * 10 * desc
-                cur.execute(
-                    'INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(
-                        AdeudoTotal, "", "Colegiatura completa", "2020-12-12", "FALSE", n))
-            elif ModalidadColegiatura == 11:
-                AdeudoTotal = MontoColegiatura * desc
-                for nummes in range(1, 12):
-                    concepto = "Mensualidad {}".format(nummes)
-                    cur.execute(
-                        'INSERT INTO Transaccion (monto, metodo, concepto, fecha_limite, pagado, id_estudiante) VALUES ({},\'{}\', \'{}\', \'{}\', {}, {})'.format(
-                            AdeudoTotal, "", concepto, "2020-12-12", "FALSE", n))
-            cur.connection.commit()
-            return redirect(url_for('get_group', id=GrupoId))
-        except ValueError:
-            msg = "Ocurrió un error al agregar la información"
+        # Extraer los datos del formulario
+        nombre = request.form['NombreCompleto']
+        fecha_nacimiento = request.form['FechadeNacimiento']
+        beca = request.form['Beca']
+        matricula = request.form['Matricula']
+        grupo_id = request.form['GrupoId']
+
+        tutor1nombre = request.form['Tutor1Nombre']
+        tutor1Correo = request.form['Tutor1Correo']
+        tutor1Parentesco = request.form['Tutor1Parentesco']
+        tutor1Direccion = request.form['Tutor1Direccion']
+        tutor1Telefono = request.form['Tutor1Telefono']
+        tutor1Regimen = request.form['Tutor1Regimen']
+        tutor1RS = request.form['Tutor1RS']
+        tutor1CFDI = request.form['Tutor1CFDI']
+        tutor1RFC = request.form['Tutor1RFC']
+        tutor1CP = request.form['Tutor1CP']
+        tutor1dirfact = request.form['Tutor1dirfact']
+        tutor2Nombre = request.form['Tutor2Nombre']
+        tutor2Correo = request.form['Tutor2Correo']
+        tutor2Parentesco = request.form['Tutor2Parentesco']
+        tutor2Direccion = request.form['Tutor2Direccion']
+        tutor2Telefono = request.form['Tutor2Telefono']
+        tutor2Regimen = request.form['Tutor2Regimen']
+        tutor2RS = request.form['Tutor2RS']
+        tutor2CFDI = request.form['Tutor2CFDI']
+        tutor2RFC = request.form['Tutor2RFC']
+        tutor2CP = request.form['Tutor2CP']
+        tutor2dirfact = request.form['Tutor2dirfact']
+
+        # Realizar las inserciones en la base de datos según tus modelos
+        db = mysql.connection.cursor()
+
+        insert_estudiante = """
+            INSERT INTO Estudiante (nombre, fecha_de_nacimiento, beca, matricula, grado, id_grupo)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            """
+        estudiante_data = (nombre, fecha_nacimiento, beca, matricula, grupo_id, grupo_id)
+        db.execute(insert_estudiante, estudiante_data)
+        n = db.lastrowid
+
+        insert_contacto1 = """
+        INSERT INTO Contacto(nombre, parentesco,correo,telefono,direccion,razonSocial,regimenFiscal,cfdi,rfc,cp,direccionFact,id_estudiante)
+        VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s)"""
+        contacto1_data = (
+        tutor1nombre, tutor1Parentesco, tutor1Correo, tutor1Telefono, tutor1Direccion, tutor1RS, tutor1Regimen,
+        tutor1CFDI, tutor1RFC, tutor1CP, tutor1dirfact, n)
+        db.execute(insert_contacto1, contacto1_data)
+        # Realizar inserciones en tablas relacionadas como Contacto, Estudiante_Contacto, etc.
+        # ...
+        insert_contacto2 = """
+                INSERT INTO Contacto(nombre, parentesco,correo,telefono,direccion,razonSocial,regimenFiscal,cfdi,rfc,cp,direccionFact,id_estudiante)
+                VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s)"""
+        contacto2_data = (
+            tutor2Nombre, tutor2Parentesco, tutor2Correo, tutor2Telefono, tutor2Direccion, tutor2RS, tutor2Regimen,
+            tutor2CFDI, tutor2RFC, tutor2CP, tutor2dirfact, n)
+        db.execute(insert_contacto2, contacto2_data)
+
+        monto_colegiatura = 2750 if int(gid) < 6 else 2800
+
+        # Definir las fechas y montos de las transacciones
+        transacciones = [
+            ("Colegiatura Septiembre", "2023-09-6", "2023-09-01", monto_colegiatura),
+            ("Colegiatura Octubre", "2023-10-10", "2023-10-01", monto_colegiatura),
+            ("Colegiatura Noviembre", "2023-11-10", "2023-11-01", monto_colegiatura),
+            ("Colegiatura Diciembre y Agosto", "2023-12-10", "2023-12-01", monto_colegiatura * 2),
+            ("Colegiatura Enero", "2024-01-10", "2024-01-01", monto_colegiatura),
+            ("Colegiatura Febrero", "2024-02-10", "2024-02-01", monto_colegiatura),
+            ("Colegiatura Marzo", "2024-03-10", "2024-03-01", monto_colegiatura),
+            ("Colegiatura Abril", "2024-04-10", "2024-04-01", monto_colegiatura),
+            ("Colegiatura Mayo", "2024-05-10", "2024-05-01", monto_colegiatura),
+            ("Colegiatura Junio y Julio", "2024-06-10", "2024-06-01", monto_colegiatura * 2)
+        ]
+
+        # Insertar las transacciones en la tabla Transaccion
+        for nombre, fecha_pago, fecha_activacion, monto in transacciones:
+            fecha_limite = datetime.strptime(fecha_pago, "%Y-%m-%d").date()
+            fecha_activacion = datetime.strptime(fecha_activacion, "%Y-%m-%d").date()
+            db.execute(
+                "INSERT INTO Transaccion (monto, concepto, fecha_limite, fechaActivacion, activado, pagado, id_estudiante) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                (monto, nombre, fecha_limite, fecha_activacion, False, False, n))
+
+        db.connection.commit()
+        db.close()
+        return redirect(url_for('get_group', id=gid))
+
     _info = {"student": {"group": int(gid)}, "msg": msg}
-    print(_info)
     return render_template('AlumnoNuevo.html', info=_info)
 
 
@@ -407,8 +451,19 @@ def get_group(id):
             deuda = "${:,.2f}".format(item[3])
         _students.append([item[1], matricula, item[2], deuda])
     nstud = len(_students)
+    try:
+        db.execute("""
+            SELECT sum(t.monto)
+            FROM Transaccion t
+            JOIN Estudiante e ON t.id_estudiante = e.id
+            WHERE t.pagado = TRUE AND e.id_grupo = %s
+        """, (id,))
+
+        totganado = "${:,.2f}".format(db.fetchall()[0][0])
+    except (IndexError, TypeError):
+        totganado = "$0.00"
     _info = {"group_id": id, "group": data[0][0], "students": _students, "num": nstud}
-    return render_template('group.html', info=_info)
+    return render_template('group.html', info=_info, totganado=totganado)
 
 
 @app.route('/alumno/<id>', methods=['POST', 'GET'])
@@ -433,7 +488,8 @@ def get_student(id):
     matricula = data[3]
     password = data[4]
     group = data[5]
-    student = {"name": name,  "beca": beca, "group": group, "group_id": data[6], "matricula":data[3],"password":data[4]}
+    student = {"name": name, "beca": beca, "group": group, "group_id": data[6], "matricula": data[3],
+               "password": data[4]}
     db.execute("""SELECT
                     nombre, parentesco, correo, telefono, direccion
                     FROM Contacto WHERE id_estudiante={}""".format(id))
@@ -455,7 +511,7 @@ def get_student(id):
         metodo = item[2]
         concepto = item[3]
         fecha_limite = item[4]
-        print(fecha_limite)
+
         pagado = item[5]
         noticia = "PAGADO"
         if item[5] == 0:
@@ -471,63 +527,84 @@ def edit_student(id):
     if not check_login():
         return redirect(url_for('login'))
     msg = ""
+
     if request.method == 'POST':
-        try:
-            nombre = request.form['nombre']
-            id_grupo = int(request.form['idgrupo'])
-            nac = request.form['nacimiento']
-            if not nac:
-                raise ValueError("Error solidarity")
-            beca = int(request.form['beca'])
-            acnom = request.form['acnom']
-            acid = int(request.form['acid'])
-            acmail = request.form['acmail']
-            acparen = request.form['acparen']
-            actel = request.form['actel']
-            acdir = request.form['acdir']
-            bcnom = request.form['bcnom']
-            bcid = int(request.form['bcid'])
-            bcmail = request.form['bcmail']
-            bcparen = request.form['bcparen']
-            bctel = request.form['bctel']
-            bcdir = request.form['bcdir']
-            inputs = [nombre, id_grupo, nac, beca, acnom, acid, acmail, acparen, actel, acdir, bcnom, bcid, bcmail,
-                      bcparen, bctel, bcdir]
-            if fempties(inputs):
-                raise ValueError("Error solidarity")
-            db = mysql.connection.cursor()
-            db.execute("""UPDATE Estudiante
-                        SET nombre=\"{}\",
-                        fecha_de_nacimiento=\"{}\",
-                        beca={},
-                        id_grupo={} WHERE id={}
-                    """.format(nombre, nac, beca, id_grupo, id))
-            db.execute("""UPDATE Contacto
-                        SET nombre=\"{}\",
-                        parentesco=\"{}\",
-                        correo=\"{}\",
-                        telefono=\"{}\",  
-                        direccion=\"{}\"
-                        WHERE id={}
-                    """.format(acnom, acparen, acmail, actel, acdir, acid))
-            db.execute("""UPDATE Contacto
-                        SET nombre=\"{}\",
-                        parentesco=\"{}\",
-                        correo=\"{}\",
-                        telefono=\"{}\",  
-                        direccion=\"{}\"
-                        WHERE id={}
-                    """.format(bcnom, bcparen, bcmail, bctel, bcdir, bcid))
-            db.connection.commit()
-            return redirect(url_for('get_student', id=id))
-        except ValueError:
-            msg = "Ocurrió un error al insertar la información"
+        # Extraer los datos del formulario
+        nombre = request.form['nombre']
+        fecha_nacimiento = request.form['nacimiento']
+        beca = request.form['beca']
+        matricula = request.form['matricula']
+        grupo_id = request.form['idgrupo']
+        acid = request.form['acid']
+        tutor1nombre = request.form['acnom']
+
+        tutor1Correo = request.form['acmail']
+        tutor1Parentesco = request.form['acparen']
+        tutor1Direccion = request.form['acdir']
+        tutor1Telefono = request.form['actel']
+        tutor1Regimen = request.form['acrf']
+        tutor1RS = request.form['acrs']
+        tutor1CFDI = request.form['accfdi']
+        tutor1RFC = request.form['acrfc']
+        tutor1CP = request.form['accp']
+        tutor1dirfact = request.form['acdf']
+        bcid = request.form['bcid']
+        tutor2Nombre = request.form['bcnom']
+
+        tutor2Correo = request.form['bcmail']
+        tutor2Parentesco = request.form['bcparen']
+        tutor2Direccion = request.form['bcdir']
+        tutor2Telefono = request.form['bctel']
+        tutor2Regimen = request.form['bcrf']
+        tutor2RS = request.form['bcrs']
+        tutor2CFDI = request.form['bccfdi']
+        tutor2RFC = request.form['bcrfc']
+        tutor2CP = request.form['bccp']
+        tutor2dirfact = request.form['bcdf']
+
+        # Realizar las inserciones en la base de datos según tus modelos
+        db = mysql.connection.cursor()
+
+        insert_estudiante = """
+                UPDATE Estudiante
+                SET nombre = %s, fecha_de_nacimiento = %s, beca = %s, matricula = %s, id_grupo = %s
+                WHERE id = %s
+                """
+        estudiante_data = (nombre, fecha_nacimiento, beca, matricula, grupo_id, grupo_id)
+        db.execute(insert_estudiante, estudiante_data)
+        n = id
+
+        insert_contacto1 = """
+                UPDATE Contacto
+                SET nombre = %s, parentesco = %s, correo = %s, telefono = %s, direccion = %s, razonSocial = %s,
+                    regimenFiscal = %s, cfdi = %s, rfc = %s, cp = %s, direccionFact = %s
+                WHERE id = %s
+                """
+        contacto1_data = (
+            tutor1nombre, tutor1Parentesco, tutor1Correo, tutor1Telefono, tutor1Direccion, tutor1RS, tutor1Regimen,
+            tutor1CFDI, tutor1RFC, tutor1CP, tutor1dirfact, acid)
+        db.execute(insert_contacto1, contacto1_data)
+        # Realizar inserciones en tablas relacionadas como Contacto, Estudiante_Contacto, etc.
+        # ...
+        insert_contacto2 = """
+                UPDATE Contacto
+                SET nombre = %s, parentesco = %s, correo = %s, telefono = %s, direccion = %s, razonSocial = %s,
+                    regimenFiscal = %s, cfdi = %s, rfc = %s, cp = %s, direccionFact = %s
+                WHERE id = %s
+                """
+        contacto2_data = (
+            tutor2Nombre, tutor2Parentesco, tutor2Correo, tutor2Telefono, tutor2Direccion, tutor2RS, tutor2Regimen,
+            tutor2CFDI, tutor2RFC, tutor2CP, tutor2dirfact, bcid)
+        db.execute(insert_contacto2, contacto2_data)
+
+        return redirect(url_for('get_student', id=id))
     db = mysql.connection.cursor()
     db.execute("""SELECT 
                     Estudiante.nombre, 
                     Estudiante.fecha_de_nacimiento, 
                     Estudiante.beca,  
-                    Grupo.id
+                    Grupo.id,
+                    Estudiante.matricula
                     FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
                     WHERE Estudiante.id={}
                 """.format(id))
@@ -536,13 +613,14 @@ def edit_student(id):
     nac = data[1]
     beca = data[2]
     group = data[3]
-    student = {"name": name, "nac": nac, "beca": beca, "group": group}
+    mat = data[4]
+    student = {"name": name, "nac": nac, "beca": beca, "group": group, "mat": mat}
     db.execute("""SELECT
-                    nombre, parentesco, correo, telefono, direccion, id
+                    nombre, parentesco, correo, telefono, direccion,razonSocial,regimenFiscal,cfdi,rfc,cp,direccionFact, id
                     FROM Contacto WHERE id_estudiante={}""".format(id))
     cdata = db.fetchall()
-    acon = ["", "", "", "", "", ""]
-    bcon = ["", "", "", "", "", ""]
+    acon = ["", "", "", "", "", "", "", "", "", "", "", ""]
+    bcon = ["", "", "", "", "", "", "", "", "", "", "", ""]
     for i in range(len(cdata)):
         if i == 0:
             acon = cdata[i]
@@ -632,7 +710,6 @@ def edit_pago(aid, id):
     return render_template('edit_adeudo.html', info=_info)
 
 
-
 @app.route('/alumno/<aid>/pagar/<id>', methods=['POST', 'GET'])
 def edit_pagon(aid, id):
     if not check_login():
@@ -673,7 +750,7 @@ def edit_pagon(aid, id):
                             WHERE id={}
                         """.format(monto, metodo, concepto, fecha_pago, pagado, id))
             db.connection.commit()
-            return redirect(url_for('get_nuevorecibol', aid=aid, id = id))
+            return redirect(url_for('get_nuevorecibol', aid=aid, id=id))
         except ValueError:
             msg = "Ocurrió un error al agregar la información"
 
@@ -687,9 +764,6 @@ def edit_pagon(aid, id):
     return render_template('recibo1.html', info=_info)
 
 
-
-
-
 @app.route('/alumno/<aid>/eliminar_adeudo/<id>', methods=['GET', 'POST'])
 def delete_adeudo(aid, id):
     if not check_login():
@@ -698,7 +772,6 @@ def delete_adeudo(aid, id):
     db.execute("DELETE FROM Transaccion WHERE id = {}".format(id))
     db.connection.commit()
     return redirect(url_for('get_student', id=aid))
-
 
 
 @app.route('/alumnoV/<id>', methods=['POST', 'GET'])
@@ -724,7 +797,8 @@ def get_studentV(id):
     matricula = data[3]
     password = data[4]
     group = data[5]
-    student = {"name": name,  "beca": beca, "group": group, "group_id": data[6], "matricula":data[3],"password":data[4]}
+    student = {"name": name, "beca": beca, "group": group, "group_id": data[6], "matricula": data[3],
+               "password": data[4]}
     db.execute("""SELECT
                     nombre, parentesco, correo, telefono, direccion
                     FROM Contacto WHERE id_estudiante={}""".format(id))
@@ -756,6 +830,110 @@ def get_studentV(id):
     fechahoy = date.today()
     return render_template('studentView.html', info=_info, fechahoy=fechahoy)
 
+
+from flask import render_template
+
+
+@app.route('/enviarcorreo/<aid>/<id>', methods=['GET', 'POST'])
+def enviar_correo(aid, id):
+    if not check_login():
+        return redirect(url_for('login'))
+
+    db = mysql.connection.cursor()
+    msg = ""
+
+    # Fetch transaction data
+    db.execute("SELECT id, monto, metodo, concepto, fecha_pago, pagado FROM Transaccion WHERE id = %s", (id,))
+    data = db.fetchone()
+    noticia = "PAGADO" if data[5] == 0 else "ADEUDO"
+
+    # Fetch student data
+    db.execute(
+        "SELECT Estudiante.nombre, Estudiante.fecha_de_nacimiento, Estudiante.beca, Grupo.nombre, Grupo.id, Estudiante.matricula FROM Estudiante JOIN Grupo ON Estudiante.id_grupo = Grupo.id WHERE Estudiante.id = %s",
+        (aid,))
+    data1 = db.fetchone()
+
+    # Fetch contact data
+    db.execute("SELECT nombre, parentesco, correo, telefono, direccion FROM Contacto WHERE id_estudiante = %s", (aid,))
+    cdata = db.fetchall()
+
+    acon = ["", "", "", "", ""]
+    bcon = ["", "", "", "", ""]
+    for i in range(len(cdata)):
+        if i == 0:
+            acon = cdata[i]
+        if i == 1:
+            bcon = cdata[i]
+
+    # String for the first contact
+    spc = f"Estimada {acon[0]}, muchas gracias por realizar el pago de la {data[3]} del alumno {data1[0]} con matricula {data1[5]} el día de {data[4]}. Adjuntamos su recibo de pago por este medio."
+    string_primer_contacto = spc
+    # String for the second contact
+    ssc = f"Estimado {bcon[0]}, muchas gracias por realizar el pago de la {data[3]} del alumno {data1[0]} con matricula {data1[5]} el día de {data[4]}. Adjuntamos su recibo de pago por este medio."
+    string_segundo_contacto = ssc
+
+    pagotxt = data[3]
+
+    send_email(pagotxt, string_primer_contacto, acon[2])
+    send_email(pagotxt, string_segundo_contacto, bcon[2])
+
+    return string_primer_contacto, string_segundo_contacto
+
+
+def send_email(subject, message, to_email):
+    # Replace with your Gmail username and app-specific password
+    gmail_username = 'felipecarbajalarcia@gmail.com'
+    app_password = 'wqovjkhmaxycrrjx'
+
+    try:
+        # Crear el mensaje de correo electrónico formateado
+        fmt = 'From: {}\r\nTo: {}\r\nSubject: {}\r\n\r\n{}'
+        email_message = fmt.format(gmail_username, to_email, subject, message)
+
+        # Conectar al servidor SMTP de Gmail
+        context = ssl.create_default_context()
+        with smtplib.SMTP('smtp.googlemail.com', 587) as server:
+            server.starttls(context=context)
+            server.login(gmail_username, app_password)
+            server.sendmail(gmail_username, to_email, email_message.encode('utf-8'))
+
+        return "Correos electrónicos enviados con éxito"
+
+    except Exception as e:
+        return "Error: " + str(e)
+
+
+def insertColegiaturas(estudiante_id):
+    db = mysql.connection.cursor()
+
+    # Obtener el grupo del estudiante
+    db.execute("SELECT id_grupo FROM Estudiante WHERE id = %s", (estudiante_id,))
+    id_grupo = db.fetchone()[0]
+    monto_colegiatura = 2750 if id_grupo < 6 else 2800
+
+    # Definir las fechas y montos de las transacciones
+    transacciones = [
+        ("Colegiatura Septiembre", "2023-09-10", "2023-09-01", monto_colegiatura),
+        ("Colegiatura Octubre", "2023-10-10", "2023-10-01", monto_colegiatura),
+        ("Colegiatura Noviembre", "2023-11-10", "2023-11-01", monto_colegiatura),
+        ("Colegiatura Diciembre y Agosto", "2023-12-10", "2023-12-01", monto_colegiatura * 2),
+        ("Colegiatura Enero", "2024-01-10", "2024-01-01", monto_colegiatura),
+        ("Colegiatura Febrero", "2024-02-10", "2024-02-01", monto_colegiatura),
+        ("Colegiatura Marzo", "2024-03-10", "2024-03-01", monto_colegiatura),
+        ("Colegiatura Abril", "2024-04-10", "2024-04-01", monto_colegiatura),
+        ("Colegiatura Mayo", "2024-05-10", "2024-05-01", monto_colegiatura),
+        ("Colegiatura Junio y Julio", "2024-06-10", "2024-06-01", monto_colegiatura * 2)
+    ]
+
+    # Insertar las transacciones en la tabla Transaccion
+    for nombre, fecha_pago, fecha_activacion, monto in transacciones:
+        fecha_limite = datetime.strptime(fecha_pago, "%Y-%m-%d").date()
+        fecha_activacion = datetime.strptime(fecha_activacion, "%Y-%m-%d").date()
+        db.execute(
+            "INSERT INTO Transaccion (monto, concepto, fecha_limite, fechaActivacion, activado, pagado, id_estudiante) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            (monto, nombre, fecha_limite, fecha_activacion, False, False, estudiante_id))
+
+    db.connection.commit()
 
 
 if __name__ == "__main__":

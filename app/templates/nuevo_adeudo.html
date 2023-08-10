@@ -3,32 +3,33 @@
 <p>{{info.msg}}</p>
 <form action="/alumno/{{info.aid}}/nuevo_adeudo" method="POST">
     <table>
-   <tr>
-       <td>Monto</td>
-       <td><input type="text" name="monto" placeholer="Monto"></td>
-   </tr>
-   <tr>
-       <td>Forma de Pago</td>
-       <td><input type="text" name="metodo" placeholer="Forma de Pagoo"></td>
-   </tr>
-   <tr>
-       <td>Concepto</td>
-       <td><input type="text" name="concepto" placeholer="Concepto"></td>
-   </tr>
-   <tr>
-       <td>Fecha Límite</td>
-       <td><input type="date" name="fechalimite"></td>
-   </tr>
-   <tr>
-       <td>PAGADO</td>
-       <td>
-            <select id="pagadoselect" name="pagado">
-                 <option value="0">Sin pagar</option>
-                 <option value="1">Pagado</option>
-            </select></td>
-   </tr>
-</table>
+        <tr>
+            <td>Monto</td>
+            <td><input type="text" name="monto" placeholer="Monto"></td>
+        </tr>
+        <tr>
+            <td>Forma de Pago</td>
+            <td><input type="text" name="metodo" placeholer="Forma de Pagoo"></td>
+        </tr>
+        <tr>
+            <td>Concepto</td>
+            <td><input type="text" name="concepto" placeholer="Concepto"></td>
+        </tr>
+        <tr>
+            <td>Fecha Límite</td>
+            <td><input type="date" name="fechalimite"></td>
+        </tr>
+        <tr>
+            <td>PAGADO</td>
+            <td>
+                <select id="pagadoselect" name="pagado">
+                    <option value="0">Sin pagar</option>
+                    <option value="1">Pagado</option>
+                </select>
+            </td>
+        </tr>
+    </table>
 
-<button type="submit" id="botonagregar">Agregar</button>
- </form>
+    <button type="submit" id="botonagregar">Agregar</button>
+</form>
 {% endblock %}

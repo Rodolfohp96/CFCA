@@ -300,14 +300,14 @@ def setup_db():
 
         # Definir las fechas y montos de las transacciones
         transacciones = [
-            ("Colegiatura Septiembre", "2023-09-10", "2023-09-01", monto_colegiatura),
+            ("Colegiatura Septiembre", "2023-09-06", "2023-08-28", monto_colegiatura),
             ("Colegiatura Octubre", "2023-10-10", "2023-10-01", monto_colegiatura),
             ("Colegiatura Noviembre", "2023-11-10", "2023-11-01", monto_colegiatura),
             ("Colegiatura Diciembre y Agosto", "2023-12-10", "2023-12-01", monto_colegiatura * 2),
             ("Colegiatura Enero", "2024-01-10", "2024-01-01", monto_colegiatura),
             ("Colegiatura Febrero", "2024-02-10", "2024-02-01", monto_colegiatura),
             ("Colegiatura Marzo", "2024-03-10", "2024-03-01", monto_colegiatura),
-            ("Colegiatura Abril", "2024-04-10", "2024-04-01", monto_colegiatura),
+            ("Colegiatura Abril", "2024-04-12", "2024-04-01", monto_colegiatura),
             ("Colegiatura Mayo", "2024-05-10", "2024-05-01", monto_colegiatura),
             ("Colegiatura Junio y Julio", "2024-06-10", "2024-06-01", monto_colegiatura * 2)
         ]
