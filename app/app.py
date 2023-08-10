@@ -873,7 +873,7 @@ def enviar_correo(aid, id):
     send_email(pagotxt, string_primer_contacto, acon[2])
     # send_email(pagotxt, string_segundo_contacto, bcon[2])
 
-    return string_primer_contacto, string_segundo_contacto
+    return redirect(url_for('get_student', id=aid))
 
 
 def send_email(subject, message, to_email):
