@@ -875,7 +875,7 @@ def enviar_correo(aid, id):
     pagotxt = data[3]
 
     send_email(pagotxt, string_primer_contacto, acon[2])
-    send_email(pagotxt, string_segundo_contacto, bcon[2])
+    # send_email(pagotxt, string_segundo_contacto, bcon[2])
 
     return string_primer_contacto, string_segundo_contacto
 
@@ -885,22 +885,16 @@ def send_email(subject, message, to_email):
     gmail_username = 'felipecarbajalarcia@gmail.com'
     app_password = 'wqovjkhmaxycrrjx'
 
-    try:
-        # Crear el mensaje de correo electrónico formateado
-        fmt = 'From: {}\r\nTo: {}\r\nSubject: {}\r\n\r\n{}'
-        email_message = fmt.format(gmail_username, to_email, subject, message)
+    # Create the formatted email message
+    fmt = 'From: {}\r\nTo: {}\r\nSubject: {}\r\n\r\n{}'
+    email_message = fmt.format(gmail_username, to_email, subject, message)
 
-        # Conectar al servidor SMTP de Gmail
-        context = ssl.create_default_context()
-        with smtplib.SMTP('smtp.googlemail.com', 587) as server:
-            server.starttls(context=context)
-            server.login(gmail_username, app_password)
-            server.sendmail(gmail_username, to_email, email_message.encode('utf-8'))
-
-        return "Correos electrónicos enviados con éxito"
-
-    except Exception as e:
-        return "Error: " + str(e)
+    # Connect to Gmail's SMTP server
+    context = ssl.create_default_context()
+    with smtplib.SMTP('smtp.googlemail.com', 587) as server:
+        server.starttls(context=context)
+        server.login(gmail_username, app_password)
+        server.sendmail(gmail_username, to_email, email_message.encode('utf-8'))
 
 
 def insertColegiaturas(estudiante_id):
