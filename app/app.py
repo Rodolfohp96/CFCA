@@ -8,6 +8,8 @@ import pdfkit
 import smtplib
 import ssl
 import os
+from io import BytesIO
+import pandas as pd
 
 load_dotenv()
 
@@ -287,8 +289,239 @@ def index():
         "totadeudo": totadeudos
     }
     fechahoy = date.today()
-    return render_template('index.html', info=_info, fechahoy=fechahoy)
+    db = mysql.connection.cursor()
+    db.execute("""SELECT
+            E.id AS estudiante_id,
+            E.nombre AS estudiante_nombre,
+            T.monto,
+            T.metodo,
+            T.concepto,
+            T.fecha_pago
+        FROM
+            Estudiante AS E
+        JOIN
+            Transaccion AS T ON E.id = T.id_estudiante
+        WHERE
+            T.pagado = TRUE""")
+    data = db.fetchall()
+    _students = []
+    for item in data:
+        _students.append([item[0], item[1], item[2], item[3], item[4], item[5]])
 
+    db.execute("""
+            SELECT
+                E.id AS estudiante_id,
+                E.nombre AS estudiante_nombre,
+                T.monto,
+                T.metodo,
+                T.concepto,
+                T.fecha_pago
+            FROM
+                Estudiante AS E
+            JOIN
+                Transaccion AS T ON E.id = T.id_estudiante
+            WHERE
+                T.pagado = TRUE
+                AND T.fecha_pago >= CURDATE() - INTERVAL 15 DAY
+                """)
+    data1 = db.fetchall()
+    _studentsquincena = []
+    for item in data1:
+        _studentsquincena.append([item[0], item[1], item[2], item[3], item[4], item[5]])
+
+    db.execute("""
+            SELECT
+            E.id AS estudiante_id,
+            E.nombre AS estudiante_nombre,
+            T.monto,
+            T.metodo,
+            T.concepto,
+            T.fecha_pago
+        FROM
+            Estudiante AS E
+        JOIN
+            Transaccion AS T ON E.id = T.id_estudiante
+        WHERE
+            T.pagado = TRUE
+            AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+            """)
+    data2 = db.fetchall()
+    _studentsmensual = []
+    for item in data2:
+        _studentsmensual.append([item[0], item[1], item[2], item[3], item[4], item[5]])
+
+    db.execute("""SELECT
+            E.id AS estudiante_id,
+            E.nombre AS estudiante_nombre,
+            T.monto,
+            T.metodo,
+            T.concepto,
+            T.fecha_pago
+        FROM
+            Estudiante AS E
+        JOIN
+            Transaccion AS T ON E.id = T.id_estudiante
+        WHERE
+            T.pagado = TRUE
+            AND DATE(T.fecha_pago) = CURDATE()- INTERVAL 1 DAY""")
+    data3 = db.fetchall()
+    _studentsdia = []
+    for item in data3:
+        _studentsdia.append([item[0], item[1], item[2], item[3], item[4], item[5]])
+
+
+
+
+    return render_template('index.html', info=_info, fechahoy=fechahoy, diario=_studentsdia, quincena=_studentsquincena, mes=_studentsmensual )
+
+@app.route('/export_excelQuincenal')
+def export_excelQuincenal():
+    cur = mysql.connection.cursor()
+    cur.execute("""SELECT
+                E.id AS estudiante_id,
+                E.nombre AS estudiante_nombre,
+                T.monto,
+                T.metodo,
+                T.concepto,
+                T.fecha_pago
+            FROM
+                Estudiante AS E
+            JOIN
+                Transaccion AS T ON E.id = T.id_estudiante
+            WHERE
+                T.pagado = TRUE
+                AND DATE(T.fecha_pago) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)""")
+    data3 = cur.fetchall()
+
+    # Crea un DataFrame de pandas con los datos
+    df = pd.DataFrame(data3)
+
+    # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+
+    # Escribe el DataFrame en una hoja de cálculo Excel
+    df.to_excel(writer, sheet_name='ExcelQuincenal', index=False)
+
+    # Ajusta el ancho de las columnas
+    workbook = writer.book
+    worksheet = writer.sheets['ExcelQuincenal']
+    for i, col in enumerate(df.columns):
+        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))  # Cambio en esta línea
+        worksheet.set_column(i, i, column_width)
+
+    # Cierra el objeto writer para guardar el archivo correctamente
+    writer.close()
+
+    # Guarda el contenido del archivo de Excel en una variable
+    excel_data = output.getvalue()
+
+    # Crea una respuesta HTTP con el archivo de Excel adjunto
+    response = make_response(excel_data)
+    response.headers['Content-Disposition'] = 'attachment; filename=ExcelQuincenal.xlsx'
+    response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    return response
+
+@app.route('/export_excelMensual')
+def export_excelMensual():
+    cur = mysql.connection.cursor()
+    cur.execute("""
+                SELECT
+                E.id AS estudiante_id,
+                E.nombre AS estudiante_nombre,
+                T.monto,
+                T.metodo,
+                T.concepto,
+                T.fecha_pago
+            FROM
+                Estudiante AS E
+            JOIN
+                Transaccion AS T ON E.id = T.id_estudiante
+            WHERE
+                T.pagado = TRUE
+                AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                """)
+    data3 = cur.fetchall()
+
+    # Crea un DataFrame de pandas con los datos
+    df = pd.DataFrame(data3)
+
+    # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+
+    # Escribe el DataFrame en una hoja de cálculo Excel
+    df.to_excel(writer, sheet_name='ExcelMensual', index=False)
+
+    # Ajusta el ancho de las columnas
+    workbook = writer.book
+    worksheet = writer.sheets['ExcelMensual']
+    for i, col in enumerate(df.columns):
+        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))  # Cambio en esta línea
+        worksheet.set_column(i, i, column_width)
+
+    # Cierra el objeto writer para guardar el archivo correctamente
+    writer.close()
+
+    # Guarda el contenido del archivo de Excel en una variable
+    excel_data = output.getvalue()
+
+    # Crea una respuesta HTTP con el archivo de Excel adjunto
+    response = make_response(excel_data)
+    response.headers['Content-Disposition'] = 'attachment; filename=ExcelMensual.xlsx'
+    response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    return response
+
+@app.route('/export_excelDiario')
+def export_excelDiario():
+    cur = mysql.connection.cursor()
+    cur.execute("""SELECT
+                E.id AS estudiante_id,
+                E.nombre AS estudiante_nombre,
+                T.monto,
+                T.metodo,
+                T.concepto,
+                T.fecha_pago
+            FROM
+                Estudiante AS E
+            JOIN
+                Transaccion AS T ON E.id = T.id_estudiante
+            WHERE
+                T.pagado = TRUE
+                AND DATE(T.fecha_pago) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)""")
+    data3 = cur.fetchall()
+
+    # Crea un DataFrame de pandas con los datos
+    df = pd.DataFrame(data3)
+
+    # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+
+    # Escribe el DataFrame en una hoja de cálculo Excel
+    df.to_excel(writer, sheet_name='ExcelDiario', index=False)
+
+    # Ajusta el ancho de las columnas
+    workbook = writer.book
+    worksheet = writer.sheets['ExcelDiario']
+    for i, col in enumerate(df.columns):
+        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))  # Cambio en esta línea
+        worksheet.set_column(i, i, column_width)
+
+    # Cierra el objeto writer para guardar el archivo correctamente
+    writer.close()
+
+    # Guarda el contenido del archivo de Excel en una variable
+    excel_data = output.getvalue()
+
+    # Crea una respuesta HTTP con el archivo de Excel adjunto
+    response = make_response(excel_data)
+    response.headers['Content-Disposition'] = 'attachment; filename=ExcelDiario.xlsx'
+    response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    return response
 
 @app.route('/busqueda', methods=['POST'])
 def search_student():
@@ -449,13 +682,20 @@ def get_group(id):
     nstud = len(_students)
     try:
         db.execute("""
-            SELECT sum(t.monto)
-            FROM Transaccion t
-            JOIN Estudiante e ON t.id_estudiante = e.id
-            WHERE t.pagado = TRUE AND e.id_grupo = %s
-        """, (id,))
+            SELECT
+                SUM(T.monto) AS total_monto_pagado
+            FROM
+                Estudiante AS E
+            JOIN
+                Transaccion AS T ON E.id = T.id_estudiante
+            WHERE
+                T.pagado = TRUE
+                AND E.id_grupo = '{}';
+        """.format(id))
 
         totganado = "${:,.2f}".format(db.fetchall()[0][0])
+
+
     except (IndexError, TypeError):
         totganado = "$0.00"
     _info = {"group_id": id, "group": data[0][0], "students": _students, "num": nstud}
@@ -532,8 +772,8 @@ def edit_student(id):
         matricula = request.form['matricula']
         grupo_id = request.form['idgrupo']
         acid = request.form['acid']
-        tutor1nombre = request.form['acnom']
 
+        tutor1nombre = request.form['acnom']
         tutor1Correo = request.form['acmail']
         tutor1Parentesco = request.form['acparen']
         tutor1Direccion = request.form['acdir']
@@ -545,8 +785,8 @@ def edit_student(id):
         tutor1CP = request.form['accp']
         tutor1dirfact = request.form['acdf']
         bcid = request.form['bcid']
-        tutor2Nombre = request.form['bcnom']
 
+        tutor2Nombre = request.form['bcnom']
         tutor2Correo = request.form['bcmail']
         tutor2Parentesco = request.form['bcparen']
         tutor2Direccion = request.form['bcdir']
@@ -566,7 +806,7 @@ def edit_student(id):
                 SET nombre = %s, fecha_de_nacimiento = %s, beca = %s, matricula = %s, id_grupo = %s
                 WHERE id = %s
                 """
-        estudiante_data = (nombre, fecha_nacimiento, beca, matricula, grupo_id, grupo_id)
+        estudiante_data = (nombre, fecha_nacimiento, beca, matricula, grupo_id, id)
         db.execute(insert_estudiante, estudiante_data)
         n = id
 
@@ -592,6 +832,8 @@ def edit_student(id):
             tutor2Nombre, tutor2Parentesco, tutor2Correo, tutor2Telefono, tutor2Direccion, tutor2RS, tutor2Regimen,
             tutor2CFDI, tutor2RFC, tutor2CP, tutor2dirfact, bcid)
         db.execute(insert_contacto2, contacto2_data)
+
+        db.connection.commit()
 
         return redirect(url_for('get_student', id=id))
     db = mysql.connection.cursor()
@@ -862,10 +1104,11 @@ def enviar_correo(aid, id):
             bcon = cdata[i]
 
     # String for the first contact
-    spc = f"Estimada {acon[0]}, muchas gracias por realizar el pago de la {data[3]} del alumno {data1[0]} con matricula {data1[5]} el día de {data[4]}. Adjuntamos su recibo de pago por este medio."
+
+    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio, \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos cordiales. \n Colegio Felipe Carbajal Arcia. \n Área de administración"
     string_primer_contacto = spc
     # String for the second contact
-    ssc = f"Estimado {bcon[0]}, muchas gracias por realizar el pago de la {data[3]} del alumno {data1[0]} con matricula {data1[5]} el día de {data[4]}. Adjuntamos su recibo de pago por este medio."
+    ssc = f"Estimado (a) {bcon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio, \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos cordiales. \n Colegio Felipe Carbajal Arcia. \n Área de administración"
     string_segundo_contacto = ssc
 
     pagotxt = data[3]

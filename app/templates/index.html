@@ -222,6 +222,155 @@
                     </div>
                 </div>
                 <!-- /Widgets -->
+                <div class="clearfix">
+
+        <!-- Orders -->
+                <div class="orders">
+                    <div class="row">
+                        <div class="col-xl">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="box-title" style="color: black">Reporte diario </h4>
+                                    <a class="btn btn-primary flex-fill mr-2" href="/export_excelDiario" style="float: right">Exportar Excel</a>
+                                </div>
+                                <div class="card-body--">
+                                    <div class="table-stats order-table ov-h">
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Matrícula</th>
+                                                    <th>Nombre</th>
+                                                    <th>Monto</th>
+                                                    <th>Metodo de Pago</th>
+                                                    <th>Concepto</th>
+                                                    <th>Fecha de pago</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for student in diario %}
+                                                <tr>
+                                                    <td>{{student.0}}</td>
+                                                    <td>{{student.1}}</td>
+                                                    <td>{{student.2}}</td>
+                                                    <td>{{student.3}}</td>
+                                                    <td>{{student.4}}</td>
+                                                    <td>{{student.5}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- /.table-stats -->
+                                </div>
+                            </div> <!-- /.card -->
+
+
+                    </div>
+                </div>
+                <!-- /.orders -->
+    </div>
+
+    <!-- /.site-footer -->
+    </div>
+            <div class="clearfix">
+
+        <!-- Orders -->
+                <div class="orders">
+                    <div class="row">
+                        <div class="col-xl">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="box-title" style="color: black">Reporte Quincenal </h4>
+                                    <a class="btn btn-primary flex-fill mr-2" href="/export_excelQuincenal" style="float: right">Exportar Excel</a>
+                                </div>
+                                <div class="card-body--">
+                                    <div class="table-stats order-table ov-h">
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Matrícula</th>
+                                                    <th>Nombre</th>
+                                                    <th>Monto</th>
+                                                    <th>Metodo de Pago</th>
+                                                    <th>Concepto</th>
+                                                    <th>Fecha de pago</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for student in quincena %}
+                                                <tr>
+                                                    <td>{{student.0}}</td>
+                                                    <td>{{student.1}}</td>
+                                                    <td>{{student.2}}</td>
+                                                    <td>{{student.3}}</td>
+                                                    <td>{{student.4}}</td>
+                                                    <td>{{student.5}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- /.table-stats -->
+                                </div>
+                            </div> <!-- /.card -->
+
+
+                    </div>
+                </div>
+                <!-- /.orders -->
+    </div>
+    <!-- Footer -->
+
+    <!-- /.site-footer -->
+    </div>
+            <div class="clearfix">
+
+        <!-- Orders -->
+                <div class="orders">
+                    <div class="row">
+                        <div class="col-xl">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="box-title" style="color: black">Reporte Mensual </h4>
+                                    <a class="btn btn-primary flex-fill mr-2" href="/export_excelMensual" style="float: right">Exportar Excel</a>
+                                </div>
+                                <div class="card-body--">
+                                    <div class="table-stats order-table ov-h">
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Matrícula</th>
+                                                    <th>Nombre</th>
+                                                    <th>Monto</th>
+                                                    <th>Metodo de Pago</th>
+                                                    <th>Concepto</th>
+                                                    <th>Fecha de pago</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for student in mes %}
+                                                <tr>
+                                                    <td>{{student.0}}</td>
+                                                    <td>{{student.1}}</td>
+                                                    <td>{{student.2}}</td>
+                                                    <td>{{student.3}}</td>
+                                                    <td>{{student.4}}</td>
+                                                    <td>{{student.5}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- /.table-stats -->
+                                </div>
+                            </div> <!-- /.card -->
+
+
+                    </div>
+                </div>
+                <!-- /.orders -->
+    </div>
+    <!-- Footer -->
+
+    <!-- /.site-footer -->
+    </div>
 
 
 
@@ -235,22 +384,8 @@
     <!-- .animated -->
     </div>
     <!-- /.content -->
-    <div class="clearfix"></div>
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-inner bg-white">
-            <div class="row">
-                <div class="col-sm-6">
-                    Copyright &copy; 2023 CFCA
-                </div>
-                <div class="col-sm-6 text-right">
-                    Designed by RHP
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- /.site-footer -->
-    </div>
+
+
     <!-- /#right-panel -->
 
     <!-- Scripts -->
