@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, session, redirect, url_for, make_response
+from flask import Flask, render_template, request, session, redirect, url_for, make_response, jsonify
 from flask_mysqldb import MySQL
+from flask_cors import CORS
 import datetime
 from app.utils import *
 from app.setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
@@ -10,16 +11,22 @@ import ssl
 import os
 from io import BytesIO
 import pandas as pd
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
+
 
 load_dotenv()
 
 app = Flask(__name__, static_folder='assets')
+
 app.config['MYSQL_HOST'] = HOST_NAME
 app.config["MYSQL_USER"] = USER_NAME
 app.config['MYSQL_PASSWORD'] = USER_PASS
 app.config['MYSQL_DB'] = DB_NAME
 app.secret_key = 'MYSECRET_KEY'
 mysql = MySQL(app)
+CORS(app)
 
 
 # Login
@@ -112,13 +119,38 @@ def get_nuevorecibol(aid, id):
     data1 = db.fetchall()[0]
     name = data1[0]
 
+
+    # Fetch contact data
+    db.execute("SELECT nombre, parentesco, correo, telefono, direccion FROM Contacto WHERE id_estudiante = %s", (aid,))
+    cdata = db.fetchall()
+
+    acon = ["", "", "", "", ""]
+    bcon = ["", "", "", "", ""]
+    for i in range(len(cdata)):
+        if i == 0:
+            acon = cdata[i]
+        if i == 1:
+            bcon = cdata[i]
+
+    # String for the first contact
+
+    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio, \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos cordiales. \n Colegio Felipe Carbajal Arcia. \n Área de administración"
+    string_primer_contacto = spc
+    # String for the second contact
+    ssc = f"Estimado (a) {bcon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio, \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos cordiales. \n Colegio Felipe Carbajal Arcia. \n Área de administración"
+    string_segundo_contacto = ssc
+
+    pagotxt = data[3]
+
+    correoinfo={"correo": acon[2], "conceptop": data[3], "textocorreo": spc}
+
     beca = "{} %".format(data1[2])
     group = data1[3]
     student = {"name": name, "beca": beca, "group": group, "group_id": data[4], "matricula": data1[5]}
 
     _info = {"msg": msg, "student": student, "id": aid, "aid": id, "data": data}
 
-    return render_template('recibo.html', info=_info, noticia=noticia, id=aid)
+    return render_template('recibo.html', info=_info, noticia=noticia, id=aid, correoinfo=correoinfo)
 
 
 @app.route('/generar_pdf', methods=['POST'])
@@ -369,15 +401,9 @@ def index():
     for item in data3:
         _studentsdia.append([item[0], item[1], item[2], item[3], item[4], item[5]])
 
-
-
-
-    return render_template('index.html', info=_info, fechahoy=fechahoy, diario=_studentsdia, quincena=_studentsquincena, mes=_studentsmensual )
-
-@app.route('/export_excelQuincenal')
-def export_excelQuincenal():
-    cur = mysql.connection.cursor()
-    cur.execute("""SELECT
+    db = mysql.connection.cursor()
+    db.execute("""
+                SELECT
                 E.id AS estudiante_id,
                 E.nombre AS estudiante_nombre,
                 T.monto,
@@ -390,7 +416,57 @@ def export_excelQuincenal():
                 Transaccion AS T ON E.id = T.id_estudiante
             WHERE
                 T.pagado = TRUE
-                AND DATE(T.fecha_pago) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)""")
+                AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                AND T.metodo = 'Efectivo';
+            """)
+    data4 = db.fetchall()
+    _studentsQuincenaefectivo = []
+    for item in data4:
+        _studentsQuincenaefectivo.append([item[0], item[1], item[2], item[3], item[4], item[5]])
+
+    db.execute("""
+                SELECT
+                E.id AS estudiante_id,
+                E.nombre AS estudiante_nombre,
+                T.monto,
+                T.metodo,
+                T.concepto,
+                T.fecha_pago
+            FROM
+                Estudiante AS E
+            JOIN
+                Transaccion AS T ON E.id = T.id_estudiante
+            WHERE
+                T.pagado = TRUE
+                AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                AND T.metodo = 'Transferencia';  
+            """)
+    data5 = db.fetchall()
+    _studentsQuincenaTransferencia = []
+    for item in data5:
+        _studentsQuincenaTransferencia.append([item[0], item[1], item[2], item[3], item[4], item[5]])
+
+    return render_template('index.html', info=_info, fechahoy=fechahoy, diario=_studentsdia, quincena=_studentsquincena, mes=_studentsmensual, efectivo=_studentsQuincenaefectivo, transferencia=_studentsQuincenaTransferencia )
+
+@app.route('/export_excelQuincenal')
+def export_excelQuincenal():
+    cur = mysql.connection.cursor()
+    cur.execute("""
+                    SELECT
+                    E.id AS estudiante_id,
+                    E.nombre AS estudiante_nombre,
+                    T.monto,
+                    T.metodo,
+                    T.concepto,
+                    T.fecha_pago
+                FROM
+                    Estudiante AS E
+                JOIN
+                    Transaccion AS T ON E.id = T.id_estudiante
+                WHERE
+                    T.pagado = TRUE
+                    AND T.fecha_pago >= CURDATE() - INTERVAL 15 DAY
+                    """)
     data3 = cur.fetchall()
 
     # Crea un DataFrame de pandas con los datos
@@ -474,23 +550,78 @@ def export_excelMensual():
 
     return response
 
+@app.route('/export_excelEfectivo')
+def export_excelEfectivo():
+    cur = mysql.connection.cursor()
+    cur.execute("""
+                    SELECT
+                    E.id AS estudiante_id,
+                    E.nombre AS estudiante_nombre,
+                    T.monto,
+                    T.metodo,
+                    T.concepto,
+                    T.fecha_pago
+                FROM
+                    Estudiante AS E
+                JOIN
+                    Transaccion AS T ON E.id = T.id_estudiante
+                WHERE
+                    T.pagado = TRUE
+                    AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                    AND T.metodo = 'Efectivo';
+                """)
+
+    data3 = cur.fetchall()
+
+    # Crea un DataFrame de pandas con los datos
+    df = pd.DataFrame(data3)
+
+    # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+
+    # Escribe el DataFrame en una hoja de cálculo Excel
+    df.to_excel(writer, sheet_name='ExcelEfectivo', index=False)
+
+    # Ajusta el ancho de las columnas
+    workbook = writer.book
+    worksheet = writer.sheets['ExcelEfectivo']
+    for i, col in enumerate(df.columns):
+        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))  # Cambio en esta línea
+        worksheet.set_column(i, i, column_width)
+
+    # Cierra el objeto writer para guardar el archivo correctamente
+    writer.close()
+
+    # Guarda el contenido del archivo de Excel en una variable
+    excel_data = output.getvalue()
+
+    # Crea una respuesta HTTP con el archivo de Excel adjunto
+    response = make_response(excel_data)
+    response.headers['Content-Disposition'] = 'attachment; filename=ExcelEfectivo.xlsx'
+    response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    return response
+
 @app.route('/export_excelDiario')
 def export_excelDiario():
     cur = mysql.connection.cursor()
-    cur.execute("""SELECT
-                E.id AS estudiante_id,
-                E.nombre AS estudiante_nombre,
-                T.monto,
-                T.metodo,
-                T.concepto,
-                T.fecha_pago
-            FROM
-                Estudiante AS E
-            JOIN
-                Transaccion AS T ON E.id = T.id_estudiante
-            WHERE
-                T.pagado = TRUE
-                AND DATE(T.fecha_pago) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)""")
+    cur.execute("""
+                        SELECT
+                        E.id AS estudiante_id,
+                        E.nombre AS estudiante_nombre,
+                        T.monto,
+                        T.metodo,
+                        T.concepto,
+                        T.fecha_pago
+                    FROM
+                        Estudiante AS E
+                    JOIN
+                        Transaccion AS T ON E.id = T.id_estudiante
+                    WHERE
+                        T.pagado = TRUE
+                        AND T.fecha_pago >= CURDATE() - INTERVAL 1 DAY
+                        """)
     data3 = cur.fetchall()
 
     # Crea un DataFrame de pandas con los datos
@@ -1105,7 +1236,7 @@ def enviar_correo(aid, id):
 
     # String for the first contact
 
-    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio, \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos cordiales. \n Colegio Felipe Carbajal Arcia. \n Área de administración"
+    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio, \n\n\n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n \n Saludos cordiales. \n Colegio Felipe Carbajal Arcia. \n Área de administración"
     string_primer_contacto = spc
     # String for the second contact
     ssc = f"Estimado (a) {bcon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio, \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos cordiales. \n Colegio Felipe Carbajal Arcia. \n Área de administración"
@@ -1119,21 +1250,7 @@ def enviar_correo(aid, id):
     return redirect(url_for('get_student', id=aid))
 
 
-def send_email(subject, message, to_email):
-    # Replace with your Gmail username and app-specific password
-    gmail_username = 'felipecarbajalarcia@gmail.com'
-    app_password = 'wqovjkhmaxycrrjx'
 
-    # Create the formatted email message
-    fmt = 'From: {}\r\nTo: {}\r\nSubject: {}\r\n\r\n{}'
-    email_message = fmt.format(gmail_username, to_email, subject, message)
-
-    # Connect to Gmail's SMTP server
-    context = ssl.create_default_context()
-    with smtplib.SMTP('smtp.googlemail.com', 587) as server:
-        server.starttls(context=context)
-        server.login(gmail_username, app_password)
-        server.sendmail(gmail_username, to_email, email_message.encode('utf-8'))
 
 
 def insertColegiaturas(estudiante_id):
@@ -1167,6 +1284,78 @@ def insertColegiaturas(estudiante_id):
             (monto, nombre, fecha_limite, fecha_activacion, False, False, estudiante_id))
 
     db.connection.commit()
+def send_email(subject, message, to_email):
+    # Replace with your Gmail username and app-specific password
+    gmail_username = 'felipecarbajalarcia@gmail.com'
+    app_password = 'wqovjkhmaxycrrjx'
+
+    # Create the formatted email message
+    fmt = 'From: {}\r\nTo: {}\r\nSubject: {}\r\n\r\n{}'
+    email_message = fmt.format(gmail_username, to_email, subject, message)
+
+    # Connect to Gmail's SMTP server
+    context = ssl.create_default_context()
+    with smtplib.SMTP('smtp.googlemail.com', 587) as server:
+        server.starttls(context=context)
+        server.login(gmail_username, app_password)
+        server.sendmail(gmail_username, to_email, email_message.encode('utf-8'))
+
+
+@app.route('/send_pdf_email', methods=['POST'])
+def send_pdf_email():
+    pdf_blob = request.files['pdf']
+    recipient_email = 'rodolfohp96@hotmail.com'
+    sender_email = 'felipecarbajalarcia@gmail.com'
+    sender_password = 'wqovjkhmaxycrrjx'
+
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = recipient_email
+    msg['Subject'] = 'Recibo PDF'
+
+    body = MIMEText('Adjunto encontrarás el recibo en PDF generado.')
+    msg.attach(body)
+
+    pdf_attachment = MIMEApplication(pdf_blob.read(), 'pdf')
+    pdf_attachment.add_header('Content-Disposition', 'attachment', filename=pdf_blob.filename)
+    msg.attach(pdf_attachment)
+
+    send_email('Recibo PDF', 'Adjunto encontrarás el recibo en PDF generado.', recipient_email)
+
+    return 'Correo electrónico enviado correctamente.'
+
+
+@app.route('/pagoAnual/<id>/<gid>', methods=['POST', 'GET'])
+def pagoAnual(id, gid):
+    if not check_login():
+        return redirect(url_for('login'))
+
+    db = mysql.connection.cursor()
+
+
+    # Obtener el monto de la colegiatura anual
+    monto_colegiatura = 30250 if int(gid) < 6 else 30800
+    print(monto_colegiatura)
+
+    # Borrar todas las transacciones del estudiante
+    db.execute("""DELETE FROM Transaccion 
+                                WHERE id_estudiante={}""".format(id))
+    db.connection.commit()
+
+
+    # Agregar la nueva transacción para la colegiatura anual
+    nombre_concepto = "Colegiatura Anual"
+    fecha_pago = date.today()
+
+    db.execute(
+        "INSERT INTO Transaccion (monto, concepto, fecha_pago, activado, pagado, id_estudiante, metodo) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+        (monto_colegiatura, nombre_concepto, fecha_pago, True, True, id, 'Transferencia'))
+
+    db.connection.commit()
+
+
+
+    return redirect(url_for('get_student', id=id))
 
 
 if __name__ == "__main__":

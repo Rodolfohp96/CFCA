@@ -222,6 +222,106 @@
                     </div>
                 </div>
                 <!-- /Widgets -->
+            <div class="clearfix">
+
+        <!-- Orders -->
+                <div class="orders">
+                    <div class="row">
+                        <div class="col-xl">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="box-title" style="color: black">Reporte Efectivo </h4>
+                                    <a class="btn btn-primary flex-fill mr-2" href="/export_excelEfectivo" style="float: right">Exportar Excel</a>
+                                </div>
+                                <div class="card-body--">
+                                    <div class="table-stats order-table ov-h">
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Matrícula</th>
+                                                    <th>Nombre</th>
+                                                    <th>Monto</th>
+                                                    <th>Metodo de Pago</th>
+                                                    <th>Concepto</th>
+                                                    <th>Fecha de pago</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for student in efectivo %}
+                                                <tr>
+                                                    <td>{{student.0}}</td>
+                                                    <td>{{student.1}}</td>
+                                                    <td>{{student.2}}</td>
+                                                    <td>{{student.3}}</td>
+                                                    <td>{{student.4}}</td>
+                                                    <td>{{student.5}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- /.table-stats -->
+                                </div>
+                            </div> <!-- /.card -->
+
+
+                    </div>
+                </div>
+                <!-- /.orders -->
+    </div>
+
+    <!-- /.site-footer -->
+    </div>
+            <div class="clearfix">
+
+        <!-- Orders -->
+                <div class="orders">
+                    <div class="row">
+                        <div class="col-xl">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="box-title" style="color: black">Reporte Transferencia </h4>
+                                    <a class="btn btn-primary flex-fill mr-2" href="/export_excelTransferencia" style="float: right">Exportar Excel</a>
+                                </div>
+                                <div class="card-body--">
+                                    <div class="table-stats order-table ov-h">
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Matrícula</th>
+                                                    <th>Nombre</th>
+                                                    <th>Monto</th>
+                                                    <th>Metodo de Pago</th>
+                                                    <th>Concepto</th>
+                                                    <th>Fecha de pago</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for student in transferencia %}
+                                                <tr>
+                                                    <td>{{student.0}}</td>
+                                                    <td>{{student.1}}</td>
+                                                    <td>{{student.2}}</td>
+                                                    <td>{{student.3}}</td>
+                                                    <td>{{student.4}}</td>
+                                                    <td>{{student.5}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- /.table-stats -->
+                                </div>
+                            </div> <!-- /.card -->
+
+
+                    </div>
+                </div>
+                <!-- /.orders -->
+    </div>
+
+    <!-- /.site-footer -->
+    </div>
+
+
                 <div class="clearfix">
 
         <!-- Orders -->
