@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, session, redirect, url_for, m
 from flask_mysqldb import MySQL
 from flask_cors import CORS
 import datetime
-from app.utils import *
-from app.setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
+from utils import *
+from setup import HOST_NAME, USER_NAME, USER_PASS, DB_NAME
 from dotenv import load_dotenv
 import pdfkit
 import smtplib
@@ -134,10 +134,10 @@ def get_nuevorecibol(aid, id):
 
     # String for the first contact
 
-    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio, \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos cordiales. \n Colegio Felipe Carbajal Arcia. \n Área de administración"
+    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
     string_primer_contacto = spc
     # String for the second contact
-    ssc = f"Estimado (a) {bcon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio, \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos cordiales. \n Colegio Felipe Carbajal Arcia. \n Área de administración"
+    ssc = f"Estimado (a) {bcon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
     string_segundo_contacto = ssc
 
     pagotxt = data[3]
@@ -1236,16 +1236,22 @@ def enviar_correo(aid, id):
 
     # String for the first contact
 
-    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio, \n\n\n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n \n Saludos cordiales. \n Colegio Felipe Carbajal Arcia. \n Área de administración"
+    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n\n\n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
     string_primer_contacto = spc
     # String for the second contact
-    ssc = f"Estimado (a) {bcon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio, \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos cordiales. \n Colegio Felipe Carbajal Arcia. \n Área de administración"
+    ssc = f"Estimado (a) {bcon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n\n\n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
     string_segundo_contacto = ssc
 
     pagotxt = data[3]
 
-    send_email(pagotxt, string_primer_contacto, acon[2])
-    # send_email(pagotxt, string_segundo_contacto, bcon[2])
+
+    # Verificar si acon[2] tiene un valor almacenado y llamar send_email si es así
+    if acon[2]:
+        send_email(pagotxt, string_primer_contacto, acon[2])
+
+    # Verificar si bcon[2] tiene un valor almacenado y llamar send_email si es así
+    if bcon[2]:
+        send_email(pagotxt, string_primer_contacto, bcon[2])
 
     return redirect(url_for('get_student', id=aid))
 
@@ -1350,6 +1356,15 @@ def pagoAnual(id, gid):
     db.execute(
         "INSERT INTO Transaccion (monto, concepto, fecha_pago, activado, pagado, id_estudiante, metodo) VALUES (%s, %s, %s, %s, %s, %s, %s)",
         (monto_colegiatura, nombre_concepto, fecha_pago, True, True, id, 'Transferencia'))
+
+    db.connection.commit()
+    montoreeinscripcion = 2750 if int(gid) < 4 else 2800
+    nombre_conceptoIns = "Reinscripción CICLO ESCOLAR 2024-2025 "
+    fecha_pagoR = "2024-02-02"
+    fecha_activacionR ="2024-01-22"
+    db.execute(
+        "INSERT INTO Transaccion (monto, concepto, fecha_pago,fechaActivacion, pagado, id_estudiante) VALUES (%s, %s, %s, %s, %s,%s)",
+        (montoreeinscripcion, nombre_conceptoIns, fecha_pagoR,fecha_activacionR, False, id ))
 
     db.connection.commit()
 
