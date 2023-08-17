@@ -14,6 +14,7 @@ import pandas as pd
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+#from flask_weasyprint import HTML, render_pdf
 
 
 load_dotenv()
@@ -328,17 +329,21 @@ def index():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago
+            T.fecha_pago,
+            E.matricula,
+            G.nombre AS nombre_grupo 
         FROM
             Estudiante AS E
         JOIN
             Transaccion AS T ON E.id = T.id_estudiante
+        JOIN
+                    Grupo AS G ON E.id_grupo = G.id
         WHERE
             T.pagado = TRUE""")
     data = db.fetchall()
     _students = []
     for item in data:
-        _students.append([item[0], item[1], item[2], item[3], item[4], item[5]])
+        _students.append([item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]])
 
     db.execute("""
             SELECT
@@ -347,11 +352,15 @@ def index():
                 T.monto,
                 T.metodo,
                 T.concepto,
-                T.fecha_pago
+                T.fecha_pago,
+                E.matricula,
+                G.nombre AS nombre_grupo    
             FROM
                 Estudiante AS E
             JOIN
                 Transaccion AS T ON E.id = T.id_estudiante
+            JOIN
+                    Grupo AS G ON E.id_grupo = G.id
             WHERE
                 T.pagado = TRUE
                 AND T.fecha_pago >= CURDATE() - INTERVAL 15 DAY
@@ -359,7 +368,7 @@ def index():
     data1 = db.fetchall()
     _studentsquincena = []
     for item in data1:
-        _studentsquincena.append([item[0], item[1], item[2], item[3], item[4], item[5]])
+        _studentsquincena.append([item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]])
 
     db.execute("""
             SELECT
@@ -368,11 +377,15 @@ def index():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago
+            T.fecha_pago,
+            E.matricula,
+            G.nombre AS nombre_grupo
         FROM
             Estudiante AS E
         JOIN
             Transaccion AS T ON E.id = T.id_estudiante
+        JOIN
+                    Grupo AS G ON E.id_grupo = G.id
         WHERE
             T.pagado = TRUE
             AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
@@ -380,7 +393,7 @@ def index():
     data2 = db.fetchall()
     _studentsmensual = []
     for item in data2:
-        _studentsmensual.append([item[0], item[1], item[2], item[3], item[4], item[5]])
+        _studentsmensual.append([item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]])
 
     db.execute("""SELECT
             E.id AS estudiante_id,
@@ -388,18 +401,22 @@ def index():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago
+            T.fecha_pago,
+            E.matricula,
+            G.nombre AS nombre_grupo
         FROM
             Estudiante AS E
         JOIN
             Transaccion AS T ON E.id = T.id_estudiante
+        JOIN
+                    Grupo AS G ON E.id_grupo = G.id
         WHERE
             T.pagado = TRUE
-            AND DATE(T.fecha_pago) = CURDATE()- INTERVAL 1 DAY""")
+            AND DATE(T.fecha_pago) = CURDATE()""")
     data3 = db.fetchall()
     _studentsdia = []
     for item in data3:
-        _studentsdia.append([item[0], item[1], item[2], item[3], item[4], item[5]])
+        _studentsdia.append([item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]])
 
     db = mysql.connection.cursor()
     db.execute("""
@@ -409,11 +426,15 @@ def index():
                 T.monto,
                 T.metodo,
                 T.concepto,
-                T.fecha_pago
+                T.fecha_pago,
+                E.matricula,
+                G.nombre AS nombre_grupo
             FROM
                 Estudiante AS E
             JOIN
                 Transaccion AS T ON E.id = T.id_estudiante
+            JOIN
+                Grupo AS G ON E.id_grupo = G.id
             WHERE
                 T.pagado = TRUE
                 AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
@@ -422,29 +443,36 @@ def index():
     data4 = db.fetchall()
     _studentsQuincenaefectivo = []
     for item in data4:
-        _studentsQuincenaefectivo.append([item[0], item[1], item[2], item[3], item[4], item[5]])
+        _studentsQuincenaefectivo.append([item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]])
 
     db.execute("""
                 SELECT
-                E.id AS estudiante_id,
-                E.nombre AS estudiante_nombre,
-                T.monto,
-                T.metodo,
-                T.concepto,
-                T.fecha_pago
-            FROM
-                Estudiante AS E
-            JOIN
-                Transaccion AS T ON E.id = T.id_estudiante
-            WHERE
-                T.pagado = TRUE
-                AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
-                AND T.metodo = 'Transferencia';  
+                    E.id AS estudiante_id,
+                    E.nombre AS estudiante_nombre,
+                    E.fecha_de_nacimiento,
+                    E.beca,
+                    E.matricula,
+                    E.password,
+                    T.monto,
+                    T.metodo,
+                    T.concepto,
+                    T.fecha_pago,
+                    G.nombre AS nombre_grupo
+                FROM
+                    Estudiante AS E
+                JOIN
+                    Transaccion AS T ON E.id = T.id_estudiante
+                JOIN
+                    Grupo AS G ON E.id_grupo = G.id
+                WHERE
+                    T.pagado = TRUE
+                    AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                    AND T.metodo = 'Transferencia'; 
             """)
     data5 = db.fetchall()
     _studentsQuincenaTransferencia = []
     for item in data5:
-        _studentsQuincenaTransferencia.append([item[0], item[1], item[2], item[3], item[4], item[5]])
+        _studentsQuincenaTransferencia.append([item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7]])
 
     return render_template('index.html', info=_info, fechahoy=fechahoy, diario=_studentsdia, quincena=_studentsquincena, mes=_studentsmensual, efectivo=_studentsQuincenaefectivo, transferencia=_studentsQuincenaTransferencia )
 
@@ -620,7 +648,7 @@ def export_excelDiario():
                         Transaccion AS T ON E.id = T.id_estudiante
                     WHERE
                         T.pagado = TRUE
-                        AND T.fecha_pago >= CURDATE() - INTERVAL 1 DAY
+                        AND T.fecha_pago >= CURDATE()
                         """)
     data3 = cur.fetchall()
 
@@ -878,7 +906,6 @@ def get_student(id):
         metodo = item[2]
         concepto = item[3]
         fecha_limite = item[4]
-
         pagado = item[5]
         noticia = "PAGADO"
         if item[5] == 0:
@@ -963,7 +990,6 @@ def edit_student(id):
             tutor2Nombre, tutor2Parentesco, tutor2Correo, tutor2Telefono, tutor2Direccion, tutor2RS, tutor2Regimen,
             tutor2CFDI, tutor2RFC, tutor2CP, tutor2dirfact, bcid)
         db.execute(insert_contacto2, contacto2_data)
-
         db.connection.commit()
 
         return redirect(url_for('get_student', id=id))
@@ -1086,14 +1112,12 @@ def edit_pagon(aid, id):
     # Inicializar la variable msg con un valor predeterminado
     msg = ""
     _info = {"msg": msg, "id": id, "aid": aid, "data1": None}
-
     db = mysql.connection.cursor()
     db.execute("""SELECT id, monto, metodo, concepto, fecha_limite, pagado
                         FROM Transaccion WHERE id={}""".format(id))
     data = db.fetchone()
     # Ejemplo de uso
     transaccion_original = data[1]
-
     total_con_recargo = calcular_recargo(transaccion_original, data[4])
     fechahoy = date.today()
 
@@ -1122,12 +1146,10 @@ def edit_pagon(aid, id):
             return redirect(url_for('get_nuevorecibol', aid=aid, id=id))
         except ValueError:
             msg = "Ocurrió un error al agregar la información"
-
             db = mysql.connection.cursor()
             db.execute("""SELECT id, monto, metodo, concepto, fecha_pago, pagado
                                     FROM Transaccion WHERE id={}""".format(id))
             data1 = db.fetchone()
-
             _info = {"msg": msg, "id": id, "aid": aid, "data1": data1}
 
     return render_template('recibo1.html', info=_info)
@@ -1198,9 +1220,6 @@ def get_studentV(id):
     _info = {"student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
     fechahoy = date.today()
     return render_template('studentView.html', info=_info, fechahoy=fechahoy)
-
-
-from flask import render_template
 
 
 @app.route('/enviarcorreo/<aid>/<id>', methods=['GET', 'POST'])
@@ -1307,38 +1326,104 @@ def send_email(subject, message, to_email):
         server.sendmail(gmail_username, to_email, email_message.encode('utf-8'))
 
 
-@app.route('/send_pdf_email', methods=['POST'])
-def send_pdf_email():
-    pdf_blob = request.files['pdf']
-    recipient_email = 'rodolfohp96@hotmail.com'
-    sender_email = 'felipecarbajalarcia@gmail.com'
-    sender_password = 'wqovjkhmaxycrrjx'
+@app.route('/send_pdf_email/<aid>/<id>', methods=['GET', 'POST'])
+def send_pdf_email(aid, id):
+    db = mysql.connection.cursor()
+    msg = ""
+    db.execute("""SELECT id, monto, metodo, concepto, fecha_pago, pagado
+                                                    FROM Transaccion WHERE id={}""".format(id))
+    data = db.fetchone()
+    noticia = "PAGADO"
+    if data[5] == 0:
+        noticia = "ADEUDO"
+    db.execute("""SELECT 
+                                Estudiante.nombre, 
+                                Estudiante.fecha_de_nacimiento, 
+                                Estudiante.beca,  
+                                Grupo.nombre,
+                                Grupo.id,
+                                Estudiante.matricula
+                                FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
+                                WHERE Estudiante.id={}
+                            """.format(aid))
+    data1 = db.fetchall()[0]
+    name = data1[0]
 
+    # Fetch contact data
+    db.execute("SELECT nombre, parentesco, correo, telefono, direccion FROM Contacto WHERE id_estudiante = %s", (aid,))
+    cdata = db.fetchall()
+
+    acon = ["", "", "", "", ""]
+    bcon = ["", "", "", "", ""]
+    for i in range(len(cdata)):
+        if i == 0:
+            acon = cdata[i]
+        if i == 1:
+            bcon = cdata[i]
+
+    # String for the first contact
+
+    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
+    string_primer_contacto = spc
+    # String for the second contact
+    ssc = f"Estimado (a) {bcon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
+    string_segundo_contacto = ssc
+
+    pagotxt = data[3]
+
+    correoinfo = {"correo": acon[2], "conceptop": data[3], "textocorreo": spc}
+
+    beca = "{} %".format(data1[2])
+    group = data1[3]
+    student = {"name": name, "beca": beca, "group": group, "group_id": data[4], "matricula": data1[5]}
+
+    _info = {"msg": msg, "student": student, "id": aid, "aid": id, "data": data}
+
+    html = render_template('recibocorreo.html', info=_info, noticia=noticia, id=aid, correoinfo=correoinfo)
+    #html = render_template('recibocorreo.html')
+    pdfkit.from_string(html, 'pago.pdf', configuration=pdfkit.configuration(wkhtmltopdf= 'app/wkhtmltopdf/bin/wkhtmltopdf.exe'))
+
+
+    # Configura los detalles del correo electrónico
+    sender_email = 'felipecarbajalarcia@gmail.com'
+    receiver_email = acon[2]
+    subject = 'Pago colegiatura '
+    body = spc
+
+    # Crea el mensaje de correo electrónico
     msg = MIMEMultipart()
     msg['From'] = sender_email
-    msg['To'] = recipient_email
-    msg['Subject'] = 'Recibo PDF'
+    msg['To'] = receiver_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body, 'plain'))
 
-    body = MIMEText('Adjunto encontrarás el recibo en PDF generado.')
-    msg.attach(body)
+    # Adjunta el PDF al correo electrónico
+    with open('pago.pdf', 'rb') as pdf_file:
+        attach = MIMEApplication(pdf_file.read(), _subtype='pdf')
+        attach.add_header('Content-Disposition', 'attachment', filename='pago.pdf')
+        msg.attach(attach)
 
-    pdf_attachment = MIMEApplication(pdf_blob.read(), 'pdf')
-    pdf_attachment.add_header('Content-Disposition', 'attachment', filename=pdf_blob.filename)
-    msg.attach(pdf_attachment)
+    # Envía el correo electrónico utilizando SMTP
+    smtp_server = 'smtp.gmail.com'
+    smtp_port = 587
+    smtp_username = 'felipecarbajalarcia@gmail.com'
+    smtp_password = 'wqovjkhmaxycrrjx'
 
-    send_email('Recibo PDF', 'Adjunto encontrarás el recibo en PDF generado.', recipient_email)
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls()
+    server.login(smtp_username, smtp_password)
+    server.sendmail(sender_email, receiver_email, msg.as_string())
+    server.quit()
 
-    return 'Correo electrónico enviado correctamente.'
+    return redirect(url_for('get_student', id=aid))
+
 
 
 @app.route('/pagoAnual/<id>/<gid>', methods=['POST', 'GET'])
 def pagoAnual(id, gid):
     if not check_login():
         return redirect(url_for('login'))
-
     db = mysql.connection.cursor()
-
-
     # Obtener el monto de la colegiatura anual
     monto_colegiatura = 30250 if int(gid) < 6 else 30800
     print(monto_colegiatura)
@@ -1347,16 +1432,12 @@ def pagoAnual(id, gid):
     db.execute("""DELETE FROM Transaccion 
                                 WHERE id_estudiante={}""".format(id))
     db.connection.commit()
-
-
     # Agregar la nueva transacción para la colegiatura anual
     nombre_concepto = "Colegiatura Anual"
     fecha_pago = date.today()
-
     db.execute(
         "INSERT INTO Transaccion (monto, concepto, fecha_pago, activado, pagado, id_estudiante, metodo) VALUES (%s, %s, %s, %s, %s, %s, %s)",
         (monto_colegiatura, nombre_concepto, fecha_pago, True, True, id, 'Transferencia'))
-
     db.connection.commit()
     montoreeinscripcion = 2750 if int(gid) < 4 else 2800
     nombre_conceptoIns = "Reinscripción CICLO ESCOLAR 2024-2025 "
@@ -1365,13 +1446,8 @@ def pagoAnual(id, gid):
     db.execute(
         "INSERT INTO Transaccion (monto, concepto, fecha_pago,fechaActivacion, pagado, id_estudiante) VALUES (%s, %s, %s, %s, %s,%s)",
         (montoreeinscripcion, nombre_conceptoIns, fecha_pagoR,fecha_activacionR, False, id ))
-
     db.connection.commit()
-
-
-
     return redirect(url_for('get_student', id=id))
-
 
 if __name__ == "__main__":
     app.run()

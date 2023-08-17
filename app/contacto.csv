@@ -1,0 +1,833 @@
+﻿nombre,parentesco,correo,telefono,direccion,razonSocial,regimenFiscal,cfdi,rfc,cp,direccionFact,id_estudiante
+ 'ERIKA ALVAREZ ORTIZ ' ,'Mamá', 'e_alvarezo@hotmail.com' ,'5528977149',None,None,None,None,None,None,None,1
+ 'SOFIA DEL CARMEN JIMENEZ SANTAMARIA' ,'Mamá', 'hi_tlerby@hotmail.com' , '7737317766' ,None,None,None,None,None,None,None,2
+ 'ANA LETICIA PAZ TERREROS' ,'Mamá', 'annypaz11@gmail.com' , '7731881483' ,None,None,None,None,None,None,None,3
+ 'MARIANA KATO GUTIERREZ ' ,'Mamá', 'katomariana13@gmail.com' , '7731669108' ,None,None,None,None,None,None,None,4
+ 'PATRICIA ALEJANDRA JIMENEZ BERMUDEZ' ,'Mamá', 'alejb2001@hotmail.com' ,'7731279939',None,None,None,None,None,None,None,5
+ 'ANA IVONNE JUAREZ FLORES' ,'Mamá', 'ivonnejuarez1726@gmail.com' ,'7731485199',None,None,None,None,None,None,None,6
+ 'OLIVIA BARRERA MAQUEDA' ,'Mamá', 'olibarma@hotmail.com' ,'7731298732',None,None,None,None,None,None,None,7
+ 'DANNA GUADALUPE SILVA MENDOZA' ,'Mamá', 'dannaagus26@icloud.com' ,'7731668079',None,None,None,None,None,None,None,8
+ 'EVELIN GOMEZ ORDAZ' ,'Mamá', 'emontesordaz@gmail.com' ,'7731716387',None,None,None,None,None,None,None,9
+ 'JESSICA NAVARRO LORA' ,'Mamá', 'jes85@live.com.mx' ,'7731660898',None,None,None,None,None,None,None,10
+ 'JANETH SILVA MARTINEZ ' ,'Mamá', 'janeethsm17@gmail.com' ,'7731175720',None,None,None,None,None,None,None,11
+ 'DIANA KARELY SANCHEZ GARCIA' ,'Mamá', 'kareen_10@hotmail.com' ,'7731574494',None,None,None,None,None,None,None,12
+ 'LAURA BERENICE GONZALEZ QUIROZ' ,'Mamá', 'bglezquiroz0@gmail.com' ,'7731664555',None,None,None,None,None,None,None,13
+ 'AISLINN DESIREE MARTINEZ ZUMAYA' ,'Mamá', 'aislin.xx.zumaya@gmail.com' ,'7731014316',None,None,None,None,None,None,None,14
+ 'XOCHIPILLI SERRANO PEREZ' ,'Mamá', 'pilliserrano@hotmail.com' ,'7731279698',None,None,None,None,None,None,None,15
+ 'SANDRA CRUZ RAMIREZ' ,'Mamá', 'sandracruzramirez25@gmail.com' ,'7731063351',None,None,None,None,None,None,None,16
+ 'JAZMIN GLORIA PEREZ' ,'Mamá', 'jazmin_gpt@hotmail.com' ,'5535660428',None,None,None,None,None,None,None,17
+ 'NALLELY ESCAMILLA HERNANDEZ' ,'Mamá', 'danelly15@hotmail.com' ,'7711818923',None,None,None,None,None,None,None,18
+ 'ERIKA PATRICIA QUIJANO GONZALEZ ' ,'Mamá', 'erikamonet@outlook.com' ,'7737319851',None,None,None,None,None,None,None,19
+ 'IHTZIRY GUADALUPE ALEJANDRE SANCHEZ' ,'Mamá', '' ,'7731824943',None,None,None,None,None,None,None,20
+ 'ANAHI JIMENEZ NAVARRETE' ,'Mamá', 'anahii._0119@hotmail.com' ,'7731265623',None,None,None,None,None,None,None,21
+ 'ELIZABETH DIANA ACOSTA GARCIA' ,'Mamá', 'edianaag@outlook.com' ,'7/1/1985',None,None,None,None,None,None,None,22
+ 'CLAUDIA GUADALUPE HUIDOBRO HERNANDEZ' ,'Mamá', '' ,'7732008765',None,None,None,None,None,None,None,23
+ 'VIRIDIANA AGUIRRE CABRERA ' ,'Mamá', 'modesd2505@gmail.com' ,'7731564758',None,None,None,None,None,None,None,24
+ 'IRAIDA JOVITA BENITEZ TRUJILLO ' ,'Mamá', 'armdoalvz@gmail.com ' ,'7731865086',None,None,None,None,None,None,None,25
+ 'DIANA JOSELINE CARRANZA HERNANDEZ' ,'Mamá', 'dianajcarranza@gmail.com' ,'773 73 66 706',None,None,None,None,None,None,None,26
+ 'DANIELA CAMPUZANO GUTIERREZ' ,'Mamá', 'daniela.campuzano.gtz@gmail.com ' ,'7731650336',None,None,None,None,None,None,None,27
+ 'AILEN ALEJANDRA RAMIREZ HERNANDEZ' ,'Mamá', 'ailenalejandra@gmail.com' ,'7731312676',None,None,None,None,None,None,None,28
+ 'ROSAS IBARRA TANIA ' ,'Mamá', 'taniarosasib@gmail.com' ,'7737340025',None,None,None,None,None,None,None,29
+ 'ERIKA SAMANTHA RODRIGUEZ ARTEAGA' ,'Mamá', 'erikaart.04@gmail.com' ,'773 107 20 71 ',None,None,None,None,None,None,None,30
+ 'ANAKAREN DOMINGUEZ HERRERA ' ,'Mamá', 'karen_darine@hotmail.com' ,'7731112126',None,None,None,None,None,None,None,31
+ 'ERENDIA AZUCENA VILLEGAS MEJIA' ,'Mamá', 'ermevi@hotmail.com' ,'773 106 53 22',None,None,None,None,None,None,None,32
+ 'YARET ALEJANDRA DONIZ FUENTES' ,'Mamá', 'el_punto_de_la_i@hotmail.com' ,'773 134 45 73',None,None,None,None,None,None,None,33
+ 'SANDRA CASTILLO ESTEVEZ ' ,'Mamá', 'sandia_castillo@hotmail.com' ,'7737347305',None,None,None,None,None,None,None,34
+ 'KARINA GOMEZ PEÑA' ,'Mamá', ' 7731995328karina@gmail.com' ,'773 223 65 91',None,None,None,None,None,None,None,35
+ 'MARIA FERNANDA HERNANDEZ NAVA' ,'Mamá', 'fer.escamilla94@hotmail.com' ,'7732405559',None,None,None,None,None,None,None,36
+ 'ARACELI TREJO ORTIZ' ,'Mamá', 'Aracelitrejo521@gmail.com' ,'7731314708',None,None,None,None,None,None,None,37
+ 'KAREN ITZEL VILLAGOMEZ BAUTISTA ' ,'Mamá', 'ferka_1607@hotmail.com' ,'5523090175',None,None,None,None,None,None,None,38
+ 'DORET GARCIA FLORES ' ,'Mamá', 'doretgarciaflores@gmail.com' ,'2281775133',None,None,None,None,None,None,None,39
+ 'ZURISADAI CRUZ DURAN' ,'Mamá', 'zurisadaicruzduran@gmail.com' ,'7731281381',None,None,None,None,None,None,None,40
+ 'NANCI ANAHI CHAVEZ VARGAS' ,'Mamá', 'bonita_sonriente_dulce@hotmail.com' ,'',None,None,None,None,None,None,None,41
+ 'DAYANA ZERMEÑO RIOS ' ,'Mamá', 'dayanazermeno@hotmail.com ' ,'5537016654',None,None,None,None,None,None,None,42
+ 'ITZEL YORMERI JIMENEZ ESCAMILLA ' ,'Mamá', 'yor_1104@hotmail.com' ,'5523837736',None,None,None,None,None,None,None,43
+ 'ADRIANA BERNY MURILLO' ,'Mamá','doctoraberny@hotmail.com','7731401496',None,None,None,None,None,None,None,44
+'NANCY MONTOYA HERNANDEZ','Mamá','nanr.nm@gmail.com','7731857439',None,None,None,None,None,None,None,45
+'LISA MICHELLE ALVAREZ RODRIGUEZ','Mamá','lisamishelleboby2431@gmail.com','5547591727',None,None,None,None,None,None,None,46
+'ALONDRA GUADALUPE BENITEZ IBARRA','Mamá','lu011018@outlook.com','7713596553',None,None,None,None,None,None,None,47
+'KARINA ANGELES ORDUÑO','Mamá','karinaangeles99@gmail.com','7731290263',None,None,None,None,None,None,None,48
+'ZINNIA CAROLINA MARTINEZ GOMEZ ','Mamá','zinnia_sole@hotmail.com','7731379297',None,None,None,None,None,None,None,49
+'ERICA SARAI URIBE MENDOZA','Mamá','erica.uribe16@gmail.com','7731350253',None,None,None,None,None,None,None,50
+'DIANA JOSELIN CARRANZA HERNANDEZ ','Mamá','dianajcarranza@gmail.com ','7737366706',None,None,None,None,None,None,None,51
+'JENNYFER ESTEFANNIA NERY REYES ','Mamá','jenifer-3447@hotmail.com','7731436422',None,None,None,None,None,None,None,52
+'PATRICIA BEATRIZ MEDINA PARRA ','Mamá','patricia.medina@dt.cfe.mx','7731990575',None,None,None,None,None,None,None,53
+'KAREN ELIZABETH CARBAJAL CHAPA','Mamá','carbajalkaren27@hotmail.com','7732316502',None,None,None,None,None,None,None,54
+'MARIBEL MARTINEZ CAÑEDO ','Mamá','maribelmartinez2941@gmail.com','7731511206',None,None,None,None,None,None,None,55
+ 'IMELDA RODRIGUEZ OSORNIO' ,'Mamá', 'gueromi.30@gmail.com' ,'773 187 21 39',None,None,None,None,None,None,None,56
+'RAMIREZ PADILLA DANIELA ','Mamá','DANIELA_PADILLA24@OUTLOOK.COM','7732178656',None,None,None,None,None,None,None,57
+ 'IMELDA RODRIGUEZ OSORNIO' ,'Mamá','gueromi.30@gmail.com','773 187 21 39',None,None,None,None,None,None,None,58
+'KAREN IVETTE HERNANDEZ CRUZ ','Mamá','karivette23@hotmail.com','7731272637',None,None,None,None,None,None,None,59
+ 'MARIA DEL ROCIO MEJIA LOPEZ' ,'Mamá','administracion@grupo-tcm.com.mx','7731282913',None,None,None,None,None,None,None,60
+'ELISA MARGARITA GARCIA REYES ','Mamá','eligarey@hotmail.com','7731399096',None,None,None,None,None,None,None,61
+ 'ZAIRA IRANY SANCHEZ GARCIA' ,'Mamá','zaira_irany@hotmail.com','7731390929',None,None,None,None,None,None,None,62
+ 'LAURA ANGELICA SOTO MIRELES' ,'Mamá','msotolaura@gmail.com','7731460936',None,None,None,None,None,None,None,63
+ 'JUANA LIZBEIDY GARCIA HERRERA' ,'Mamá','juanagarciaherrera8@gmail.com','7731566351',None,None,None,None,None,None,None,64
+ 'MARIA DEL CARMEN VILLEDA ARIAS' ,'Mamá','mary_villeda@hotmail.com','7731295361',None,None,None,None,None,None,None,65
+'MONICA ITZEL CRUZ GARCIA','Mamá','monikita_more@hotmail.com','7731285625',None,None,None,None,None,None,None,66
+ 'GEMA CRISTAL MONTIEL HERNANDEZ' ,'Mamá','montielcristal26@gmail.com','',None,None,None,None,None,None,None,67
+ 'IZEBEL FATIMA QUIROZ HERNANDEZ' ,'Mamá','quirozizebelfatima@gmail.com','7731847152',None,None,None,None,None,None,None,68
+'LISEK AMAIRANICERON CORTEZ','Mamá','lisekceron@gmail.com','7731061887',None,None,None,None,None,None,None,69
+'ENEIDA CORINA STREMPLER RUBIO ','Mamá','eneidastrempler@gmail.com','5527562852',None,None,None,None,None,None,None,70
+'YADIRA SABINA CORTEZ RESENDIZ','Mamá','yadira.sabin@gmail.com','7731315442',None,None,None,None,None,None,None,71
+'ERANDI TELLEZ CASTRO','Mamá','eranditellezc7@gmail.com','5550988729',None,None,None,None,None,None,None,72
+'MAYAN ALEJANDRA MEJIA VILLEDA','Mamá','villeda2404@gmail.com','5520777001',None,None,None,None,None,None,None,73
+'MARIA GUADALUPE RIOS HERNANDEZ ','Mamá','','7731792471',None,None,None,None,None,None,None,74
+'NADIA QUETZALLI LOPEZ RESENDIZ ','Mamá','quetzalli.nadia@gmail.com','7731142076',None,None,None,None,None,None,None,75
+'LETICIA ZUÑIGA LOPEZ','Mamá','paloma_zull@yahoo.com.mx','7731334704',None,None,None,None,None,None,None,76
+'ROSAS IBARRA TANIA ','Mamá','taniarosasib@gmail.com','7737340025',None,None,None,None,None,None,None,77
+'CINTHIA GODINEZ SOTRES ','Mamá','cinthiasotres@gmail.com','7731708747',None,None,None,None,None,None,None,78
+'THELMA OCAMPO ALTAMIRANO ','Mamá','t.ocampo.altamirano@gmail.com','7731058293',None,None,None,None,None,None,None,79
+'KARLA PAOLA MONTES ORDAZ ','Mamá','pao.saby@gmail.com','7731881848',None,None,None,None,None,None,None,80
+'ELBA ZAYAM VALENCIA AYALA','Mamá','zayam_williams@hotmail.com','5611670378',None,None,None,None,None,None,None,81
+'MICHELLE ALESSANDRA SANCHEZ CAMACHO ','Mamá','michaless_97@hotmail.com','7731568996',None,None,None,None,None,None,None,82
+'BRENDA LUGO ARTEAGA ','Mamá','brenda.lugo.arteaga@hotmail.com','5574678869',None,None,None,None,None,None,None,83
+'MARIEL ABREGO MEDINA ','Mamá','marielabregom@gmail.com','7712669160',None,None,None,None,None,None,None,84
+'JENY GRETHEL MEJIA PEREZ ','Mamá','jengrethel.8606@gmail.com','7731205195',None,None,None,None,None,None,None,85
+'CINTHIA BERENICE BAÑOS FALCON ','Mamá','berebaf@hotmail.com','7732029304',None,None,None,None,None,None,None,86
+'GUADALUPE GUDIÑO CERON ','Mamá','dymel_2310@hotmail.com','7731382058',None,None,None,None,None,None,None,87
+'ROCIO BALDERAS NARES ','Mamá','rociobn_18@hotmail.com','7731117876',None,None,None,None,None,None,None,88
+'JAZMIN ESMERAI ARENAS HERNANDEZ ','Mamá','esmeraihernandez7@gmail.com','5578745967',None,None,None,None,None,None,None,89
+ 'LAURA YAZMIN MONTUFAR RAMIREZ' ,'Mamá','manolomondragon085@gmail.com','7731499070',None,None,None,None,None,None,None,90
+'MARIBEL ESTRADA VAZQUEZ ','Mamá','mev2806@hotmail.com','5537276866',None,None,None,None,None,None,None,91
+'EMELINA OLGUIN CERON ','Mamá','emyolgc@hotmail.com','7736805736',None,None,None,None,None,None,None,92
+'ESTIVALIZ OVIEDO MARTINEZ ','Mamá','estivalizoviedo@gmail.com','5518005492',None,None,None,None,None,None,None,93
+'LAURA PEZA PEREZ   ','Mamá','laura.epz25@gmail.com','7731430954',None,None,None,None,None,None,None,94
+'LISEK AMAIRANI CERON CONTEZ ','Mamá','lisekceron@gmail.com ','7731061887',None,None,None,None,None,None,None,95
+'JAZMIN DE SANTIAGO ARCE ','Mamá','jazsantigo@hotmail.com','5532794679',None,None,None,None,None,None,None,96
+'CLAUDIA GUADALUPE HUIDOBRO HERNANDEZ','Mamá','claguahh.3119@gmail.com','7732008765',None,None,None,None,None,None,None,97
+'SINUE CHAVEZ AGUILAR ','Mamá','sinuchag@gmail.com','7717940020',None,None,None,None,None,None,None,98
+ 'ANA LAURA HERRERA LEON' ,'Mamá','h_anna35@hotmail.com','5532345381',None,None,None,None,None,None,None,99
+'ISELA JOSELIN JIMENEZ LOPEZ ','Mamá','','7731348153',None,None,None,None,None,None,None,100
+'ADELA ROMANO RAMIRO ','Mamá','rra43398@hotmail.com','5559535428',None,None,None,None,None,None,None,101
+ 'DANIA ITZEL VALDERRAMA DELGADO' ,'Mamá','daniavd27@gmail.com; vadel08@icloud.com','5521193742',None,None,None,None,None,None,None,102
+'DIANA NATHALIE RIOS ZARATE ','Mamá','dianarioszarate@gmail.com ','7737392643',None,None,None,None,None,None,None,103
+'DEBORA FLORES ORDAZ ','Mamá','debyflores88@gmail.com','7732331869',None,None,None,None,None,None,None,104
+'CINTHYA GUADALUPE MONROY GARCIA ','Mamá','lic.lupitamonrooe@gmail.com','7731660747',None,None,None,None,None,None,None,105
+'ELBA ZAYAM VALENCIA AYALA','Mamá','zayam_williams@hotmail.com','5611670378',None,None,None,None,None,None,None,106
+'NEREYDA SILVA MARTINEZ ','Mamá','nereyda2311san@gmail.com','5569416190',None,None,None,None,None,None,None,107
+'BELTRAN BARBOSA ALIS KARINA ','Mamá','alisk_100@hotmail.com','7731144123',None,None,None,None,None,None,None,108
+'NANCY FERNANDA SOSA RAMOS ','Mamá','fernandasosaramos@gmail.com','7752008070',None,None,None,None,None,None,None,109
+'MARIA GUADALUPE GODINEZ MARQUE ','Mamá','pemex79@hotmail.com','7731793044',None,None,None,None,None,None,None,110
+ 'KENIA SUSANA ANGELES LONGINO' ,'Mamá','kenia.angeles11@gmail.com','7731443691',None,None,None,None,None,None,None,111
+ 'GLADIS VERONICA SANTOS MARTINEZ' ,'Mamá','monicasantosmartinez@outlooc.com','7731074601',None,None,None,None,None,None,None,112
+'NORMA GUADALUPE ARCE ARNAN ','Mamá','ngpe.arcearana@gmail.com','7731661254',None,None,None,None,None,None,None,113
+'NANCY YOLANDA JUAREZ MENDEZ ','Mamá','curly168@hotmail.com','7712419978',None,None,None,None,None,None,None,114
+'BLANCA ANAHI GOMEZ LEMUS ','Mamá','','7787371178',None,None,None,None,None,None,None,115
+'ESDREY PEÑA BARRERA ','Mamá','esdreypb@gmail.com','7731509208',None,None,None,None,None,None,None,116
+'LITZI GUADALUPE VILLAGRAN QUIROZ ','Mamá','lupitavillagran96@gmail.com','7714177349',None,None,None,None,None,None,None,117
+'NAYELI CRUZ RAMIREZ ','Mamá','nnncrr@gmail.com','5585597602',None,None,None,None,None,None,None,118
+'MINERVA GONZALEZ LOPEZ ','Mamá','mine_25gl@icloud.com','7731371923',None,None,None,None,None,None,None,119
+'PEREZ CRUZ SAGRARIO LISI ','Mamá','pecs0509@gmail.com','7731239324',None,None,None,None,None,None,None,120
+'MICHELLE DANIELLE DALLEY CRUZ','Mamá','','',None,None,None,None,None,None,None,121
+ 'MIRNA LETICIA HERNANDEZ JIMENEZ' ,'Mamá','mirna.leticia.hernandez@pemex.com','7731031081',None,None,None,None,None,None,None,122
+'ARELI ZALETA ESQUIVEL ','Mamá','areli.pedagoga@outlook.es','7732332294',None,None,None,None,None,None,None,123
+'MAGNOLIA ZUÑIGA MEJIA ','Mamá','sofdulzuniga@gmail.com','7731589693',None,None,None,None,None,None,None,124
+'SABDY NAYELI GRESS HERNANDEZ','Mamá','sabdyhernandez12@gmail.com','7711517062',None,None,None,None,None,None,None,125
+'DIANA JOSELIN CARRANZA HERNANDEZ ','Mamá','dianajcarranza@gmail.com ','7737366706',None,None,None,None,None,None,None,126
+'ARELI AGUILAR NAJERA','Mamá','aguilarn.areli@gmail.com','7731386372',None,None,None,None,None,None,None,127
+'LIZZETTE VEGA CID ','Mamá','adorissette@gmail.com','7737315090',None,None,None,None,None,None,None,128
+'JAFET ONICA CONTRERAS CERVANTES','Mamá','','7732406991',None,None,None,None,None,None,None,129
+'DELIA ARACELI GUERRERO ENRIQUEZ','Mamá','delia_dage@hotmail.com','7736806974',None,None,None,None,None,None,None,130
+'MAVI ESCALANTE DOMINGUEZ ','Mamá','escalantemavi@gmail.com','7731513037',None,None,None,None,None,None,None,131
+'JOANA BARRERA CRUZ','Mamá','j-barrera-cruz@hotmail.com','7731726421',None,None,None,None,None,None,None,132
+'MIROSLAVA LOPEZ CID','Mamá','miroslavalopezcid@outlook.com','7731589777',None,None,None,None,None,None,None,133
+'BELTRAN BARBOSA ALIS KARINA ','Mamá','alisk_100@hotmail.com','7731144123',None,None,None,None,None,None,None,134
+'NELLY ORIANNA TREJO REYNOSO','Mamá','orianna.trey@outlook.com','7731348816',None,None,None,None,None,None,None,135
+'MACEDO ODILON ALICIA ','Mamá','alice.mac@gmail.com','5514901362',None,None,None,None,None,None,None,136
+'LUCIANA REYES ESTRADA','Mamá','jemarlu2910@hotmail.com','7731836489',None,None,None,None,None,None,None,137
+'MARYSOL HERNANDEZ JUAREZ','Mamá','mar_hdezjerez11@Outlook.com','',None,None,None,None,None,None,None,138
+'DULCE GUADALUPE CRUZ RAMIREZ','Mamá','dulce_cri10@hotmail.com','7737360809',None,None,None,None,None,None,None,139
+'OLINKA JOSELIN MARTINEZ PADILLA ','Mamá','olinkamartinez87@gmail.com','7731633455',None,None,None,None,None,None,None,140
+'CONCEPCION GUILLEN CRUZ','Mamá','jacon_0828@hotmail.com','7731462972',None,None,None,None,None,None,None,141
+'ZULEICA CELIN GOMEZ SAÑUDO','Mamá','zuleica.gomezs@hotail.com','7731099597',None,None,None,None,None,None,None,142
+'ANA ELSA CASTILLO CEA','Mamá','elsa.dina61@gmail.com','7731078478',None,None,None,None,None,None,None,143
+'NAYELI CRUZ RAMIREZ ','Mamá','nnncrr@gmail.com','5585597602',None,None,None,None,None,None,None,144
+'JHOANNA CARMINA IBARRA PACHECO','Mamá','jhanisjhoas@gmail.com','7731523363',None,None,None,None,None,None,None,145
+'ANA LAURA TORRES GOMEZ','Mamá','analauratorres@live.com.mx','7731632300',None,None,None,None,None,None,None,146
+'BRENDA MARISOL ZAMORANO MORA','Mamá','brenzamorita26@gmail.com','7731439857',None,None,None,None,None,None,None,147
+'AMAYRANI PEÑA GUZMAN','Mamá','amayraniaappgg@gmail.com','',None,None,None,None,None,None,None,148
+'ALEJANDRA ARCOS ALBA','Mamá','popynala@lice.com.mx','7737341411',None,None,None,None,None,None,None,149
+'ROCIO VELAZQUEZ LAGUNA ','Mamá','rovela20@gmail.com','7732348464',None,None,None,None,None,None,None,150
+'ROSA SAMANTHA MARTINEZ CERON','Mamá','sleon5374@gmail.com','7731300953',None,None,None,None,None,None,None,151
+'MARIANA GARCIA LOPEZ ','Mamá','mayg_15@hotmail.com','4422057634',None,None,None,None,None,None,None,152
+'CYNTHIA ROXANA HERNANDEZ COPCA ','Mamá','cynrox1984@gmail.com','7731827598',None,None,None,None,None,None,None,153
+'CANO VALENZUELA GLADYS JANETH ','Mamá','canogladys75@gmail.com ','7731896192',None,None,None,None,None,None,None,154
+'GUEVARA LOPEZ MALENI ALEJANDRA ','Mamá','alejandraguevara091@gmail.com','5534898859',None,None,None,None,None,None,None,155
+'MARIA LUISA VAZQUEZ CASERES','Mamá','maluva2321@gmail.com','4428697899',None,None,None,None,None,None,None,156
+'MARTINEZ CANO ANA LOURDES ','Mamá','amtzc@hotmail.com','7731104629',None,None,None,None,None,None,None,157
+'MARCELA JOYCE HERNANDEZ SANCHEZ ','Mamá','joyhernandezs2019@gmail.com ','7731197169',None,None,None,None,None,None,None,158
+'ELIZABETH MERA ALPIZAR','Mamá','e-mera@hotmail.com','7731279961',None,None,None,None,None,None,None,159
+'JENNY AYERIN ALVARADO VILLEDA','Mamá','jz_ayerin@hotmail.com','7731044465',None,None,None,None,None,None,None,160
+'MAYRETH MARGARITA BRICEÑO DONIZ ','Mamá','mayreth1809@outlook.com','7712323207',None,None,None,None,None,None,None,161
+'VELAZQUEZ ALVARDO MARICELA ','Mamá','maricelavelazquez1823@gmail.com','7731403769',None,None,None,None,None,None,None,162
+'ILSE NATALI RAMIREZ SANCHEZ ','Mamá','molllimx@yahoo.com.mx','7731259942',None,None,None,None,None,None,None,163
+'AGUILAR MATURANO BERENICE ','Mamá','bere.maturano@gmail.com','5511922686',None,None,None,None,None,None,None,164
+'JUDY TATIANA ALEMAN MIRALDA','Mamá','tmiraldaaleman@gmail.com','7731568603',None,None,None,None,None,None,None,165
+'MARIA DE LA LUZ CANCELA DE LEON ','Mamá','madl.cancela@hotmail.com','7731210166',None,None,None,None,None,None,None,166
+'LAURA ALINE CRUZ DE LA LUZ ','Mamá','arual8402@hotmail.com','7731373053',None,None,None,None,None,None,None,167
+'','Mamá','','',None,None,None,None,None,None,None,168
+'LORENA AGUIRRE MEJIA','Mamá','bole_87@hotmail.com','7731226198',None,None,None,None,None,None,None,169
+'LILI RESENDIZ QUIRARTE','Mamá','lilirq83@gmail.com','7721717433',None,None,None,None,None,None,None,170
+'LAURA ISABEL HUERTA SOTO','Mamá','laura01.huerta@gmail.com','4424663668',None,None,None,None,None,None,None,171
+'ANA YESENIA PACHECO SANCHEZ','Mamá','anayes0104@gmail.com','5523267266',None,None,None,None,None,None,None,172
+'MIRIAM ANGELES ISIDRO ','Mamá','angelesisi0423@gmail.com','7721087594',None,None,None,None,None,None,None,173
+'MARTINEZ BARRERA DAMARIZ MADAI ','Mamá','maygu784@gmail.com','5546886259',None,None,None,None,None,None,None,174
+'PATRICIA MEDINA JIMENEZ ','Mamá','junio26010@hotmail.com','7717474488',None,None,None,None,None,None,None,175
+'ALMA YELI RIVERO AVENDAÑO','Mamá','alma_rivero@hotmail.com','5554186084',None,None,None,None,None,None,None,176
+'YOISET ISAMAR RUBIO PÉREZ ','Mamá','isa_juliett@hotmail.com','7732019574',None,None,None,None,None,None,None,177
+'MARIA GUADALUPE RIOS HERNANDEZ ','Mamá','','7731792471',None,None,None,None,None,None,None,178
+'ROSARIO FELIX DIAZ','Mamá','nenora_03@hotmail.com','7731161725',None,None,None,None,None,None,None,179
+'TANIA ROSAS IBARRA','Mamá','taniarosasib@gmail.com','7737340025',None,None,None,None,None,None,None,180
+'VERONICA KURI LOYO','Mamá','kuriloyov@gmail.com','7731396122',None,None,None,None,None,None,None,181
+'NANCY ELIZABETH OCAMPO MARQUEZ','Mamá','nancy.ocampo@gmail.com','5521292060',None,None,None,None,None,None,None,182
+'ZANDY LUCERO AGUILAR BAUTISTA','Mamá','chiquis_7_14@hotmail.com','7711885831',None,None,None,None,None,None,None,183
+'KAREN ESMERALDA MARTINEZ CAMPOS','Mamá','karenesme28@gmail.com','7731151789',None,None,None,None,None,None,None,184
+'CECILIA ESPINOZA TAPIA','Mamá','teacher.c.e.t@gmail.com','7731028269',None,None,None,None,None,None,None,185
+'ROSA ISELA JUAREZ LOMELI','Mamá','natalieisel@gmail.com','7731780152',None,None,None,None,None,None,None,186
+'MARIA DANAE COETO LOPEZ','Mamá','danae_flam@hotmail.com','7731043464',None,None,None,None,None,None,None,187
+'CINTHIA BERENICE BAÑOS FALCON','Mamá','berebaf@hotmail.com','7732029304',None,None,None,None,None,None,None,188
+'SHARON GONZALEZ MERA','Mamá','','7731796971',None,None,None,None,None,None,None,189
+'BERENICE AGUILAR MATURANO','Mamá','bere.maturano@gmail.com','5511922686',None,None,None,None,None,None,None,190
+'BETZABEL VALDERRAMA U','Mamá','blinky@lie.com.mx','7731817732',None,None,None,None,None,None,None,191
+'GUADALUPE MARITZA GARCIA PEREZ','Mamá','omarmaya@yahoo.com','7731864272',None,None,None,None,None,None,None,192
+'LETICIA ROJAS RIVAS ','Mamá','lety021096@gmail.com ','7731338462',None,None,None,None,None,None,None,193
+'CELINA DONAJI RAMIREZ SANCHEZ','Mamá','cel.don.ramirez1983@gmail.com ','7731393772',None,None,None,None,None,None,None,194
+'BLANCA TERESA JUAREZ MENDEZ','Mamá','ttjuarez@live.com','7711853614',None,None,None,None,None,None,None,195
+'MARSHA PAMELA MENDOZA MONROY','Mamá','pame9559@gmail.com','7737349917',None,None,None,None,None,None,None,196
+'ELIZABETH ANGELES GARCIA','Mamá','ely-ser@hotmail.com','7731491008',None,None,None,None,None,None,None,197
+'GABRIELA MORALES PAYON','Mamá','gabiya_8@hotmail.com','7731122928',None,None,None,None,None,None,None,198
+'','Mamá','','',None,None,None,None,None,None,None,199
+'LAURA ISABEL HUERTA SOTO','Mamá','laura01.huerta@gmail.com','4424663668',None,None,None,None,None,None,None,200
+'ANGELICA GOIZ NUÑEZ','Mamá','omangie1234@gmail.com','2222514722',None,None,None,None,None,None,None,201
+'DEYANIRA HERNANDEZ MATEO','Mamá','admon.servilladonga@gmail.com','7737360428',None,None,None,None,None,None,None,202
+'MAGALI CID CRUZ','Mamá','magacidcruz@gmail.com','5632334216',None,None,None,None,None,None,None,203
+'ROSA SAMANTHA MARTINEZ CERON','Mamá','sleon5374@gmail.com','7731300953',None,None,None,None,None,None,None,204
+'DELIA MALELLA TERESA GARCIA CALDERON PITTI','Mamá','malella15@hotmail.com','5545260548',None,None,None,None,None,None,None,205
+'ANGELICA JERAMEL VIVEROS BARRERA','Mamá','angieviba24@yahoo.com','7731436836',None,None,None,None,None,None,None,206
+'ROSARIO AMAIRANI MARTINEZ ACOSTA','Mamá','amairanipedagogia1604@gmail.com','7731142514',None,None,None,None,None,None,None,207
+'SHARENNE CRISTINA SALAZAR CASTILLO','Mamá','sharennesalazar@gmail.com','7731436962',None,None,None,None,None,None,None,208
+'ALEJANDRA CRUZ URIBE','Mamá','alexandrina316@gmail.com','7714274471',None,None,None,None,None,None,None,209
+'JOANA BARRERA CRUZ','Mamá','j-barrera-cruz@hotmail.com','7731726421',None,None,None,None,None,None,None,210
+'CINDY EVELYN FALCON PEREZ','Mamá','ciindyfalcon92@gmail.com','7731228756',None,None,None,None,None,None,None,211
+'ALMA GLORIA MONTIEL TAPIA','Mamá','almotak21@gmail.com','7737362993',None,None,None,None,None,None,None,212
+'HARUMI WENDOLYNNE BENITEZ ABARCA','Mamá','harpink@hotmail.com','5548746642',None,None,None,None,None,None,None,213
+'YARET ALEJANDRA DONIZ FUENTES','Mamá','el_punto_de_la_i@hotmail.com','7731344573',None,None,None,None,None,None,None,214
+'EDGAR VAZQUEZ NUÑEZ','Mamá','ed.vazquezn@gmail.com','5519146137',None,None,None,None,None,None,None,215
+'JANET ALPIZAR TAPIA','Mamá','yin.alpizar20@gmail.com','5533998159',None,None,None,None,None,None,None,216
+'DZOARA ANTONIA QUIROZ HERNANDEZ','Mamá','dzoaritha@gmail.com','7731103292',None,None,None,None,None,None,None,217
+'VIRIDIANA CHAVEZ HERRERA','Mamá','regi15664@gmail.com','7731471803',None,None,None,None,None,None,None,218
+'MARIA ANGELICA JAIME VARELA','Mamá','','7731113100',None,None,None,None,None,None,None,219
+'JANETH MARTINEZ HERNANDEZ','Mamá','','7731523675',None,None,None,None,None,None,None,220
+'DIANA LAURA LEDEZMA ZUÑIGA','Mamá','buzondediana95@gmai.com','7721579217',None,None,None,None,None,None,None,221
+'MARIBEL ANGELES ARROYO','Mamá','may_arroyo30@hotmail.com','5521955506',None,None,None,None,None,None,None,222
+'SONIA GONZALEZ VILLEDA','Mamá','soniagv201603@gmail.com','7731386424',None,None,None,None,None,None,None,223
+'ELIZABETH LOPEZ HERNANDEZ','Mamá','liz.loherz@gmail.com','7731377319',None,None,None,None,None,None,None,224
+'GLADIS VERONICA SANTOS MARTINEZ','Mamá','monicasantosmartinez@outloo.com','7731074601',None,None,None,None,None,None,None,225
+'DIANA KARINA GUERRERO ANGELES','Mamá','karinithanna@gmail.com','7298725311',None,None,None,None,None,None,None,226
+'SILVIA SANTOS CRISTOBAL','Mamá','santossilv64@gmail.com','7731065438',None,None,None,None,None,None,None,227
+'PALOMA LEON CRUZ','Mamá','daypa14@hotmail.com','7293911069',None,None,None,None,None,None,None,228
+'PATRICIA MEDINA JIMENEZ','Mamá','junio26010@hotmail.com','7717474488',None,None,None,None,None,None,None,229
+'MARIA MAGDALENA ROMAN BARRADAS','Mamá','kenmag11@hotmail.com','7731518974',None,None,None,None,None,None,None,230
+'BRENDA ROMERO CAMACHO','Mamá','rcamcho_brenda@outloo.com','7732304165',None,None,None,None,None,None,None,231
+'ALMA IRAYS RAMIREZ VEGA','Mamá','almairays.ramirezvega@gmail.com','7715688016',None,None,None,None,None,None,None,232
+'DELIA ARACELI GUERRERO ENRIQUEZ','Mamá','delia_dage@hotmail.com','7736806974',None,None,None,None,None,None,None,233
+'CINTHIA GODINEZ SOTRES','Mamá','cinthiasotres@gmail.com','7731708747',None,None,None,None,None,None,None,234
+'SANDRA NOHEMI VILLADONGA HERNANDEZ','Mamá','ssnnvill@gmail.com','7731661539',None,None,None,None,None,None,None,235
+'MICHAEL BERENICE SANCHEZ MARTINEZ','Mamá','dgrmichelllbsm@gmail.com','7714713044',None,None,None,None,None,None,None,236
+'CAROLINA ROMERO CAMACHO','Mamá','carolina_rcamacho@hotmail.com','7731101500',None,None,None,None,None,None,None,237
+'TERESA SANCEN TRUJILLO','Mamá','','5515702359',None,None,None,None,None,None,None,238
+'MIRIAM GOMEZ ESPINOZA','Mamá','miriamquetzal@hotmail.com','771189832',None,None,None,None,None,None,None,239
+'','Mamá','','',None,None,None,None,None,None,None,240
+'MAYRETH MARGARITA BRICEÑO DONIS','Mamá','mayreth1809@outlook.com','7712323207',None,None,None,None,None,None,None,241
+'MARIA DOLORES MAYORGA GOMEZ','Mamá','loly6904@gmai.com','7731669066',None,None,None,None,None,None,None,242
+'LAURA ANGELICA SOTO MIRELES','Mamá','soto.lauraa@hotmail.com','7731460936',None,None,None,None,None,None,None,243
+'MARTHA MARTINEZ RIVERA','Mamá','marthamartinezrivera53@gmail.com','7731424568',None,None,None,None,None,None,None,244
+'LESLY YAMILET RODRIGUEZ BIESTER','Mamá','les_rbiest28@outlook.com','7731992341',None,None,None,None,None,None,None,245
+'CARLA YADIRA MARTINEZ VILLAGRAN','Mamá','villagrankarla8@gmail.com','7731242920',None,None,None,None,None,None,None,246
+'BRENDA MARISOL ZAMORANO MORA','Mamá','brenzamorita26@gmail.com','7731439857',None,None,None,None,None,None,None,247
+'KARINA ELIZABETH MONTUFAR RAMAIREZ','Mamá','karymontufar@hotmail.com','7731107734',None,None,None,None,None,None,None,248
+'MARIA GUADALUPE BENITEZ PEREZ','Mamá','benitezlupita923@gmail.com','7731717579',None,None,None,None,None,None,None,249
+'ARELY JEANETH DE LUNA DAVILA','Mamá','ylerajld_91@hotmail.com','4492605911',None,None,None,None,None,None,None,250
+'NANCY A VILLAGRAN MERCADO','Mamá','','7731212159',None,None,None,None,None,None,None,251
+'VANESSA YOHANNA CORNEJO MARIN','Mamá','vanyoh@hotmail.com','7731559688',None,None,None,None,None,None,None,252
+'MONICA GUADALUPE TORRES GALLEGO','Mamá','moninat05@gmail.com','7711285696',None,None,None,None,None,None,None,253
+'MARLENE ADRIANA LIMON MERA','Mamá','marlimm@hotmail.com','7731099573',None,None,None,None,None,None,None,254
+'DEYANIRA HERNANDEZ MATEO','Mamá','admon.servilladonga@gmail.com','7737360428',None,None,None,None,None,None,None,255
+'MARLA SAMANTHA CANO ROCHA','Mamá','marlacano88@gmail.com','7732345583',None,None,None,None,None,None,None,256
+'SABDY NAYELI GRESS HERNANDEZ','Mamá','sabdyhernandez12@gmail.com','7711517062',None,None,None,None,None,None,None,257
+'VERONICA INFANTA BELTRAN CASTILLO','Mamá','infantabc@hotmail.com','7716994378',None,None,None,None,None,None,None,258
+'BRENDA GABRIELA OLGUIN LUGO','Mamá','gabiie1606@gmail.com','7712000082',None,None,None,None,None,None,None,259
+'MARISOL JIMENEZ SANTAMARIA','Mamá','work_marisol@hotmail.com','7731221315',None,None,None,None,None,None,None,260
+'MARIA LUISA VAZQUEZ CASERES','Mamá','maluva2321@gmail.com','4428697899',None,None,None,None,None,None,None,261
+'YENI AGUILAR RESENDIZ ','Mamá','aguilaryeni82@gmail.com','7732019310',None,None,None,None,None,None,None,262
+'BRENDA BERENICE PEREZ ESPINAL','Mamá','bre_adnerb@hotmail.com','7736822606',None,None,None,None,None,None,None,263
+'LUCIANA REYES ESTRADA','Mamá','jemarlu2910@hotmail.com','7731836489',None,None,None,None,None,None,None,264
+'MARIA GUADALUPE GODINEZ MARQUEZ','Mamá','cajapemex79@hotail.com','7731793044',None,None,None,None,None,None,None,265
+'VIVIANA JIMENEZ HERNANDEZ ','Mamá','vividr19@hotmail.com','5521290369',None,None,None,None,None,None,None,266
+'PERLA IVONNE DONIZ TAPIA','Mamá','ivonnedoniz@hotmail.com','7731696721',None,None,None,None,None,None,None,267
+'SANDRA MARIA GOMEZ BALTAZAR','Mamá','sandiogomez.1225@gmail.com','7731541911',None,None,None,None,None,None,None,268
+'NANCY GARCIA REYES','Mamá','gfb_nancy@hotmail.com','773104759',None,None,None,None,None,None,None,269
+'NANCY GARCIA REYES','Mamá','gfb_nancy@hotmail.com','773104759',None,None,None,None,None,None,None,270
+'ARIANA EIZABETH PEREZ MORALES','Mamá','lic.aripm@hotmail.com','7731117320',None,None,None,None,None,None,None,271
+'CYNTHIA ALEXANDRA SIERRA MORENO','Mamá','alexa_cynthi@live.com','7731289231',None,None,None,None,None,None,None,272
+'ANA ELSA CASTILLO CEA','Mamá','elsa.dina61@gmail.com','7731078478',None,None,None,None,None,None,None,273
+'LILI RESENDIZ QUIRARTE','Mamá','lilirq83@gmail.com','7721717433',None,None,None,None,None,None,None,274
+'DENIS  BERENICE ALPIZAR BONILLA','Mamá','denisberenice.alpizar1@gmail.com','7732229279',None,None,None,None,None,None,None,275
+'JESSICA DAMARIS SALAS FUENTES','Mamá','d29_f41@hotmail.com','5567922859',None,None,None,None,None,None,None,276
+'KARINA HEIDI GALICIA PEREZ','Mamá','krea_2204@hotmail.com','7731544077',None,None,None,None,None,None,None,277
+'KARINA LEON PEÑA','Mamá','ka_leonp18@gmail.com','7731387738',None,None,None,None,None,None,None,278
+'XOCHITL ANGELES TAVERA','Mamá','xochitl.angeles@hotmail.com','7731279879',None,None,None,None,None,None,None,279
+'CLAUDIA VAZQUEZ BARRIOS','Mamá','vb_claudia@hotmail.com','7731093274',None,None,None,None,None,None,None,280
+'MARIANA VELAZQUEZ PEREZ','Mamá','mariana-vp@hotmail.com','5554064136',None,None,None,None,None,None,None,281
+'','Mamá','','',None,None,None,None,None,None,None,282
+'MAGNOLIA ZUÑIGA MEJIA','Mamá','sofdulzuniga@gmail.com','7731589693',None,None,None,None,None,None,None,283
+'RUTH CANDELARIA REYES CORNELIO','Mamá','candyruthreyes@gmail.co','7731571554',None,None,None,None,None,None,None,284
+'DELIA MALELLA TERESA GARCIA CALDERON PITTI','Mamá','malella15@hotmail.com','5545260548',None,None,None,None,None,None,None,285
+'ANA ROSA COSSYLEON TABAREZ','Mamá','cossyleontabarez@gmail.com','7731307217',None,None,None,None,None,None,None,286
+'YAZMIN ORALIA MENDOZA HERNANDEZ','Mamá','yazmh_mag@hotmail.com','7731378632',None,None,None,None,None,None,None,287
+'ELIZABETH PEÑA REYES','Mamá','elio_pere14@hotmail.com','7737394191',None,None,None,None,None,None,None,288
+'ERIKA ALVAREZ ORTIZ','Mamá','e_alvarezo@hotmail.com','5528977149',None,None,None,None,None,None,None,289
+'JAZMIN IRAN DOMINGUEZ HERRERA','Mamá','irandominguezherrera@gmail.com','7731239086',None,None,None,None,None,None,None,290
+'ALA LIDIA LOPEZ QUIJANO','Mamá','maxnarvarte79@gmail.com','5522914120',None,None,None,None,None,None,None,291
+'JESSICA NAVARRO LARA','Mamá','jes85@live.com.mx','7731660898',None,None,None,None,None,None,None,292
+'CLAUDIA ELSA NAVARRETE MARTINEZ','Mamá','rojo_he@gmail.com','7731888974',None,None,None,None,None,None,None,293
+'ANA YELI HERNANDEZ PAREDES','Mamá','jose123458e83@gmail.com','7731115829',None,None,None,None,None,None,None,294
+'MARIA DEL ROCIO MEJIA LOPEZ','Mamá','administracion@grupo-tcm.com.mx','7731282913',None,None,None,None,None,None,None,295
+'KEREN ARIDAY QUIROZ TREJO','Mamá','ariday_2128@hotmail.com','7731065985',None,None,None,None,None,None,None,296
+'NORMA GUADALUPE ARCE ARNAN ','Mamá','ngpe.arcearana@gmail.com','7731661254',None,None,None,None,None,None,None,297
+'CLAUDIA MIRANDA GARCIA','Mamá','claudiamirandatula@gmail.com','7736821210',None,None,None,None,None,None,None,298
+'VIANEY PAREDES RESENDIZ ','Mamá','vian181209@gmail.com','5523014866',None,None,None,None,None,None,None,299
+'ANA YESENIA PACHECO SANCHEZ','Mamá','anayes0104@gmail.com','5523267266',None,None,None,None,None,None,None,300
+'ARY HELEN CASTILLO RAMIREZ','Mamá','','7731738648',None,None,None,None,None,None,None,301
+'MARIANA LOPEZ  YAÑEZ','Mamá','yanez_rob0312@hotmail.com','7731668188',None,None,None,None,None,None,None,302
+'CRISTINA MONTOYA GOMEZ','Mamá','corimon22@gmail.com','7731219588',None,None,None,None,None,None,None,303
+'MERILYN HIDALGO SANCHEZ','Mamá','meryhidalgosa26@gmail.com','5521780703',None,None,None,None,None,None,None,304
+'IRALDA J. BENITEZ TRUJILLO','Mamá','','7731865086',None,None,None,None,None,None,None,305
+'MARIBEL IGLESIAS VAZQUEZ','Mamá','merrelin011100@gmail.com','7715684053',None,None,None,None,None,None,None,306
+'CINDY EVELYN FALCON PEREZ','Mamá','ciindyfalcon92@gmail.com','7731228756',None,None,None,None,None,None,None,307
+'FATIMA GUADALUPE BRAVO VILLA','Mamá','','7731406092',None,None,None,None,None,None,None,308
+'NELLY ORIANNA TREJO REYNOSO','Mamá','orianna.trey@outlook.com','7731348816',None,None,None,None,None,None,None,309
+'SERAYA LORENA MARTINEZ ESPINOSA','Mamá','serele90@hotmail.com','7721021048',None,None,None,None,None,None,None,310
+'CIELO BARCENAS MEJIA','Mamá','cielo9.t@gmail.com','7731114290',None,None,None,None,None,None,None,311
+'ELIZABETH REYES HERNANDEZ','Mamá','flaquita_092001@hotmail.com','2381218722',None,None,None,None,None,None,None,312
+'MARIBEL VIVEROS RESENDIZ','Mamá','mariel.viveros@hotmail.com','7731396813',None,None,None,None,None,None,None,313
+'MARIBEL CID OLVERA','Mamá','maribel.cidolvera@gmail.com','7736801836',None,None,None,None,None,None,None,314
+'JAZMIN ELIZABETH PLACENCIA MARTINEZ','Mamá','jazeli18@live.com.mx','7731013607',None,None,None,None,None,None,None,315
+'CONCEPCION GUILLEN CRUZ','Mamá','jacon_0828@hotmail.com','7731462972',None,None,None,None,None,None,None,316
+'JANICK AIDA SALAZAR CASTILLO','Mamá','janicksalazar@outlook.com','7731509954',None,None,None,None,None,None,None,317
+'ZULEICA CELIN GOMEZ SAÑUDO','Mamá','zuleica.gomezs@hotail.com','7731099597',None,None,None,None,None,None,None,318
+'NELLY VIRIDIAN ALTAMIRANO CAZARES','Mamá','regionelly@gmail.com','5633851583',None,None,None,None,None,None,None,319
+'VIRIDIANA MONROY CARBALLO','Mamá','virimonrc@hotmail.com','7731106046',None,None,None,None,None,None,None,320
+'KARINA ELIZABETH MONTUFAR RAMAIREZ','Mamá','karymontufar@hotmail.com','7731107734',None,None,None,None,None,None,None,321
+'JOCELYN SANCHEZ LUGO','Mamá','jocsanlug@hotmail.com','7737319523',None,None,None,None,None,None,None,322
+'VIRIDIANA VALENCIA ORTEGA','Mamá','viri789valelncia.vvo@gmail.com','7731157259',None,None,None,None,None,None,None,323
+'DALIA AZUSENA MORALES REYES','Mamá','dazu1703@hotmail.com','7731394911',None,None,None,None,None,None,None,324
+'NELIDA G. MARIANO CARBALO','Mamá','nelycrow10@gmail.com','7731203238',None,None,None,None,None,None,None,325
+'ANGELICA AGUIRRE RAMMOS','Mamá','angelikar0420@gmail.com','5559061571',None,None,None,None,None,None,None,326
+'SANDRA CASTILLO ESTEVEZ ','Mamá','sandia_castillo@hotmail.com','7737347305',None,None,None,None,None,None,None,327
+'BRENDA RODRIGUEZ GUZMAN','Mamá','languagebrg@gmail.com','7731559222',None,None,None,None,None,None,None,328
+'ALEJANDRA DE LEON RODRIGUEZ','Mamá','alejadeleon0812@gmail.com','7731118545',None,None,None,None,None,None,None,329
+'NIDIA ALCANTARA ORDAZ','Mamá','nidia.ao@gmail.com','7731256426',None,None,None,None,None,None,None,330
+'GRAUBEN SANCEZ MARTINEZ','Mamá','','5559171514',None,None,None,None,None,None,None,331
+'JENNY AYERIN ALVARADO VILLEDA','Mamá','jz_ayerin@hotmail.com','7731044465',None,None,None,None,None,None,None,332
+'VERONICA ZUÑIGA CHAVEZ','Mamá','psico_zunniga@hotmail.com','7731091631',None,None,None,None,None,None,None,333
+'KEIDY FIGUEROA AVENDAÑO','Mamá','heydy_4585@hotmail.com','5518011314',None,None,None,None,None,None,None,334
+'NANCY ELENA MEDINA GONZALEZ','Mamá','na.n.44444@hotmail.com','7731090803',None,None,None,None,None,None,None,335
+'LIZETH DENISSE OAREDES GUERRERO','Mamá','liz_denisse8210@hotmail.com','7731098103',None,None,None,None,None,None,None,336
+'KEREN ARIDAY QUIROZ TREJO','Mamá','ariday_2128@hotmail.com','7731065985',None,None,None,None,None,None,None,337
+'VERONICA MARTINEZ ROSADO','Mamá','vero_mar_ros@hotmail.com','7731517310',None,None,None,None,None,None,None,338
+'LAURA YAZMIN MONTUFAR RAMIREZ','Mamá','manolomondragon085@gmail.com','7731499070',None,None,None,None,None,None,None,339
+'MARIA SOL LAZARO HERNANDEZ','Mamá','msollazaro30@gmail.com','7737398293',None,None,None,None,None,None,None,340
+'ALMA DELIA GODINEZ IGLESIAS','Mamá','argiazul_20@hotmail.com','7731379259',None,None,None,None,None,None,None,341
+'ARACELI CASTILLO TORRES','Mamá','aracl78@hotmail.com','7731058306',None,None,None,None,None,None,None,342
+'MARIBEL MONTIEL LEDEZMA','Mamá','frogs_mml@hotmail.com','5622143541',None,None,None,None,None,None,None,343
+'ASTRID YOCELIN MENDOZA TOVAR','Mamá','ayoce_mt@hotmail.com','7731326497',None,None,None,None,None,None,None,344
+'JAQUELIN CERON CURIEL','Mamá','ceron42013@gmail.com','7731360155',None,None,None,None,None,None,None,345
+'DRYTSI STEPHANIA BELTRAN DEL ANGEL','Mamá','nena.deba@gmail.com','7731317326',None,None,None,None,None,None,None,346
+'CLAUDIA NADAI ISLAS RODRIGUEZ','Mamá','ferre_chino@hotmail.com','7731242691',None,None,None,None,None,None,None,347
+'ARELI AGUILAR NAJERA','Mamá','aguilarn.areli@gmail.com','7731386372',None,None,None,None,None,None,None,348
+'JAFET ONICA CONTRERAS CERVANTES','Mamá','','7732406991',None,None,None,None,None,None,None,349
+'MINERVA GONZALEZ  LOPEZ','Mamá','','7731371922',None,None,None,None,None,None,None,350
+'AZUCENA MATURANO MURILLO','Mamá','azumatmu_96@hotmail.com','7732167642',None,None,None,None,None,None,None,351
+'NAOKO NIRU BERNAL ORTIZ','Mamá','naokobo_1804@gmail.com','7731099788',None,None,None,None,None,None,None,352
+'ELIZABETH MERA ALPIZAR','Mamá','e-mera@hotmail.com','7731279961',None,None,None,None,None,None,None,353
+'LUZ AIDA ANEGL IBARRA','Mamá','aida.aibarra@outook.com','7731434005',None,None,None,None,None,None,None,354
+'ALEIDA GUADALUPE HERNANDEZ ORTIZ','Mamá','aleidaghdez@gmail.com','7731050144',None,None,None,None,None,None,None,355
+'DENNICE EDITH AGUIRRE REYES','Mamá','deedagre@gmail.com','5572147788',None,None,None,None,None,None,None,356
+'DELIA EDELMIRA GONZALEZ GARIBALDI','Mamá','dgary_17@hotmail.com','7721171130',None,None,None,None,None,None,None,357
+'BLANCA ANAI GOMEZ LEMUS','Mamá','','7787373122',None,None,None,None,None,None,None,358
+'ESDREY PEÑA BARRERA ','Mamá','esdreypb@gmail.com','7731509208',None,None,None,None,None,None,None,359
+'MARSHA PAMELA MENDOZA MONROY','Mamá','pame9559@gmail.com','7737349917',None,None,None,None,None,None,None,360
+'GABRIELA MORALES PAYON','Mamá','gabiya_8@hotmail.com','7731122928',None,None,None,None,None,None,None,361
+'LUZ ESTHER SERRANO FUENTES','Mamá','umperez901@gmail.com','7712025803',None,None,None,None,None,None,None,362
+'ANA CAROLINA GONZALEZ GONZALEZ','Mamá','carolina_gg_41@hotmail.com','7731404413',None,None,None,None,None,None,None,363
+'NEILA JULIANA MAQUEDA TREJO','Mamá','neilacrm@hotmail.com','7731278679',None,None,None,None,None,None,None,364
+'ANA LAURA TORRES GOMEZ','Mamá','analauratorres@live.com.mx','7731632300',None,None,None,None,None,None,None,365
+'KATIA DANIELA RODRIGUEZ DOMINGUEZ','Mamá','katia.daniela.rd@gmail.com','7731668957',None,None,None,None,None,None,None,366
+'INGRID ELENA JIMENEZ SANTAMARIA','Mamá','ingridjimenez53405@gmail.com','77312171058',None,None,None,None,None,None,None,367
+'BRENDA ELIZABETH MORA ULLOA ','Mamá','brenda.elizabeth.mora@pemex.com','7731751335',None,None,None,None,None,None,None,368
+'NOEMI GODOY GONZAGA','Mamá','bugeug80@gmail.com','7731230024',None,None,None,None,None,None,None,369
+'MARIA DE LOURDES ROBLEDO VALENCIA','Mamá','angel_demon26@hotmail.com','7731205666',None,None,None,None,None,None,None,370
+'SANDRA LEDEZMA MORALLES','Mamá','sandra.ledezma.m@hotmail.com','7731225703',None,None,None,None,None,None,None,371
+'HERICA MARTINEZ GARCIA','Mamá','kekosjc@hotmail.com','7731079934',None,None,None,None,None,None,None,372
+'HILDA KARINA CASTILLO CHAVEZ','Mamá','','7731101261',None,None,None,None,None,None,None,373
+'DEBORA FLORES ORDAZ ','Mamá','debyflores88@gmail.com','7732331869',None,None,None,None,None,None,None,374
+'ARIADNA BARRERA ORTIZ','Mamá','barreraortiz67@gmail.com','7731321513',None,None,None,None,None,None,None,375
+'SERAYA LORENA MARTINEZ ESPINOSA','Mamá','serele90@hotmail.com','7721021048',None,None,None,None,None,None,None,376
+'DORIS MINDY GONZALEZ LORA','Mamá','doris.mindygonzalezlora@gmail.com','7716774692',None,None,None,None,None,None,None,377
+'LETICIA GODOY ESTRADA','Mamá','gisestiet@gmail.com','5545693860',None,None,None,None,None,None,None,378
+'YENNY CAROLINA ORTIZ JIMENEZ','Mamá','transportes-alex@outlook.com','6271290332',None,None,None,None,None,None,None,379
+'YENNY CAROLINA ORTIZ JIMENEZ','Mamá','transportes-alex@outlook.com','6271290332',None,None,None,None,None,None,None,380
+'BIANCA DEL RIO','Mamá','bianca01@hotmail.com','7731114346',None,None,None,None,None,None,None,381
+'BERENICE JURADO VAZQUEZ','Mamá','berejuva@hotmail.com','7731559750',None,None,None,None,None,None,None,382
+'MARIA LUISA CASTILLO ARRIAGA','Mamá','m_luisacastillo@hotmail.com','7731261830',None,None,None,None,None,None,None,383
+'SANDRA MARIA GOMEZ BALTAZAR','Mamá','sandiogomez.1225@gmail.com','7731541911',None,None,None,None,None,None,None,384
+'VIANEY PAREDES RESENDIZ ','Mamá','vian181209@gmail.com','5523014866',None,None,None,None,None,None,None,385
+'JAZMIN CRUZ LIMA','Mamá','granrez006@hotmail.com','7731067048',None,None,None,None,None,None,None,386
+'LORENA AGUIRRE MEJIA','Mamá','bole_87@hotmail.com','7731226198',None,None,None,None,None,None,None,387
+'MARIBEL MONTIEL LEDEZMA','Mamá','frogs_mml@hotmail.com','5622143541',None,None,None,None,None,None,None,388
+'MARIA GUADALUPE CRUZ MARTINEZ','Mamá','lupissscruz@gmail.com','7731112896',None,None,None,None,None,None,None,389
+'REYNA ELIZABETH REYNOSO HERNANDEZ','Mamá','covyptula24@gmail.com','7731279845',None,None,None,None,None,None,None,390
+'MA. DE LOS ANEGLES MIRANDA NOGUEZ','Mamá','dariangelmn59@gmail.com','7737361288',None,None,None,None,None,None,None,391
+'ASTRID NADIA MIREYA MAQUEDA NOGUEZ','Mamá','astridmaqueda@gmail.com','7731322996',None,None,None,None,None,None,None,392
+'YADIRA SABINA CIRTEZ RESENDIZ','Mamá','yadira.sabin@gmail.com','7731315442',None,None,None,None,None,None,None,393
+'ALEJANDRA ARCOS ALBA','Mamá','popynala@lice.com.mx','7737341411',None,None,None,None,None,None,None,394
+'BRENDA ROMERO CAMACHO','Mamá','rcamcho_brenda@outloo.com','7732304165',None,None,None,None,None,None,None,395
+'DELIA MALELLA TERESA GARCIA CALDERON PITTI','Mamá','malella15@hotmail.com','5545260548',None,None,None,None,None,None,None,396
+'ELIZABETH MARTINEZ LEDEZMA','Mamá','mtz_ldz0210@hotmail.com','7731328050',None,None,None,None,None,None,None,397
+'YUNUEN AMAYRAI SEPTIEN TAPIA','Mamá','amai_yuni@hotmail.com','7731335300',None,None,None,None,None,None,None,398
+'VERONICA INFANTA BELTRAN CASTILLO','Mamá','infantabc@hotmail.com','7716994378',None,None,None,None,None,None,None,399
+'MONICA SANTOS MARTINEZ','Mamá','monicasantosmartinez@outlook.com','7731418985',None,None,None,None,None,None,None,400
+'LARA CERVANTES SANDRA','Mamá','kichiflash07@gmail.com','7714628341',None,None,None,None,None,None,None,401
+'','Mamá','','',None,None,None,None,None,None,None,402
+'BARBARA AIDE RODRIGUEZ AVENDAÑO','Mamá','barbara.iqi@hotmail.com','5526864577',None,None,None,None,None,None,None,403
+'FATIMA GUADALUPE BRAVO VILLA','Mamá','','7731406092',None,None,None,None,None,None,None,404
+'ALINE VIANEY PEREZ JUAREZ','Mamá','','5567593038',None,None,None,None,None,None,None,405
+'DULCE GUADALUPE CRUZ RAMIREZ','Mamá','dulce_cri10@hotmail.com','7737360809',None,None,None,None,None,None,None,406
+'KEIDY FIGUEROA AVENDAÑO','Mamá','heydy_4585@hotmail.com','5518011314',None,None,None,None,None,None,None,407
+'JUANA ALEJANDRA CASTRO TELLEZ','Mamá','alecastro2419@gmail.com','7731119052',None,None,None,None,None,None,None,408
+'MARIA LUISA JIMENEZ DIAZ','Mamá','jimenezluisa31@gmail.com','7731860904',None,None,None,None,None,None,None,409
+'NORMA NOHEMI SANTILLAN ROODRIGUEZ','Mamá','noinaites@gmail.com','7731711272',None,None,None,None,None,None,None,410
+'MARTHA PATRICIA RODRIGUEZ SANCHEZ','Mamá','e_alpa5@hotmail.com','7731511402',None,None,None,None,None,None,None,411
+'MARIA GUADALUPE GONZALEZ LOPEZ','Mamá','lupitaggael@gmail.com','7731233079',None,None,None,None,None,None,None,412
+'MARI CRUZ QUIROZ HERNANDEZ','Mamá','mari_cruz999@hotmail.com','737354445',None,None,None,None,None,None,None,413
+'MONSERRAT ELI LIENZO RIVERA','Mamá','montse.wilson@gmail.com','7717477930',None,None,None,None,None,None,None,414
+'LIZETH PLASCENCIA MARTINEZ','Mamá','liz84_28@hotmail.com','7731217498',None,None,None,None,None,None,None,415
+'JHOANNA CARMINA IBARRA PACHECO','Mamá','jhanisjhoas@gmail.com','7731523363',None,None,None,None,None,None,None,416
+ 'HECTOR JESUS ARANA MARIN ' ,'Papá', 'harana_80@hotmail.com' ,'7731292637',None,None,None,None,None,None,None,1
+ 'NOE BENITEZ MENDOZA' ,'Papá', '' ,'7731636795',None,None,None,None,None,None,None,2
+ 'ALEJANDRO CUEVAS PARRA' ,'Papá', 'aalejandro.cuevas.parra@gmail.com' ,'787314111073',None,None,None,None,None,None,None,3
+ 'IVAN DE LEON PEREZ' ,'Papá', 'dleonivan@gmail.com' ,'7737395161',None,None,None,None,None,None,None,4
+ 'FRANCISCO ESCAMILLA CASTILLO' ,'Papá', 'fecthebest@hotmail.com' ,'7731259860',None,None,None,None,None,None,None,5
+ 'RAMSES FLORES MARTINEZ' ,'Papá', 'ramses.flores1704@gmail.com' ,'7731693301',None,None,None,None,None,None,None,6
+ 'JULIO ISRAEL GARCIA BALLESTEROS' ,'Papá', 'isgarball@hotmail.com' ,'7731142873',None,None,None,None,None,None,None,7
+ 'GERARDO GARCIA MARTINEZ' ,'Papá', '' ,'12143292367',None,None,None,None,None,None,None,8
+ 'JAVIER GOMEZ SAÑUDO' ,'Papá', 'fagosa_trucking@hotmail.com' ,'7711934416',None,None,None,None,None,None,None,9
+ 'JAVIER GOMEZ PICHARDO' ,'Papá', 'jgomezpichardo@yahoo.com.mx' ,'7732044295',None,None,None,None,None,None,None,10
+ 'IVAN DE JESUS GONZALEZ ORTIZ' ,'Papá', 'ivangoort29@hotmail.com' ,'7737399431',None,None,None,None,None,None,None,11
+ 'SAUL HERNANDEZ SANCHEZ' ,'Papá', 'zzaauull_94@hotmail.com' ,'77315744941',None,None,None,None,None,None,None,12
+ 'BONIFACIO LEON SEBASTIAN' ,'Papá', 'boniye@hotmail.com' ,'7731387780',None,None,None,None,None,None,None,13
+ 'LESTER OMEGAR LOPEZ PEREYRA' ,'Papá', 'ckometin@hotmail.com' ,'5591696939',None,None,None,None,None,None,None,14
+ 'SERGIO BERNANDO MEJIA GARDUÑO' ,'Papá', 'smegar417@hotmail.com' ,'7731255787',None,None,None,None,None,None,None,15
+ 'EDEN MORALES MARTINEZ' ,'Papá', 'edenmoralesmtz81@gmail.com' ,'7731830400',None,None,None,None,None,None,None,16
+ 'HECTOR NAVARRETE BEJAR' ,'Papá', 'hnbejar@hotmail.com' ,'5529710127',None,None,None,None,None,None,None,17
+ 'RENE PEREZ GARCIA' ,'Papá', 'rene.prz.g@gmail.com' ,'7731199748',None,None,None,None,None,None,None,18
+ 'ABRHAM KARIM PRUDENCIO REYES' ,'Papá', 'karimsillo@outlook.com' ,'7731559104',None,None,None,None,None,None,None,19
+ 'DAVID RESENDIZ PAREDES' ,'Papá', 'dresendizparedes@gmail.com' ,'7732296143',None,None,None,None,None,None,None,20
+ 'NICK ALBERTINI RIVERA ESTRADA' ,'Papá', '' ,'',None,None,None,None,None,None,None,21
+ '' ,'Papá', '' ,'',None,None,None,None,None,None,None,22
+ '' ,'Papá', '' ,'',None,None,None,None,None,None,None,23
+ 'WILBERT URBINA SANCHEZ ' ,'Papá', 'chefurbina@gmail.com' ,'7731279677',None,None,None,None,None,None,None,24
+ 'ARMANDO ALVAREZ CERON' ,'Papá', 'armdoalvz@gmail.com ' ,'7731202223',None,None,None,None,None,None,None,25
+ 'FRANCISCO JAVIER ALVAREZ RAMIREZ' ,'Papá', 'franciscojar_10@hotmail.com' ,'773 182 66 39',None,None,None,None,None,None,None,26
+ 'SACHIEL DEMIJEAN APARICIO FLORES' ,'Papá', '' ,'7711264309',None,None,None,None,None,None,None,27
+ 'HECTOR AVILA MENDEZ ' ,'Papá', 'hectoravilam41@gmail.com' ,'7731195808',None,None,None,None,None,None,None,28
+ 'BELTRAN BARBOSA JESUS ' ,'Papá', 'alexbel0407@gmail.com' ,'7737340025',None,None,None,None,None,None,None,29
+ 'EDGAR CANDELARIA SANCHEZ' ,'Papá', 'edgar12345candelaria@gmail.com' ,'772 129 22 83 ',None,None,None,None,None,None,None,30
+ 'ALBERTO LUIS CUEVAS PARRA ' ,'Papá', 'albertoluiscuevas@gmail.com' ,'7731117830',None,None,None,None,None,None,None,31
+ 'JORGE ARMANDO FALCON VILLEGAS ' ,'Papá', 'ermevi@hotmail.com' ,'773 140 36 16',None,None,None,None,None,None,None,32
+ 'MARCOS FLORES TIOL' ,'Papá', 'tiol_fmarc@hotmail.com' ,'773 122 01 67',None,None,None,None,None,None,None,33
+ 'NESTOR R. GARCIA VAZQUEZ ' ,'Papá', 'ray-0410@hotmail.com' ,'7731339320',None,None,None,None,None,None,None,34
+ '' ,'Papá', '' ,'',None,None,None,None,None,None,None,35
+ 'JESUS ANTONIO HERNANDEZ NAVA' ,'Papá', 'jeanhe@hotmail.com' ,'7732206222',None,None,None,None,None,None,None,36
+ 'RICARDO IVAN JIMENEZ GALVAN' ,'Papá', 'jigarikelme.rj@gmail.com' ,'7731064049',None,None,None,None,None,None,None,37
+ 'JESUS JIMENEZ VIZUET ' ,'Papá', 'vizuett1986@gmail.com' ,'7731094921',None,None,None,None,None,None,None,38
+ 'GONZALO KURI LOYO' ,'Papá', 'gonzalokuriloyo@gmail.com' ,'7732202759',None,None,None,None,None,None,None,39
+ 'MARIO ALBERTO MOCTEZUMA PEREZ' ,'Papá', 'nano_mocte11@hotmail.com' ,'5575198358',None,None,None,None,None,None,None,40
+ 'FRANCISCO JAVIER OSNAYA MONTOYA' ,'Papá', 'osnaya_eoc@outlook.es' ,'7715464674',None,None,None,None,None,None,None,41
+ 'ARTURO JAVIER PATIÑO ROJAS ' ,'Papá', 'arturo.patino@hotmail.com' ,'7731259638',None,None,None,None,None,None,None,42
+ 'LUIS ANGEL ROMAN ACOSTA ' ,'Papá', 'luiyiang88@hotmail.com' ,'7731219803',None,None,None,None,None,None,None,43
+ 'HECTOR POSADAS SALGADO' ,'Papá','hectorpos28@gmail.com','7737345054',None,None,None,None,None,None,None,44
+'OSCAR EDUARDO RAMOS GARCIA','Papá','ramosgarciaoskar@gmail.com','7731807521',None,None,None,None,None,None,None,45
+'RAYMUNDO RAMIREZ MONTIEL','Papá','rayyamirezmontiel@gmail.com','7731075285',None,None,None,None,None,None,None,46
+'CESAR RAMIREZ TALIN','Papá','','7732193260',None,None,None,None,None,None,None,47
+'ROBERTO REYES MARTINEZ','Papá','','7731153258',None,None,None,None,None,None,None,48
+'JUAN FRANCISCO VENEGAS GUTIERREZ','Papá','jfg2402@gmail.com','7731030796',None,None,None,None,None,None,None,49
+'EDGAR YAEL VILLEDA GREGORIO','Papá','edinho.villeda56@gmail.com','5550570239',None,None,None,None,None,None,None,50
+'ALVAREZ RAMIREZ FRANCISCO JAVIER ','Papá','franciscojar_10@hotmail.com','7732008269',None,None,None,None,None,None,None,51
+'FRANK JOSUE AVENDAÑO BARRERA ','Papá','frkjs24@gmail.com','7731041802',None,None,None,None,None,None,None,52
+'SAID ALI CONTRERAS GALINDO ','Papá','s.contrerasg@hotmail.com','7731146734',None,None,None,None,None,None,None,53
+'JONATHAN ESTEBAN ESTRADA CABRERA','Papá','','7732201642',None,None,None,None,None,None,None,54
+'AGRICOL EVERARDO GODINEZ NOGUEZ ','Papá','agrigolin@yahoo.com','7731050247',None,None,None,None,None,None,None,55
+ 'MIGUEL GOEVANNY GUERRERO LOPEZ' ,'Papá','','',None,None,None,None,None,None,None,56
+'LUIS KENNETH GONZALEZ HERNANDEZ  ','Papá','kenneth1994dan@gmail.com ','5579222507',None,None,None,None,None,None,None,57
+ 'MIGUEL GOEVANNY GUERRERO LOPEZ' ,'Papá','iro_chelito@hotmail.com','773 166 34 61',None,None,None,None,None,None,None,58
+'','Papá','','',None,None,None,None,None,None,None,59
+ 'JUAN MANUEL  LEON JIMENEZ' ,'Papá','jmleon@grupo-tcm.com.mx','7731282913',None,None,None,None,None,None,None,60
+'ARTURO LOPEZ ORTIZ  ','Papá','arturo.loz09@gmail.com','5527249100',None,None,None,None,None,None,None,61
+ 'PEDRO OCTAVIO LUCIO GONZALEZ' ,'Papá','octavio.river10@gmail.com','5528895754',None,None,None,None,None,None,None,62
+ 'ALBERTO MELO MENDOZA' ,'Papá','betomelo1272@hotmail.com','7731142736',None,None,None,None,None,None,None,63
+ 'JOSE MARIA MENDOZA CRUZ' ,'Papá','josemariam994@gmail.com','7732044675',None,None,None,None,None,None,None,64
+ 'LUIS ANDRES MENDOZA CRUZ' ,'Papá','','7721314598',None,None,None,None,None,None,None,65
+'IRVING HORACIO MONROY MOLINA','Papá','irvmonroy@gmail.com','7731830974',None,None,None,None,None,None,None,66
+ 'DEBNER GUADALUPE NARVAEZ MARTINEZ' ,'Papá','','',None,None,None,None,None,None,None,67
+ '' ,'Papá','','',None,None,None,None,None,None,None,68
+'FELIPE DE  JESUS RIVERA CIPRIANO','Papá','felipe.riveracipriano@gmail.com','731130061',None,None,None,None,None,None,None,69
+'SALVADOR RODRIGUEZ PORTILLO','Papá','','5630743408',None,None,None,None,None,None,None,70
+'JUAN ESTEBAN SANTIAGO JAIME','Papá','','',None,None,None,None,None,None,None,71
+'','Papá','','',None,None,None,None,None,None,None,72
+'LUIS ERMI VAZQUEZ PRADO','Papá','tuerkstrucking@gmail.com','7714663747',None,None,None,None,None,None,None,73
+'','Papá','','',None,None,None,None,None,None,None,74
+'JESUS VILLEGAS ALEJANDRE','Papá','jesusjbxl_17@hotmail.com','',None,None,None,None,None,None,None,75
+'','Papá','','',None,None,None,None,None,None,None,76
+'BELTRAN BARBOSA JESUS ','Papá','alexbel0407@gmail.com','7737340025',None,None,None,None,None,None,None,77
+'ROBERTO EDUARDO CANCINO MORAN ','Papá','robertocancino05@gmail.com','7731339559',None,None,None,None,None,None,None,78
+'CARLOS ALBERTO CERON IBARRA','Papá','carlos_ingmecatronica@hotmail.com','7732010155',None,None,None,None,None,None,None,79
+'EDGAR CRUZ OLVER ','Papá','gary_race10@hotmail.com','7731686507',None,None,None,None,None,None,None,80
+'ANDRES CURTI SANCHEZ','Papá','','7731990392',None,None,None,None,None,None,None,81
+'DELGADO PECERO SAUL ALEXIS ','Papá','delgadopecerosaul@gmail.com','7717468132',None,None,None,None,None,None,None,82
+'GUSTAVO ESPINOSA GARCIA ','Papá','gustavo.espinosa.garcia@hotmail.com','7731109557',None,None,None,None,None,None,None,83
+'LUIS ALEJANDRO GERONES VILLEGAS ','Papá','agerones@prodigy.net.mx','7731097614',None,None,None,None,None,None,None,84
+'','Papá','','',None,None,None,None,None,None,None,85
+'IVAN GENARO LOPEZ SANCHEZ ','Papá','cap_ivan21@hotmail.com','7731429044',None,None,None,None,None,None,None,86
+'LUGO MAQUEDA URIEL ','Papá','lumu071125@gmail.com','7731496168',None,None,None,None,None,None,None,87
+'OSVALDO YONATAN MARQUEZ PAREDES 7731241364','Papá','','7731241364',None,None,None,None,None,None,None,88
+'JORGE MARTINEZ RAMIREZ ','Papá','jorgemartine_290@hotmail.com ','7731086009',None,None,None,None,None,None,None,89
+ 'VICTOR MANUEL MONDRAGON ALVARADO' ,'Papá','manolomondragon085@gmail.com','7731078352',None,None,None,None,None,None,None,90
+'ENRIQUE MUNGUIA HERNANDEZ X','Papá','icenriquemun@outlook.es','5573083414',None,None,None,None,None,None,None,91
+'','Papá','','',None,None,None,None,None,None,None,92
+'','Papá','','',None,None,None,None,None,None,None,93
+'','Papá','','',None,None,None,None,None,None,None,94
+'FELIPE DE JESUS RIVERA CIPRIANO ','Papá','felipe.riveracipriano@gmail.com','7731130061',None,None,None,None,None,None,None,95
+'SALGADO CORTEZ JAIME  ','Papá','corjaime1@hotmail.com','5576690659',None,None,None,None,None,None,None,96
+'','Papá','','',None,None,None,None,None,None,None,97
+'MARIO ALBERTO SERRANO REYES ','Papá','mario_al9229@hotmail.com ','',None,None,None,None,None,None,None,98
+ 'JOHN GEORGE FRANCIS SABOL ORTIZ' ,'Papá','jso_ortiz18@hotmail.com','7717776677',None,None,None,None,None,None,None,99
+'OMAR ZAMORANO MORA ','Papá','orion_079@hotmail.com','7731832548',None,None,None,None,None,None,None,100
+'JULIO CESAR ARGUELLES GONZALEZ ','Papá','clandestinotula@gmail.com','7717260676',None,None,None,None,None,None,None,101
+ 'MARIO ALBERTO AVILES PEREZ ' ,'Papá','','7731424616',None,None,None,None,None,None,None,102
+'VICTOR CALDERON VILLEDA ','Papá','villeda_victor@hotmail.com ','7731173614',None,None,None,None,None,None,None,103
+'VICTOR HUGO CERON MENDOZA 7732331869','Papá','vceron10@hotmail.com','7732331869',None,None,None,None,None,None,None,104
+'IVAN DE JESUS CONTRERAS CALVA ','Papá','','7732891324',None,None,None,None,None,None,None,105
+'ANDRES CURTI SANCHEZ','Papá','','7731990392',None,None,None,None,None,None,None,106
+'','Papá','','',None,None,None,None,None,None,None,107
+'FALCON PEREZ SERGIO ALBERTO ','Papá','lovovan007@gmail.com','5533599294',None,None,None,None,None,None,None,108
+'','Papá','','',None,None,None,None,None,None,None,109
+'ANDY ADHIR GRAJEDA SALINAS ','Papá','cajapemex79@hotmail.com','7774404905',None,None,None,None,None,None,None,110
+ '' ,'Papá','','',None,None,None,None,None,None,None,111
+ 'JOSE ALFREDO MARQUEZ HERNANDEZ' ,'Papá','nika_fd@hotmail.com','',None,None,None,None,None,None,None,112
+'ONIEL GERARDO MARTINEZ HERNANDEZ ','Papá','oneilg.martinez@gmail.com ','7714042640',None,None,None,None,None,None,None,113
+'ANDRES MARTINE ZUÑIGA ','Papá','andresmtzzu@hotmail.com','7731353336',None,None,None,None,None,None,None,114
+'MIGUEL ANGEL MEZA TORRES ','Papá','miguel_meza88@hotmail.com','5518200619',None,None,None,None,None,None,None,115
+'HECTOR NARES JIMENEZ ','Papá','hector_nares@hotmail.com','7731052676',None,None,None,None,None,None,None,116
+'OSCAR DE JESUS PUGA AVALOS ','Papá','blackmetal_666_slash@hotmail.com','7731072285',None,None,None,None,None,None,None,117
+'MAXIMILIANO RAMIREZ BRIZUELA ','Papá','brmam21@gmail.com','5538890072',None,None,None,None,None,None,None,118
+'RAUL TONATIUH SANCHEZ GUTIERREZ ','Papá','raul_tsg@live.com.mx','7731059075',None,None,None,None,None,None,None,119
+'','Papá','','',None,None,None,None,None,None,None,120
+'SAMUEL VELAZQUEZ PACHECO','Papá','','',None,None,None,None,None,None,None,121
+ 'JESUS VITE OROZCO' ,'Papá','jesusviteorozco@gmail.com','7711428705',None,None,None,None,None,None,None,122
+'','Papá','','',None,None,None,None,None,None,None,123
+'','Papá','','',None,None,None,None,None,None,None,124
+'MARCO ANTONIO ALVARADO SILVA','Papá','alvaradosilvamarcoantonio@gmail.com','7731201716',None,None,None,None,None,None,None,125
+'ALVAREZ RAMIREZ FRANCISCO JAVIER ','Papá','franciscojar_10@hotmail.com','7732008269',None,None,None,None,None,None,None,126
+'DIEGO ARMANDO AVENDAÑO PEREZ','Papá','diego.avperez@gmail.com','7731379354',None,None,None,None,None,None,None,127
+'','Papá','','',None,None,None,None,None,None,None,128
+'PEDRO BENITEZ ANGELES','Papá','pedro. benitez@pemex.com','7731758195',None,None,None,None,None,None,None,129
+'RAUL ALBERTO CAMPOS TORRES','Papá','delia_dage@hotmail.om','7731267160',None,None,None,None,None,None,None,130
+'MAXIMO CHAVEZ LAGUNA ','Papá','escalantemavi@gmail.com','7731587446',None,None,None,None,None,None,None,131
+'DAVID CRUZ MONTIEL','Papá','dc-montiel@hotmail.com','7731747142',None,None,None,None,None,None,None,132
+'Emmanuel Cruz Ángeles ','Papá','emmanuel.cruz.angeles@gmail.com','7731102274',None,None,None,None,None,None,None,133
+'FALCON PEREZ SERGIO ALBERTO ','Papá','lovovan007@gmail.com','5533599294',None,None,None,None,None,None,None,134
+'LUIS FERNANDO FELIX DIAZ','Papá','fofx18@hotmail.com','7737345554',None,None,None,None,None,None,None,135
+'GONZALEZ OROZCO JAIR ','Papá','jair_glz@yahoo.com.mx','5514901410',None,None,None,None,None,None,None,136
+'SERGIO GONZALEZ MONROY','Papá','sgm7710@yahoo.com.es','7731119559',None,None,None,None,None,None,None,137
+'EMMANUEL HERNANDEZ MONTOYA','Papá','','',None,None,None,None,None,None,None,138
+'DIEGO ENRIQUE JIMENEZ VILLEDA','Papá','','7731238669',None,None,None,None,None,None,None,139
+'RAFAE EDUARDO PACHECO LOPEZ 6622391154','Papá','eduardo2025.pacheco@gmail.com','',None,None,None,None,None,None,None,140
+'JAVIER PERALES GUILLEN','Papá','javierperales_jp40@gmail.com','7717951340',None,None,None,None,None,None,None,141
+'HUGO POSADAS MORALES','Papá','hposadasm_125@hotmail.com','7731148209',None,None,None,None,None,None,None,142
+'CHRISTOPHER RAMIREZ OMAÑA','Papá','','7731951648',None,None,None,None,None,None,None,143
+'MAXIMILIANO RAMIREZ BRIZUELA ','Papá','brmam21@gmail.com','5538890072',None,None,None,None,None,None,None,144
+'CARLOS VILLAFAN ALVARADO','Papá','','',None,None,None,None,None,None,None,145
+'GERARDO REYES CERON','Papá','gerardo.reyesc@outlook.com','7731528420',None,None,None,None,None,None,None,146
+'JOAQUIN RENATO ROSAS OLGUIN','Papá','','7731344790',None,None,None,None,None,None,None,147
+'','Papá','','',None,None,None,None,None,None,None,148
+'KIELKO TREJO MORALES','Papá','','7731218280',None,None,None,None,None,None,None,149
+'MANOEL VEGA LUGO ','Papá','vl_manoel@hotmail.com','5566884406',None,None,None,None,None,None,None,150
+'JORGE VALENTE VELEZ MARTINEZ','Papá','','7731335015',None,None,None,None,None,None,None,151
+'RAUL RACIEL VIDAL BERNAL JUAREZ ','Papá','vidales13jas@hotmail.com','7731664052',None,None,None,None,None,None,None,152
+'OSCAR NOE CID HERNANDEZ ','Papá','oscar_cid@cargill.com','7731820383',None,None,None,None,None,None,None,153
+'CUEVAS PARRA ARTURO HUMBERTO ','Papá','ahcuevas@hotmail.com ','5567889214',None,None,None,None,None,None,None,154
+'DE LA CRUZ GUEVARA JORGE EDUARDO ','Papá','delacruz.je@gmail.com','5537315208',None,None,None,None,None,None,None,155
+'LORENZO BRAYAN DONIZ RODRIGUEZ','Papá','maluva2321@gmail.com','7775045228',None,None,None,None,None,None,None,156
+'FLORES PUENTE JUAN PABLO ','Papá','jpfp24@hotmail.com','7731234092',None,None,None,None,None,None,None,157
+'JUAN JESUS HERNANDEZ REYES ','Papá','','7731164837',None,None,None,None,None,None,None,158
+'ADBRIEL GEOVANI HERNANDEZ ROJAS','Papá','ag.hdez.rojas@hotmail.com','5513650256',None,None,None,None,None,None,None,159
+'CALIXTO HERRERA MORALES','Papá','','7731225563',None,None,None,None,None,None,None,160
+'CARLOS EDUARDO JIMENEZ CERON','Papá','carjim_1809@outlook.com','7731310532',None,None,None,None,None,None,None,161
+'','Papá','','',None,None,None,None,None,None,None,162
+'FRANCISCO GUADALUPE LUNA CERON ','Papá','paco050@gmail.com','5517989247',None,None,None,None,None,None,None,163
+'MARTINEZ VARGAS CESAR ADRIAN ','Papá','tu_odontologo@live.com','6381147310',None,None,None,None,None,None,None,164
+'LORENZO JAVIER MEJIA LEYVA ','Papá','mejiagas@hotmail.com','7731666238',None,None,None,None,None,None,None,165
+'JUAN LUIS NERIA MARTINEZ ','Papá','juanluisneriamartinez@gmail.com','7731292094',None,None,None,None,None,None,None,166
+'DANIEL PEÑA PEREZ ','Papá','daniel.pena@segasa.com','7737341433',None,None,None,None,None,None,None,167
+'','Papá','','',None,None,None,None,None,None,None,168
+'LUIS FERNANDO PINTADO GARCIA','Papá','luisfpintado@gmail.com','7731099787',None,None,None,None,None,None,None,169
+'DIEGO RAMIREZ SAAVEDRA','Papá','lilirq83@gmail.com','7731365563',None,None,None,None,None,None,None,170
+'RAMSES REYES VENEGAS','Papá','ramrey05@hotmail.com','4421405945',None,None,None,None,None,None,None,171
+'ALDO DANIEL REYES AGUILAR','Papá','','7731027135',None,None,None,None,None,None,None,172
+'JOSE JULIAN RODRIGUEZ MEZA','Papá','pablomartinez7083@gmail.com','7731271643',None,None,None,None,None,None,None,173
+'RODRIGUEZ MAYORAL GUSTAVO ENRIQUE ','Papá','guenroma82@gmail.com','7737319644',None,None,None,None,None,None,None,174
+'NOE RUBIO BALDERAS ','Papá','','7712839874',None,None,None,None,None,None,None,175
+'JOAO PAULO SILVA MARTINS','Papá','','',None,None,None,None,None,None,None,176
+'VICTOR MANUEL TORRES VILLEDA ','Papá','vikot_94@hotmail.com','7731836531',None,None,None,None,None,None,None,177
+'MARCO IVAN VILLEDA LOPEZ','Papá','miv11can@gmail.com','7731331577',None,None,None,None,None,None,None,178
+'JORGE ALBERTO ALCANTARA ORDAZ','Papá','jurgenn10@hotmail.com','7731990451',None,None,None,None,None,None,None,179
+'JESUS ALEJANDRO BELTRAN BARBOSA','Papá','alexbel0407@gmail.com','7737363843',None,None,None,None,None,None,None,180
+'AARON ALEJANDRO CRUZ RODRIGUEZ','Papá','aalexcruz17@gmail.com','7731054477',None,None,None,None,None,None,None,181
+'FERNANDO FIGUEROA GONZALEZ','Papá','ffiguerog@gmail.com','5569410360',None,None,None,None,None,None,None,182
+'RICARDO NOE GARCIA LOPEZ','Papá','','7731364202',None,None,None,None,None,None,None,183
+'FERNANDO GARRIDO RESENDIZ','Papá','','',None,None,None,None,None,None,None,184
+'LUIS MIGUEL GERONES ZARCEÑO','Papá','luis.gerones@gmail.com','7731043418',None,None,None,None,None,None,None,185
+'','Papá','','',None,None,None,None,None,None,None,186
+'JHORDAN GERARDO LARA CERVANTES','Papá','ajilic.jglc_@hotmail.com','7731209984',None,None,None,None,None,None,None,187
+'IVAN GENARO LOPEZ SANCHEZ','Papá','cap_ivan21@hotmail.com','7731429044',None,None,None,None,None,None,None,188
+'WINSTON MACOTELA CISNEROS','Papá','w.macotela@gmail.com','7731136545',None,None,None,None,None,None,None,189
+'CESAR ADRIAN MARTINEZ VARGAS  ','Papá','tu-odontologo@live.com.mx','6381147310',None,None,None,None,None,None,None,190
+'RENE MARTINEZ ORTESA ','Papá','rene_mo83@hotmail.com ','7736803563',None,None,None,None,None,None,None,191
+'OMAR MAYA PEREZ','Papá','maritzaggp@yahoo.com.mx','7737392905',None,None,None,None,None,None,None,192
+'J. ALONZO MENESES CASTAÑEDA','Papá','al_fff-onzo@hotmail.com','7731132629',None,None,None,None,None,None,None,193
+'VICTOR MANUEL MOLINA RAMIREZ ','Papá','manuel_ittla@hotmail.com','7717479416',None,None,None,None,None,None,None,194
+'IRVING ARNOFF MUCIÑO MARTINEZ','Papá','irv@live.com','7731149019',None,None,None,None,None,None,None,195
+'CRISTIAN MOISES OLGUIN CRUZ','Papá','','7731690436',None,None,None,None,None,None,None,196
+'FRANCISCO PEREZ AGUIRRE','Papá','horror_franco_69@hotmail.com','7731499787',None,None,None,None,None,None,None,197
+'JESUS PEREZ CAMACHO','Papá','jesuspcwz20@gmail.com','',None,None,None,None,None,None,None,198
+'VICTOR RAMIREZ CID','Papá','victor_cid_@hotmail.com','7731660741',None,None,None,None,None,None,None,199
+'RAMSES REYES VENEGAS','Papá','ramrey05@hotmail.com','4421405945',None,None,None,None,None,None,None,200
+'OMAR RODRIGUEZ SANCHEZ','Papá','omangie1234@gmail.com','2225479819',None,None,None,None,None,None,None,201
+'DANUBIO TREJO VILLADONGA','Papá','','7737360562',None,None,None,None,None,None,None,202
+'ZOE DE JESUS VEGA MARTINEZ ','Papá','zoe.vega.zv@gmail.com','7731354108',None,None,None,None,None,None,None,203
+'JORGE VALENTE VELEZ MARTINEZ','Papá','','7731335015',None,None,None,None,None,None,None,204
+'SAMUEL AGUIRRE LEON','Papá','samuel.aguirrel@outlook.com','5545265949',None,None,None,None,None,None,None,205
+'JOSE ALBERTO ALVAREZ RUBIN','Papá','aalvarez@gvm.com.mx','7731399007',None,None,None,None,None,None,None,206
+'JOSE ANTONIO ARTEAGA CHAVEZ','Papá','jartecha_1604@gmail.com','5580170689',None,None,None,None,None,None,None,207
+'JOSE VICTOR BARBOSA LEON','Papá','','',None,None,None,None,None,None,None,208
+'EMMANUEL COLIN SANTANA','Papá','manolocolin1@gmail.com','7731207134',None,None,None,None,None,None,None,209
+'DAVID CRUZ MONTIEL','Papá','dc-montiel@hotmail.com','7731747142',None,None,None,None,None,None,None,210
+'CESAR OMAR CRUZ RAMIREZ','Papá','cesarcruz89@outlook.com','7731386324',None,None,None,None,None,None,None,211
+'ALDO IVAN CRUZ MORALES','Papá','navikit@gmail.com','7731492330',None,None,None,None,None,None,None,212
+'NESTOR DEGANTE BADILLO','Papá','','5561276997',None,None,None,None,None,None,None,213
+'MARCOS FLORES TIOL','Papá','tiol_fmar@hotmail.com','7731220167',None,None,None,None,None,None,None,214
+'VICTOR MANUEL FURLONG PINTADO','Papá','furlongv555.pro@gmail.com','7713926487',None,None,None,None,None,None,None,215
+'NOEL GUTIERREZ NAVARRO','Papá','','5532584197',None,None,None,None,None,None,None,216
+'DANIEL CERVANTES RIOS','Papá','degantepf@gmail.com','7732344664',None,None,None,None,None,None,None,217
+'RAFAEL HERRERA TERAN','Papá','','',None,None,None,None,None,None,None,218
+'','Papá','','',None,None,None,None,None,None,None,219
+'RAUL JIMENEZ MORALES','Papá','rauljimenez.morales7@gmail.com','7731506392',None,None,None,None,None,None,None,220
+'RICH HERNANDEZ JIMENEZ','Papá','hernandezilich1606@gmail.com','7732655981',None,None,None,None,None,None,None,221
+'FIDEL LOPEZ REYES','Papá','fidelopez2216@gmail.com','7731047795',None,None,None,None,None,None,None,222
+'NICOLAS  LOPEZ VELAZCO','Papá','lopeznicolas837@gmail.com','7731077033',None,None,None,None,None,None,None,223
+'','Papá','','',None,None,None,None,None,None,None,224
+'','Papá','','',None,None,None,None,None,None,None,225
+'JUAN CARLOS MERA TORRES','Papá','www.juanito@gmail.com','7731547813',None,None,None,None,None,None,None,226
+'ARTEMIO JAVIER HDZ. BELTRAN','Papá','anthoe650@gmail.com ','7731416137',None,None,None,None,None,None,None,227
+'DAVID RODRIGUEZ ENRIQUEZ','Papá','lokko250184@hotmail.com','7731680990',None,None,None,None,None,None,None,228
+'NOE RUBIO BALDERAS','Papá','junio26010@hotmail.com','7712839874',None,None,None,None,None,None,None,229
+'GABRIEL AGUILAR ROSSAINS ','Papá','subdirecciongral@hotmail.com','7736823919',None,None,None,None,None,None,None,230
+'CARLOS JAVIER AGUILAR HERNANDEZ','Papá','aguilar_carlos16@hotmail.com','7731487330',None,None,None,None,None,None,None,231
+'ALEJANDRO ALVAREZ GONZALEZ','Papá','','7731099780',None,None,None,None,None,None,None,232
+'RAUL ALBERTO CAMPOS TORRES','Papá','delia_dage@hotmail.om','7731267160',None,None,None,None,None,None,None,233
+'ROBERTO EDUARDO CANSINO MORAN','Papá','robertocancino05@gmail.com','7731339559',None,None,None,None,None,None,None,234
+'YINDRO CANSECO GONZALEZ','Papá','yindro@gmail.com','7737343717',None,None,None,None,None,None,None,235
+'JUAN CARTAS LOPEZ','Papá','juancartasprepamorelos@gmail.com','7731684125',None,None,None,None,None,None,None,236
+'FEDERICO FLORES ROSETE','Papá','ffrosete@hotmail.com','7721827755',None,None,None,None,None,None,None,237
+'ISRAEL FLORES ESTUDILLO','Papá','israestu@hotmail.com','5566710632',None,None,None,None,None,None,None,238
+'SALVADOR GOMEZ  CHAVEZ','Papá','gomezsalvador.390@hotmail.com','17705954927',None,None,None,None,None,None,None,239
+'','Papá','','',None,None,None,None,None,None,None,240
+'CARLOS EDUARDO JIMENEZ CERON','Papá','carjim_1809@outlook.com','7731310532',None,None,None,None,None,None,None,241
+'MIGUEL ANGEL MEDINA RIVERA','Papá','m_junio918@hotmail.com','7731990586',None,None,None,None,None,None,None,242
+'ALBERTO MELO MENDOZA','Papá','betomelo1272@hotmail.com','7731142736',None,None,None,None,None,None,None,243
+'WULFRANO MORA ORTIZ','Papá','wulfrano2022@hotmail.com','5517934499',None,None,None,None,None,None,None,244
+'GUILLERMO GEOVANY OROPEZA PORRAS','Papá','geoporras1@outlook.com','5575008588',None,None,None,None,None,None,None,245
+'EFREN RAMIREZ CLAUDIO','Papá','eramclau@gmail.com','7731292109',None,None,None,None,None,None,None,246
+'JOAQUIN RENATO ROSAS OLGUIN','Papá','','7731344790',None,None,None,None,None,None,None,247
+'EDUARDO SANCHEZ PACHECO','Papá','eduardo_sa_pa@yahoo.com.mx','7735336569',None,None,None,None,None,None,None,248
+'ARMANDO SANTIAGO FLORES','Papá','aramandosantiago58@gmail.com','7731399237',None,None,None,None,None,None,None,249
+'JUAN ANTONIO SEPTIEM DIAZ','Papá','vairon1@live.com','7297073859',None,None,None,None,None,None,None,250
+'MAURICIO SERRANO VALDEZ','Papá','','7731282002',None,None,None,None,None,None,None,251
+'ESSAU TOLEDO ESPINOSA','Papá','essau.toledo@cfe.com','7731203222',None,None,None,None,None,None,None,252
+'','Papá','','',None,None,None,None,None,None,None,253
+'AOLFO TOVAR MOCTEZUMA','Papá','a_tovar76@hotmail.com','7731122894',None,None,None,None,None,None,None,254
+'DANUBIO TREJO VILLADONGA','Papá','','7737360562',None,None,None,None,None,None,None,255
+'OMAR VILLEDA VARGAS','Papá','','7732345583',None,None,None,None,None,None,None,256
+'MARCO ANTONIO ALVARADO SILVA','Papá','alvaradosilvamarcoantonio@gmail.com','7731201716',None,None,None,None,None,None,None,257
+'GERMAN RAMON CARRILLO TELLEZ','Papá','germancarrillo99@hotmail.com','7731329022',None,None,None,None,None,None,None,258
+'EDGAR CORNEJO GONZALEZ','Papá','edcorn86@gmail.com','7731244694',None,None,None,None,None,None,None,259
+'OSCAR DOMINGUEZ PIÑA','Papá','oro_d@hotmail.com','7731197650',None,None,None,None,None,None,None,260
+'LORENZO BRAYAN DONIZ RODRIGUEZ','Papá','maluva2321@gmail.com','7775045228',None,None,None,None,None,None,None,261
+'MIGUEL ESPINOSA RIVERA','Papá','','7731988125',None,None,None,None,None,None,None,262
+'NESTOR IVAN ESPITIA GONZALEZ','Papá','nes1326@outlook.com','5565396593',None,None,None,None,None,None,None,263
+'SERGIO GONZALEZ MONROY','Papá','sgm7710@yahoo.com.es','7731119559',None,None,None,None,None,None,None,264
+'ANDY ADHIR GRAJEDA SALINAS','Papá','','7774404905',None,None,None,None,None,None,None,265
+'LUIS EDER HERNANDEZ CABRERA','Papá','','7731053268',None,None,None,None,None,None,None,266
+'EDUARDO FABIAN MARTINEZ MARTINEZ','Papá','lalo_mart3007@hotmail.com','7731576213',None,None,None,None,None,None,None,267
+'JUAN NAVA TREJO','Papá','j.nava.t.7211@gmail.com','7731050978',None,None,None,None,None,None,None,268
+'JOSE FRANCISCO OLGUIN ISLAS','Papá','foi.30@hotmail.com','7731098709',None,None,None,None,None,None,None,269
+'JOSE FRANCISCO OLGUIN ISLAS','Papá','foi.30@hotmail.com','7731098709',None,None,None,None,None,None,None,270
+'MARTIN OLGUIN LUJAN','Papá','maol123@hotmail.com','7731435072',None,None,None,None,None,None,None,271
+'RODRIGO PARRA FLORES','Papá','k7parra@hotmail.com','7731289231',None,None,None,None,None,None,None,272
+'CHRISTOPHER RAMIREZ OMAÑA','Papá','','7731951648',None,None,None,None,None,None,None,273
+'DIEGO RAMIREZ SAAVEDRA','Papá','lilirq83@gmail.com','7731385563',None,None,None,None,None,None,None,274
+'','Papá','','',None,None,None,None,None,None,None,275
+'JOSE RICARDO SANCHEZ ROBLEDO','Papá','ricardo_s_r@outlook.com','5538336200',None,None,None,None,None,None,None,276
+'LUIS ALBERTO TAPIA PEREZ','Papá','luistapez@hotmail.com','5532750764',None,None,None,None,None,None,None,277
+'BARDO CESAR TERAN CASTELAN','Papá','hijazodemividaza@gmail.com','7711390995',None,None,None,None,None,None,None,278
+'LUIS ALBERTO TRUJILLO GARCIA','Papá','luis_trujillo2014@hotmail.com','7717951494',None,None,None,None,None,None,None,279
+'','Papá','','',None,None,None,None,None,None,None,280
+'','Papá','','',None,None,None,None,None,None,None,281
+'RAUL ZARATE CASTILLO','Papá','drzarater@hotmail.com','7731048484',None,None,None,None,None,None,None,282
+'','Papá','','',None,None,None,None,None,None,None,283
+'EDGAR ANTONIO ACUÑA GONZALEZ','Papá','edgar230714@hotmail.com','5548330810',None,None,None,None,None,None,None,284
+'SAMUEL AGUIRRE LEON','Papá','samuel.aguirrel@outlook.com','5545265949',None,None,None,None,None,None,None,285
+'JOSE JUVENAL ALVAREZ ORTIZ','Papá','','19514676887',None,None,None,None,None,None,None,286
+'MARTIN ANAYA GARCIA','Papá','maryaz_1013@hotmail.com','7731143143',None,None,None,None,None,None,None,287
+'RODOLFO RODRIGUEZ MONROY','Papá','rodoetreum@gmail.com','7731270890',None,None,None,None,None,None,None,288
+'HECTOR JESUS ARANA MARIN','Papá','horana_80@hotmail.com','7731292637',None,None,None,None,None,None,None,289
+'RAFAEL BALDERAS CASASOLA','Papá','balderasjrafa@gmail.com','5527449760',None,None,None,None,None,None,None,290
+'ISRAEL BENITEZ LOPEZ','Papá','','5550216256',None,None,None,None,None,None,None,291
+'JAVIER GOMEZ PICHARDO','Papá','jgomezpichardo@yahoo.com.mx','7732044295',None,None,None,None,None,None,None,292
+'ROGELIO ALFONSO GONZALEZ MARTINEZ','Papá','rojo_he@gmail.com','5581463234',None,None,None,None,None,None,None,293
+'JOSE ALFREDO JIMENEZ ANGELES','Papá','','7731287242',None,None,None,None,None,None,None,294
+'JUAN MAJUEL LEON JIMENEZ','Papá','jmleon@grupo-tcm.com.mx','7731198012',None,None,None,None,None,None,None,295
+'LUIS ADRIAN LOPEZ GONZALEZ','Papá','hh_logo@hotmail.com','7737360480',None,None,None,None,None,None,None,296
+'ONIEL GERARDO MARTINEZ HERNANDEZ ','Papá','oneilg.martinez@gmail.com ','7714042640',None,None,None,None,None,None,None,297
+'EFRAIN MENDOZA PEREZ','Papá','emen1806@gmail.com','7731116701',None,None,None,None,None,None,None,298
+'ERIK OLVERA DORANTES','Papá','sajrfri36@gmail.com','5522981794',None,None,None,None,None,None,None,299
+'ALDO DANIEL REYES AGUILAR','Papá','','7731027135',None,None,None,None,None,None,None,300
+'MARIO REYNOLDS MENDOZA','Papá','','5551521218',None,None,None,None,None,None,None,301
+'JOSE ROBERTO ROMANO RAMIRO','Papá','jrobertoromano@hotmail.com','7731848228',None,None,None,None,None,None,None,302
+'JUAN MANUEL VILLEDA BRAVO','Papá','jumavibra18@gmail.com','7731093617',None,None,None,None,None,None,None,303
+'JESUS EMANUEL ALMARAZ MARTINEZ','Papá','jesus.emanuel.almaraz.martinez@gmail.com','5573764132',None,None,None,None,None,None,None,304
+'ARMANDO ALVAREZ CERON','Papá','armdoalvz@gmail.com','7731202223',None,None,None,None,None,None,None,305
+'TONATIUH CERON SANCHEZ','Papá','tcsmix@hotmail.com','7731810468',None,None,None,None,None,None,None,306
+'CESAR OMAR CRUZ RAMIREZ','Papá','cesarcruz89@outlook.com','7731386324',None,None,None,None,None,None,None,307
+'','Papá','','',None,None,None,None,None,None,None,308
+'LUIS FERNANDO FELIX DIAZ','Papá','fofx18@hotmail.com','7737345554',None,None,None,None,None,None,None,309
+'ELEOGILDO GALVAN PEDRAZA ','Papá','leogalvan@hotmail.com','7731377206',None,None,None,None,None,None,None,310
+'JUAN CLEMENTE MARTINEZ  MENDOZA','Papá','jcmartinez27@hotmail.com','7731138376',None,None,None,None,None,None,None,311
+'JUAN MANUEL MENDEZ TORRES','Papá','jjjuanma_092001@hotmail.com','2381491694',None,None,None,None,None,None,None,312
+'HUGO MANUEL MEZA DORANTES','Papá','hm_dorantes@hotmail.com','5570723744',None,None,None,None,None,None,None,313
+'RAFAEL OLGUIN GUADARRAMA','Papá','rafaelolgu@gmail.com','7721457233',None,None,None,None,None,None,None,314
+'DAVID OLGUIN PEREZ','Papá','','7731387740',None,None,None,None,None,None,None,315
+'JAVIER PERALES GUILLEN','Papá','javierperales_jp40@gmail.com','7717951340',None,None,None,None,None,None,None,316
+'JULIAN ONESIMO PIÑA ESCAILLA','Papá','jope58@hotmail.com','7711145798',None,None,None,None,None,None,None,317
+'HUGO POSADAS MORALES','Papá','hposadasm_125@hotmail.com','7731148209',None,None,None,None,None,None,None,318
+'DIEGO ARMANDO RESENDIZ CRUZ','Papá','kuetesdiego@hotmail.com','7732025183',None,None,None,None,None,None,None,319
+'JAIRO ALEXIS REYES PAREDES','Papá','b','5540520267',None,None,None,None,None,None,None,320
+'EDUARDO SANCHEZ PACHECO','Papá','eduardo_sa_pa@yahoo.com.mx','7735336569',None,None,None,None,None,None,None,321
+'FRANCISCO JOSE SOSA GARCIA','Papá','sosa_camaro@hotmail.com','7731112824',None,None,None,None,None,None,None,322
+'JONATHAN RAMON BARRIOS CHAVERO','Papá','','7731057941',None,None,None,None,None,None,None,323
+'LEOBARDO VILLA MORENO','Papá','','7731248912',None,None,None,None,None,None,None,324
+'HUGO ROMAN BLANCO DAVILA','Papá','romanblanco1818@gmail.com','7731123408',None,None,None,None,None,None,None,325
+'MARCOS CRESPO JUAREZ','Papá','crespojaurez@gmail.com','5551071980',None,None,None,None,None,None,None,326
+'NESTOR R. GARCIA VAZQUEZ ','Papá','ray-0410@hotmail.com','7731339320',None,None,None,None,None,None,None,327
+'OSCAR GASCA TOY','Papá','dr.gascatoy@gmail.com','7731395598',None,None,None,None,None,None,None,328
+'MILTON CARLOS GONE MONTOY','Papá','carlosgone@hotmail.com','7731396440',None,None,None,None,None,None,None,329
+'JUAN CARLOS GONZALEZ ORTIZ','Papá','viajatourshgo@hotmail.com','7731317233',None,None,None,None,None,None,None,330
+'','Papá','','',None,None,None,None,None,None,None,331
+'CALIXTO HERRERA MORALES','Papá','','7731225563',None,None,None,None,None,None,None,332
+'JUAN FELIPE HERRERA ','Papá','','7731635981',None,None,None,None,None,None,None,333
+'VICTOR ARCADIO LEON RODRIGUEZ ','Papá','victor.arcadio.leon@pemex.com','3113517140',None,None,None,None,None,None,None,334
+'JUAN CARLOS LIMON MORA','Papá','jclimon77@hotmail.com','5530494711',None,None,None,None,None,None,None,335
+'MIGUEL ANGEL LOPEZ GONZALEZ','Papá','lopezgmatoy@live.com.mx','7731259927',None,None,None,None,None,None,None,336
+'LUIS ADRIAN LOPEZ GONZALEZ','Papá','hh_logo@hotmail.com','7737360480',None,None,None,None,None,None,None,337
+'MARCIAL MEJIA PERALTA','Papá','marcialmejia92@gmail.com','5591648392',None,None,None,None,None,None,None,338
+'VICTOR MANUEL MONDRAGON ALVARADO','Papá','manolomondragon085@gmail.com','7731078352',None,None,None,None,None,None,None,339
+'EDGAR CARLOS ORTIZ SAENZ','Papá','e.ortiz@proseler.com.mx','7731854116',None,None,None,None,None,None,None,340
+'VLADIMIR PEDRAZA OTERO','Papá','','4271236698',None,None,None,None,None,None,None,341
+'KELVIN PUENTE VELAZQUEZ','Papá','kelvinp80@hotmail.com','7711111188',None,None,None,None,None,None,None,342
+'JUAN CARLOS QUIROZ SANTIAGO','Papá','zorik_007@yahoo.com.mx','5586184583',None,None,None,None,None,None,None,343
+'LUIS ENRIQUE RIOS ARCINIEGA','Papá','lenrique_rios@hotmail.com','7731270858',None,None,None,None,None,None,None,344
+'RUBICEL SANCHEZ MAQUEDA','Papá','','7731793274',None,None,None,None,None,None,None,345
+'JESUS EMMANUEL TORRES PEREZ','Papá','','7731801810',None,None,None,None,None,None,None,346
+'ELOY AURELIO VELAZQUEZ LAGUNA','Papá','ferre_chino@hotmail.com','7736825310',None,None,None,None,None,None,None,347
+'DIEGO ARMANDO AVENDAÑO PEREZ','Papá','diego.avperez@gmail.com','7731379354',None,None,None,None,None,None,None,348
+'PEDRO BENITEZ ANGELES','Papá','pedro. benitez@pemex.com','7731758195',None,None,None,None,None,None,None,349
+'','Papá','','',None,None,None,None,None,None,None,350
+'NEFTALI GARCIA CASTILLO','Papá','neftali.mcmispain@outlook.com','5541912824',None,None,None,None,None,None,None,351
+'HUGO GONZALEZ IBAÑEZ','Papá','hgi83@hotmail.com','7731209336',None,None,None,None,None,None,None,352
+'ADBRIEL GEOVANI HERNANDEZ ROJAS','Papá','ag.hdez.rojas@hotmail.com','5513650256',None,None,None,None,None,None,None,353
+'CESAR LARA SANCHEZ','Papá','','7731210822',None,None,None,None,None,None,None,354
+'ALEJANDRO MARES VILLASANA','Papá','amaresvi08@gmail.com','7731050386',None,None,None,None,None,None,None,355
+'JESUS EMMANUEL MARTINEZ A','Papá','','5532274695',None,None,None,None,None,None,None,356
+'ARTURO MARTINEZ SANCHEZ','Papá','martsanart973@gmail.com','7381004057',None,None,None,None,None,None,None,357
+'MIGUEL ANGEL MEZA TORRES','Papá','miguel_meza88@hotmail.com','5518200619',None,None,None,None,None,None,None,358
+'HECTOR NARES JIMENEZ ','Papá','hector_nares@hotmail.com','7731052676',None,None,None,None,None,None,None,359
+'CRISTIAN MOISES OLGUIN CRUZ','Papá','','7731690436',None,None,None,None,None,None,None,360
+'JESUS PEREZ CAMACHO','Papá','jesuspcwz20@gmail.com','',None,None,None,None,None,None,None,361
+'VICTOR MANUEL PEREZ LUGO','Papá','','5554031050',None,None,None,None,None,None,None,362
+'ARMANDO RAMIREZ PARRA','Papá','mrcascoaleman@hotmail.com','5512753333',None,None,None,None,None,None,None,363
+'CESAR RAMOS MORITA','Papá','cesarnmt@hotmail.com','7731067473',None,None,None,None,None,None,None,364
+'GERARDO REYES CERON','Papá','gerardo.reyesc@outlook.com','7731528420',None,None,None,None,None,None,None,365
+'','Papá','','',None,None,None,None,None,None,None,366
+'','Papá','','',None,None,None,None,None,None,None,367
+'','Papá','','',None,None,None,None,None,None,None,368
+'FERNANDO URIBE VILLEDA','Papá','feruribevilleda@gmail.com','7731134147',None,None,None,None,None,None,None,369
+'','Papá','','',None,None,None,None,None,None,None,370
+'','Papá','','',None,None,None,None,None,None,None,371
+'JUAN CARLOS CAMPOS VARGAS','Papá','transmetal2012@hotmail.com','7731454079',None,None,None,None,None,None,None,372
+'','Papá','','',None,None,None,None,None,None,None,373
+'VICTOR HUGO CERON MENDOZA 7732331869','Papá','vceron10@hotmail.com','7732331869',None,None,None,None,None,None,None,374
+'RODOLFO FIGUEROA ORTEGA','Papá','rolfigueroa17@gmail.com','7731139495',None,None,None,None,None,None,None,375
+'ELEOGILDO GALVAN PEDRAZA ','Papá','leogalvan@hotmail.com','7731377206',None,None,None,None,None,None,None,376
+'','Papá','','',None,None,None,None,None,None,None,377
+'ENRIQUE GODOY CARREÑO','Papá','anrry_h@yahoo.com.mx','5513075763',None,None,None,None,None,None,None,378
+'RODRIGO HERNANDEZ NAVA','Papá','transportes-alex@outlook.com','7731668019',None,None,None,None,None,None,None,379
+'RODRIGO HERNANDEZ NAVA','Papá','transportes-alex@outlook.com','7731668019',None,None,None,None,None,None,None,380
+'JONATHAN INFANTE SAENZ','Papá','jjinfantes@hotmail.com','7731356240',None,None,None,None,None,None,None,381
+'DAID MEJIA GARCIA','Papá','davidmega_29@hotmail.com','7731037635',None,None,None,None,None,None,None,382
+'MARIO ALBERTO MOTA AGUILAR','Papá','mario_mota79@hotmail.com','7731024558',None,None,None,None,None,None,None,383
+'JUAN NAVA TREJO','Papá','j.nava.t.7211@gmail.com','7731050978',None,None,None,None,None,None,None,384
+'ERIK OLVERA DORANTES','Papá','sajrfri36@gmail.com','5522981794',None,None,None,None,None,None,None,385
+'VICTOR MANUEL OROZCO GALVEZ','Papá','','7731298551',None,None,None,None,None,None,None,386
+'LUIS FERNANDO PINTADO GARCIA','Papá','luisfpintado@gmail.com','7731099787',None,None,None,None,None,None,None,387
+'JUAN CARLOS QUIROZ SANTIAGO','Papá','zorik_007@yahoo.com.mx','5586184583',None,None,None,None,None,None,None,388
+'LUIS ANGEL RAMMIREZ NAVARRETE','Papá','','',None,None,None,None,None,None,None,389
+'JOSE GABRIEL RODRIGUEZ MENDIOLA','Papá','j_gabriel@erirubber.com','7731279726',None,None,None,None,None,None,None,390
+'DARIO ISRAEL SALAZAR CASTRO','Papá','jago_mx@yahoo.com','7731070098',None,None,None,None,None,None,None,391
+'MIGUEL ANGEL SANCHEZ MENDIETA','Papá','fatboy.mendieta@gmail.com','7731132758',None,None,None,None,None,None,None,392
+'','Papá','','',None,None,None,None,None,None,None,393
+'KIELKO TREJO MORALES','Papá','','7731218280',None,None,None,None,None,None,None,394
+'CARLOS JAVIER AGUILAR HERNANDEZ','Papá','aguilar_carlos16@hotmail.com','7731487330',None,None,None,None,None,None,None,395
+'SAMUEL AGUIRRE LEON','Papá','samuel.aguirrel@outlook.com','5545265949',None,None,None,None,None,None,None,396
+'','Papá','','',None,None,None,None,None,None,None,397
+'JOSE EDUARDO ARENAS CRUZ','Papá','arenas-yast20@hotmail.com','7731365089',None,None,None,None,None,None,None,398
+'GERMAN RAMON CARRILLO TELLEZ','Papá','germancarrillo99@hotmail.com','7731329022',None,None,None,None,None,None,None,399
+'MARIO JONATHAN CASTILLO SANCHEZ','Papá','monicasantosmartinez@outloo.com','7737343575',None,None,None,None,None,None,None,400
+'','Papá','','',None,None,None,None,None,None,None,401
+'LUIS EDUARDO DURAN LAGUNA','Papá','lduranlaguna@gmail.com','5579035506',None,None,None,None,None,None,None,402
+'','Papá','','',None,None,None,None,None,None,None,403
+'','Papá','','',None,None,None,None,None,None,None,404
+'','Papá','','',None,None,None,None,None,None,None,405
+'DIEGO ENRIQUE JIMENEZ VILLEDA','Papá','','7731238669',None,None,None,None,None,None,None,406
+'VICTOR ARCADIO LEON RODRIGUEZ ','Papá','victor.arcadio.leon@pemex.com','3113517140',None,None,None,None,None,None,None,407
+'MOZART MONROY GARCIA','Papá','','7731811736',None,None,None,None,None,None,None,408
+'','Papá','','',None,None,None,None,None,None,None,409
+'LUIS ANGEL RAMIREZ BARBOSA','Papá','luisangelr20@gmail.com','5547765987',None,None,None,None,None,None,None,410
+'ALFREDO OLGUIN MARTINEZ','Papá','fredygtimk7wv@gmail.com','7731300505',None,None,None,None,None,None,None,411
+'RODOLFO RUBICEL REYES MIRANDA','Papá','rodolfo.reyes@cfe.mx','7731147015',None,None,None,None,None,None,None,412
+'FRANCISCO MANUEL REYES MONTUFAR','Papá','pakomrm_82@yahoo.com','7731109041',None,None,None,None,None,None,None,413
+'CARLOS IVAN RODRIGUEZ MAYORAL','Papá','charlsrdz@yahoo.com','5522843547',None,None,None,None,None,None,None,414
+'','Papá','','',None,None,None,None,None,None,None,415
+'CARLOS VILLAFAN ALVARADO','Papá','','',None,None,None,None,None,None,None,416
