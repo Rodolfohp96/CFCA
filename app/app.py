@@ -1381,7 +1381,8 @@ def send_pdf_email(aid, id):
 
     html = render_template('recibocorreo.html', info=_info, noticia=noticia, id=aid, correoinfo=correoinfo)
     #html = render_template('recibocorreo.html')
-    pdfkit.from_string(html, 'pago.pdf', configuration=pdfkit.configuration(wkhtmltopdf= 'wkhtmltopdf/bin/wkhtmltopdf.exe'))
+    pdfkit.from_string(html, 'pago.pdf', configuration=pdfkit.configuration(wkhtmltopdf= 'app/app/wkhtmltopdf/bin/wkhtmltopdf.exe'))
+
 
 
     # Configura los detalles del correo electrónico
