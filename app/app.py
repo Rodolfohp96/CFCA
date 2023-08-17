@@ -481,16 +481,20 @@ def export_excelQuincenal():
     cur = mysql.connection.cursor()
     cur.execute("""
                     SELECT
-                    E.id AS estudiante_id,
-                    E.nombre AS estudiante_nombre,
-                    T.monto,
-                    T.metodo,
-                    T.concepto,
-                    T.fecha_pago
+                E.id AS estudiante_id,
+                E.nombre AS estudiante_nombre,
+                T.monto,
+                T.metodo,
+                T.concepto,
+                T.fecha_pago,
+                E.matricula,
+                G.nombre AS nombre_grupo    
                 FROM
                     Estudiante AS E
                 JOIN
                     Transaccion AS T ON E.id = T.id_estudiante
+                JOIN
+                        Grupo AS G ON E.id_grupo = G.id
                 WHERE
                     T.pagado = TRUE
                     AND T.fecha_pago >= CURDATE() - INTERVAL 15 DAY
@@ -532,19 +536,26 @@ def export_excelMensual():
     cur = mysql.connection.cursor()
     cur.execute("""
                 SELECT
-                E.id AS estudiante_id,
-                E.nombre AS estudiante_nombre,
-                T.monto,
-                T.metodo,
-                T.concepto,
-                T.fecha_pago
-            FROM
-                Estudiante AS E
-            JOIN
-                Transaccion AS T ON E.id = T.id_estudiante
-            WHERE
-                T.pagado = TRUE
-                AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                    E.id AS estudiante_id,
+                    E.nombre AS estudiante_nombre,
+                    E.fecha_de_nacimiento,
+                    E.beca,
+                    E.matricula,
+                    E.password,
+                    T.monto,
+                    T.metodo,
+                    T.concepto,
+                    T.fecha_pago,
+                    G.nombre AS nombre_grupo
+                FROM
+                    Estudiante AS E
+                JOIN
+                    Transaccion AS T ON E.id = T.id_estudiante
+                JOIN
+                    Grupo AS G ON E.id_grupo = G.id
+                WHERE
+                    T.pagado = TRUE
+                    AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
                 """)
     data3 = cur.fetchall()
 
@@ -585,14 +596,21 @@ def export_excelEfectivo():
                     SELECT
                     E.id AS estudiante_id,
                     E.nombre AS estudiante_nombre,
+                    E.fecha_de_nacimiento,
+                    E.beca,
+                    E.matricula,
+                    E.password,
                     T.monto,
                     T.metodo,
                     T.concepto,
-                    T.fecha_pago
+                    T.fecha_pago,
+                    G.nombre AS nombre_grupo
                 FROM
                     Estudiante AS E
                 JOIN
                     Transaccion AS T ON E.id = T.id_estudiante
+                JOIN
+                    Grupo AS G ON E.id_grupo = G.id
                 WHERE
                     T.pagado = TRUE
                     AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
@@ -636,19 +654,23 @@ def export_excelDiario():
     cur = mysql.connection.cursor()
     cur.execute("""
                         SELECT
-                        E.id AS estudiante_id,
-                        E.nombre AS estudiante_nombre,
-                        T.monto,
-                        T.metodo,
-                        T.concepto,
-                        T.fecha_pago
-                    FROM
-                        Estudiante AS E
-                    JOIN
-                        Transaccion AS T ON E.id = T.id_estudiante
-                    WHERE
-                        T.pagado = TRUE
-                        AND T.fecha_pago >= CURDATE()
+                            E.id AS estudiante_id,
+                            E.nombre AS estudiante_nombre,
+                            T.monto,
+                            T.metodo,
+                            T.concepto,
+                            T.fecha_pago,
+                            E.matricula,
+                            G.nombre AS nombre_grupo
+                        FROM
+                            Estudiante AS E
+                        JOIN
+                            Transaccion AS T ON E.id = T.id_estudiante
+                        JOIN
+                                    Grupo AS G ON E.id_grupo = G.id
+                        WHERE
+                            T.pagado = TRUE
+                            AND DATE(T.fecha_pago) = CURDATE()
                         """)
     data3 = cur.fetchall()
 
@@ -1381,8 +1403,7 @@ def send_pdf_email(aid, id):
 
     html = render_template('recibocorreo.html', info=_info, noticia=noticia, id=aid, correoinfo=correoinfo)
     #html = render_template('recibocorreo.html')
-    pdfkit.from_string(html, 'pago.pdf', configuration=pdfkit.configuration(wkhtmltopdf= '/app/app/wkhtmltopdf/bin/wkhtmltox_0.12.6-1.focal_amd64.deb'))
-
+    pdfkit.from_string(html, 'pago.pdf', configuration=pdfkit.configuration(wkhtmltopdf= 'app/wkhtmltopdf/bin/wkhtmltopdf.exe'))
 
 
     # Configura los detalles del correo electrónico
