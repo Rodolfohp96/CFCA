@@ -1403,114 +1403,6 @@ def insertColegiaturas(estudiante_id):
             (monto, nombre, fecha_limite, fecha_activacion, False, False, estudiante_id))
 
     db.connection.commit()
-def send_email(subject, message, to_email):
-    # Replace with your Gmail username and app-specific password
-    gmail_username = 'felipecarbajalarcia@gmail.com'
-    app_password = 'wqovjkhmaxycrrjx'
-
-    # Create the formatted email message
-    fmt = 'From: {}\r\nTo: {}\r\nSubject: {}\r\n\r\n{}'
-    email_message = fmt.format(gmail_username, to_email, subject, message)
-
-    # Connect to Gmail's SMTP server
-    context = ssl.create_default_context()
-    with smtplib.SMTP('smtp.googlemail.com', 587) as server:
-        server.starttls(context=context)
-        server.login(gmail_username, app_password)
-        server.sendmail(gmail_username, to_email, email_message.encode('utf-8'))
-
-
-@app.route('/send_pdf_email/<aid>/<id>', methods=['GET', 'POST'])
-def send_pdf_email(aid, id):
-    db = mysql.connection.cursor()
-    msg = ""
-    db.execute("""SELECT id, monto, metodo, concepto, fecha_pago, pagado
-                                                    FROM Transaccion WHERE id={}""".format(id))
-    data = db.fetchone()
-    noticia = "PAGADO"
-    if data[5] == 0:
-        noticia = "ADEUDO"
-    db.execute("""SELECT 
-                                Estudiante.nombre, 
-                                Estudiante.fecha_de_nacimiento, 
-                                Estudiante.beca,  
-                                Grupo.nombre,
-                                Grupo.id,
-                                Estudiante.matricula
-                                FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
-                                WHERE Estudiante.id={}
-                            """.format(aid))
-    data1 = db.fetchall()[0]
-    name = data1[0]
-
-    # Fetch contact data
-    db.execute("SELECT nombre, parentesco, correo, telefono, direccion FROM Contacto WHERE id_estudiante = %s", (aid,))
-    cdata = db.fetchall()
-
-    acon = ["", "", "", "", ""]
-    bcon = ["", "", "", "", ""]
-    for i in range(len(cdata)):
-        if i == 0:
-            acon = cdata[i]
-        if i == 1:
-            bcon = cdata[i]
-
-    # String for the first contact
-
-    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
-    string_primer_contacto = spc
-    # String for the second contact
-    ssc = f"Estimado (a) {bcon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
-    string_segundo_contacto = ssc
-
-    pagotxt = data[3]
-
-    correoinfo = {"correo": acon[2], "conceptop": data[3], "textocorreo": spc}
-
-    beca = "{} %".format(data1[2])
-    group = data1[3]
-    student = {"name": name, "beca": beca, "group": group, "group_id": data[4], "matricula": data1[5]}
-
-    _info = {"msg": msg, "student": student, "id": aid, "aid": id, "data": data}
-
-    html = render_template('recibocorreo.html', info=_info, noticia=noticia, id=aid, correoinfo=correoinfo)
-    #html = render_template('recibocorreo.html')
-    pdfkit.from_string(html, 'pago.pdf', configuration=pdfkit.configuration(wkhtmltopdf= 'app/wkhtmltopdf/bin/wkhtmltopdf.exe'))
-
-
-    # Configura los detalles del correo electrónico
-    sender_email = 'felipecarbajalarcia@gmail.com'
-    receiver_email = acon[2]
-    subject = 'Pago colegiatura '
-    body = spc
-
-    # Crea el mensaje de correo electrónico
-    msg = MIMEMultipart()
-    msg['From'] = sender_email
-    msg['To'] = receiver_email
-    msg['Subject'] = subject
-    msg.attach(MIMEText(body, 'plain'))
-
-    # Adjunta el PDF al correo electrónico
-    with open('pago.pdf', 'rb') as pdf_file:
-        attach = MIMEApplication(pdf_file.read(), _subtype='pdf')
-        attach.add_header('Content-Disposition', 'attachment', filename='pago.pdf')
-        msg.attach(attach)
-
-    # Envía el correo electrónico utilizando SMTP
-    smtp_server = 'smtp.gmail.com'
-    smtp_port = 587
-    smtp_username = 'felipecarbajalarcia@gmail.com'
-    smtp_password = 'wqovjkhmaxycrrjx'
-
-    server = smtplib.SMTP(smtp_server, smtp_port)
-    server.starttls()
-    server.login(smtp_username, smtp_password)
-    server.sendmail(sender_email, receiver_email, msg.as_string())
-    server.quit()
-
-    return redirect(url_for('get_student', id=aid))
-
 
 
 @app.route('/pagoAnual/<id>/<gid>', methods=['POST', 'GET'])
@@ -1690,7 +1582,7 @@ def send_email(aid, id):
     server.sendmail(sender_email, receiver_email, msg.as_string())
     server.quit()
 
-    return 'Correo enviado con éxito!'
+    return redirect(url_for('get_student', id=aid))
 
 
 
