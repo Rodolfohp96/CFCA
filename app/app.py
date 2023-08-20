@@ -30,7 +30,7 @@ app.config['MYSQL_PASSWORD'] = USER_PASS
 app.config['MYSQL_DB'] = DB_NAME
 app.secret_key = 'MYSECRET_KEY'
 mysql = MySQL(app)
-CORS(app)
+
 
 
 # Login
