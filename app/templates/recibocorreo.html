@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>CFCA Recibo</title>
-    <base href="{{ url_for('static', filename='css/estilos.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/estilos.css') }}">
+    <link rel="stylesheet" href="{{ css_url }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -12,13 +11,7 @@
         <h1>Recibo #{{ info.aid }}</h1>
     </header>
     <div class="row">
-        <div class="col" style="width: 50%; float: left">
-
-
-
-            <span><img alt="" src="{{ url_for('static', filename= 'images/logocfca.jpg') }}" style="width: 80%"></span>
-        </div>
-        <div class="col" style="width: 50%; float: left; padding-top: 10%;">
+        <div class="col" style="width: 100%; float: left; padding-top: 10%;">
             <address contenteditable>
                 <p style="color: black; font-weight: bold; font-size: 15px; padding-bottom: 10px;">Nombre: {{ info.student.name }}</p>
                 <p style="color: black; font-weight: bold; font-size: 15px; padding-bottom: 10px;">Mátricula: {{ info.student.matricula }}</p>

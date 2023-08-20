@@ -9,11 +9,14 @@ import pdfkit
 import smtplib
 import ssl
 import os
-from io import BytesIO
 import pandas as pd
+from openpyxl import Workbook
+from openpyxl.styles import Alignment
+from io import BytesIO
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+from email.mime.image import MIMEImage
 #from flask_weasyprint import HTML, render_pdf
 
 
@@ -476,19 +479,20 @@ def index():
 
     return render_template('index.html', info=_info, fechahoy=fechahoy, diario=_studentsdia, quincena=_studentsquincena, mes=_studentsmensual, efectivo=_studentsQuincenaefectivo, transferencia=_studentsQuincenaTransferencia )
 
+
 @app.route('/export_excelQuincenal')
 def export_excelQuincenal():
     cur = mysql.connection.cursor()
     cur.execute("""
                     SELECT
                 E.id AS estudiante_id,
+                E.matricula,
                 E.nombre AS estudiante_nombre,
+                G.nombre AS nombre_grupo,   
                 T.monto,
                 T.metodo,
                 T.concepto,
-                T.fecha_pago,
-                E.matricula,
-                G.nombre AS nombre_grupo    
+                T.fecha_pago 
                 FROM
                     Estudiante AS E
                 JOIN
@@ -500,9 +504,27 @@ def export_excelQuincenal():
                     AND T.fecha_pago >= CURDATE() - INTERVAL 15 DAY
                     """)
     data3 = cur.fetchall()
+    cur.execute("""
+        SELECT
+            SUM(monto) AS Total
+        FROM
+            Transaccion
+        WHERE
+            pagado = TRUE
+            AND fecha_pago >= CURDATE() - INTERVAL 15 DAY
+
+    """)
+    data4 = cur.fetchall()
 
     # Crea un DataFrame de pandas con los datos
-    df = pd.DataFrame(data3)
+    df = pd.DataFrame(data3,
+                      columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
+                               'Mes', 'Fecha de Pago'])
+
+    df2 = pd.DataFrame(data4, columns=['TOTAL'])
+
+    # Agregar los datos de la segunda consulta debajo de los datos del primer DataFrame
+    df = pd.concat([df, df2], ignore_index=True)
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
@@ -515,14 +537,17 @@ def export_excelQuincenal():
     workbook = writer.book
     worksheet = writer.sheets['ExcelQuincenal']
     for i, col in enumerate(df.columns):
-        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))  # Cambio en esta línea
+        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))
         worksheet.set_column(i, i, column_width)
 
     # Cierra el objeto writer para guardar el archivo correctamente
     writer.close()
 
+    # Lleva la posición del cursor al inicio del BytesIO
+    output.seek(0)
+
     # Guarda el contenido del archivo de Excel en una variable
-    excel_data = output.getvalue()
+    excel_data = output.read()
 
     # Crea una respuesta HTTP con el archivo de Excel adjunto
     response = make_response(excel_data)
@@ -535,32 +560,47 @@ def export_excelQuincenal():
 def export_excelMensual():
     cur = mysql.connection.cursor()
     cur.execute("""
-                SELECT
+                        SELECT
                     E.id AS estudiante_id,
-                    E.nombre AS estudiante_nombre,
-                    E.fecha_de_nacimiento,
-                    E.beca,
                     E.matricula,
-                    E.password,
+                    E.nombre AS estudiante_nombre,
+                    G.nombre AS nombre_grupo,   
                     T.monto,
                     T.metodo,
                     T.concepto,
-                    T.fecha_pago,
-                    G.nombre AS nombre_grupo
-                FROM
-                    Estudiante AS E
-                JOIN
-                    Transaccion AS T ON E.id = T.id_estudiante
-                JOIN
-                    Grupo AS G ON E.id_grupo = G.id
-                WHERE
-                    T.pagado = TRUE
-                    AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
-                """)
+                    T.fecha_pago 
+                    FROM
+                        Estudiante AS E
+                    JOIN
+                        Transaccion AS T ON E.id = T.id_estudiante
+                    JOIN
+                            Grupo AS G ON E.id_grupo = G.id
+                    WHERE
+                        T.pagado = TRUE
+                        AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                        """)
     data3 = cur.fetchall()
+    cur.execute("""
+            SELECT
+                SUM(monto) AS Total
+            FROM
+                Transaccion
+            WHERE
+                pagado = TRUE
+                AND fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+        """)
+    data4 = cur.fetchall()
 
     # Crea un DataFrame de pandas con los datos
-    df = pd.DataFrame(data3)
+    df = pd.DataFrame(data3,
+                      columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
+                               'Mes', 'Fecha de Pago'
+                               ])
+
+    df2 = pd.DataFrame(data4, columns=['TOTAL'])
+
+    # Agregar los datos de la segunda consulta debajo de los datos del primer DataFrame
+    df = pd.concat([df, df2], ignore_index=True)
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
@@ -593,34 +633,49 @@ def export_excelMensual():
 def export_excelEfectivo():
     cur = mysql.connection.cursor()
     cur.execute("""
-                    SELECT
-                    E.id AS estudiante_id,
-                    E.nombre AS estudiante_nombre,
-                    E.fecha_de_nacimiento,
-                    E.beca,
-                    E.matricula,
-                    E.password,
-                    T.monto,
-                    T.metodo,
-                    T.concepto,
-                    T.fecha_pago,
-                    G.nombre AS nombre_grupo
-                FROM
-                    Estudiante AS E
-                JOIN
-                    Transaccion AS T ON E.id = T.id_estudiante
-                JOIN
-                    Grupo AS G ON E.id_grupo = G.id
-                WHERE
-                    T.pagado = TRUE
-                    AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
-                    AND T.metodo = 'Efectivo';
-                """)
-
+                            SELECT
+                        E.id AS estudiante_id,
+                        E.matricula,
+                        E.nombre AS estudiante_nombre,
+                        G.nombre AS nombre_grupo,   
+                        T.monto,
+                        T.metodo,
+                        T.concepto,
+                        T.fecha_pago 
+                        FROM
+                            Estudiante AS E
+                        JOIN
+                            Transaccion AS T ON E.id = T.id_estudiante
+                        JOIN
+                                Grupo AS G ON E.id_grupo = G.id
+                        WHERE
+                            T.pagado = TRUE
+                            AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                            AND metodo = 'Efectivo' 
+                            """)
     data3 = cur.fetchall()
+    cur.execute("""
+                SELECT
+                    SUM(monto) AS Total
+                FROM
+                    Transaccion
+                WHERE
+                    pagado = TRUE
+                    AND fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                    AND metodo = 'Efectivo'
+            """)
+    data4 = cur.fetchall()
 
     # Crea un DataFrame de pandas con los datos
-    df = pd.DataFrame(data3)
+    df = pd.DataFrame(data3,
+                      columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
+                               'Mes', 'Fecha de Pago'
+                               ])
+
+    df2 = pd.DataFrame(data4, columns=['TOTAL'])
+
+    # Agregar los datos de la segunda consulta debajo de los datos del primer DataFrame
+    df = pd.concat([df, df2], ignore_index=True)
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
@@ -653,30 +708,47 @@ def export_excelEfectivo():
 def export_excelDiario():
     cur = mysql.connection.cursor()
     cur.execute("""
-                        SELECT
+                                SELECT
                             E.id AS estudiante_id,
+                            E.matricula,
                             E.nombre AS estudiante_nombre,
+                            G.nombre AS nombre_grupo,   
                             T.monto,
                             T.metodo,
                             T.concepto,
-                            T.fecha_pago,
-                            E.matricula,
-                            G.nombre AS nombre_grupo
-                        FROM
-                            Estudiante AS E
-                        JOIN
-                            Transaccion AS T ON E.id = T.id_estudiante
-                        JOIN
+                            T.fecha_pago 
+                            FROM
+                                Estudiante AS E
+                            JOIN
+                                Transaccion AS T ON E.id = T.id_estudiante
+                            JOIN
                                     Grupo AS G ON E.id_grupo = G.id
-                        WHERE
-                            T.pagado = TRUE
-                            AND DATE(T.fecha_pago) = CURDATE()
-                        """)
+                            WHERE
+                                T.pagado = TRUE
+                                AND T.fecha_pago >= CURDATE() 
+                                """)
     data3 = cur.fetchall()
+    cur.execute("""
+                    SELECT
+                        SUM(monto) AS Total
+                    FROM
+                        Transaccion
+                    WHERE
+                        pagado = TRUE
+                        AND fecha_pago >= CURDATE()
+                """)
+    data4 = cur.fetchall()
 
     # Crea un DataFrame de pandas con los datos
-    df = pd.DataFrame(data3)
+    df = pd.DataFrame(data3,
+                      columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
+                               'Mes', 'Fecha de Pago'
+                               ])
 
+    df2 = pd.DataFrame(data4, columns=['TOTAL'])
+
+    # Agregar los datos de la segunda consulta debajo de los datos del primer DataFrame
+    df = pd.concat([df, df2], ignore_index=True)
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
@@ -1470,6 +1542,161 @@ def pagoAnual(id, gid):
         (montoreeinscripcion, nombre_conceptoIns, fecha_pagoR,fecha_activacionR, False, id ))
     db.connection.commit()
     return redirect(url_for('get_student', id=id))
+
+
+@app.route('/generate_email/<aid>/<id>', methods=['GET'])
+def generate_email(aid, id):
+    db = mysql.connection.cursor()
+    msg = ""
+    db.execute("""SELECT id, monto, metodo, concepto, fecha_pago, pagado
+                                                        FROM Transaccion WHERE id={}""".format(id))
+    data = db.fetchone()
+    noticia = "PAGADO"
+    if data[5] == 0:
+        noticia = "ADEUDO"
+    db.execute("""SELECT 
+                                    Estudiante.nombre, 
+                                    Estudiante.fecha_de_nacimiento, 
+                                    Estudiante.beca,  
+                                    Grupo.nombre,
+                                    Grupo.id,
+                                    Estudiante.matricula
+                                    FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
+                                    WHERE Estudiante.id={}
+                                """.format(aid))
+    data1 = db.fetchall()[0]
+    name = data1[0]
+
+    # Fetch contact data
+    db.execute("SELECT nombre, parentesco, correo, telefono, direccion FROM Contacto WHERE id_estudiante = %s", (aid,))
+    cdata = db.fetchall()
+
+    acon = ["", "", "", "", ""]
+    bcon = ["", "", "", "", ""]
+    for i in range(len(cdata)):
+        if i == 0:
+            acon = cdata[i]
+        if i == 1:
+            bcon = cdata[i]
+
+    # String for the first contact
+
+    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
+    string_primer_contacto = spc
+    # String for the second contact
+    ssc = f"Estimado (a) {bcon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
+    string_segundo_contacto = ssc
+
+    pagotxt = data[3]
+
+    correoinfo = {"correo": acon[2], "conceptop": data[3], "textocorreo": spc}
+
+    beca = "{} %".format(data1[2])
+    group = data1[3]
+    student = {"name": name, "beca": beca, "group": group, "group_id": data[4], "matricula": data1[5]}
+
+    _info = {"msg": msg, "student": student, "id": aid, "aid": id, "data": data}
+
+    html_content = render_template('recibocorreo.html', info=_info, noticia=noticia, id=aid, correoinfo=correoinfo)
+
+    return html_content
+
+
+@app.route('/send_emaill/<aid>/<id>', methods=['GET'])
+def send_email(aid, id):
+    db = mysql.connection.cursor()
+    msg = ""
+    db.execute("""SELECT id, monto, metodo, concepto, fecha_pago, pagado
+                                                        FROM Transaccion WHERE id={}""".format(id))
+    data = db.fetchone()
+    noticia = "PAGADO"
+    if data[5] == 0:
+        noticia = "ADEUDO"
+    db.execute("""SELECT 
+                                    Estudiante.nombre, 
+                                    Estudiante.fecha_de_nacimiento, 
+                                    Estudiante.beca,  
+                                    Grupo.nombre,
+                                    Grupo.id,
+                                    Estudiante.matricula
+                                    FROM Estudiante JOIN Grupo ON Estudiante.id_grupo=Grupo.id
+                                    WHERE Estudiante.id={}
+                                """.format(aid))
+    data1 = db.fetchall()[0]
+    name = data1[0]
+
+    # Fetch contact data
+    db.execute("SELECT nombre, parentesco, correo, telefono, direccion FROM Contacto WHERE id_estudiante = %s",
+               (aid,))
+    cdata = db.fetchall()
+
+    acon = ["", "", "", "", ""]
+    bcon = ["", "", "", "", ""]
+    for i in range(len(cdata)):
+        if i == 0:
+            acon = cdata[i]
+        if i == 1:
+            bcon = cdata[i]
+
+    # String for the first contact
+
+    spc = f"Estimado (a) {acon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n \n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
+    string_primer_contacto = spc
+    # String for the second contact
+    ssc = f"Estimado (a) {bcon[0]}, usted ha realizado el pago de la {data[3]} del alumno {data1[0]} con matrícula {data1[5]} el día {data[4]}.\n Adjuntamos su recibo de pago por este medio. \n Si requiere mayor información con gusto podemos antederle vía telefónica en los siguientes números de contacto: 7731003044, 7737325312 y 773 171 62 48. \n En un horario de 8:00 a 14:00 hrs. \n Seguimos a sus órdenes.\n Nuestro cupo es limitado.\n \n Saludos Cordiales. \n Colegio Felipe Carbajal Arcia \n Área de Administración"
+    string_segundo_contacto = ssc
+
+    pagotxt = data[3]
+
+    correoinfo = {"correo": acon[2], "conceptop": data[3], "textocorreo": spc}
+
+    beca = "{} %".format(data1[2])
+    group = data1[3]
+    student = {"name": name, "beca": beca, "group": group, "group_id": data[4], "matricula": data1[5]}
+
+    _info = {"msg": msg, "student": student, "id": aid, "aid": id, "data": data}
+
+    css_url = url_for('static', filename='css/estilos.css')
+    logo_url = url_for('static', filename='images/logocfca.jpg')
+
+    html_content = render_template('recibocorreo.html', info=_info, noticia=noticia, id=aid, correoinfo=correoinfo,
+                                   css_url=css_url, logo_url=logo_url)
+
+    # Configurar los detalles del correo electrónico
+    sender_email = 'Colegio Felipe Carbajal Arcia'
+    receiver_email = acon[2]
+    subject = 'Pago Colegiatura alumno ' + data1[0] +'  matrícula: ' + str(data1[5])
+
+    # Crear el mensaje de correo electrónico
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+    msg['Subject'] = subject
+
+    # Agregar el contenido HTML al correo
+    msg.attach(MIMEText(html_content, 'html'))
+
+    # Agregar la imagen al final del correo
+    logo_image = open('app/app/assets/css/logo1.jpg', 'rb').read()  # Lee la imagen
+    logo_mime = MIMEImage(logo_image, _subtype='jpg')  # Especifica el tipo MIME
+    logo_mime.add_header('Content-ID', '<logo_image>')
+    msg.attach(logo_mime)
+
+    # Enviar el correo electrónico
+    smtp_server = 'smtp.gmail.com'
+    smtp_port = 587
+    smtp_username = 'felipecarbajalarcia@gmail.com'
+    smtp_password = 'wqovjkhmaxycrrjx'
+
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls()
+    server.login(smtp_username, smtp_password)
+    server.sendmail(sender_email, receiver_email, msg.as_string())
+    server.quit()
+
+    return 'Correo enviado con éxito!'
+
+
 
 if __name__ == "__main__":
     app.run()
