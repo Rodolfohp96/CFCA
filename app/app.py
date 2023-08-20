@@ -1676,11 +1676,7 @@ def send_email(aid, id):
     # Agregar el contenido HTML al correo
     msg.attach(MIMEText(html_content, 'html'))
 
-    # Agregar la imagen al final del correo
-    logo_image = open('app/app/assets/css/logo1.jpg', 'rb').read()  # Lee la imagen
-    logo_mime = MIMEImage(logo_image, _subtype='jpg')  # Especifica el tipo MIME
-    logo_mime.add_header('Content-ID', '<logo_image>')
-    msg.attach(logo_mime)
+
 
     # Enviar el correo electrónico
     smtp_server = 'smtp.gmail.com'
