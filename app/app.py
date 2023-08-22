@@ -504,27 +504,11 @@ def export_excelQuincenal():
                     AND T.fecha_pago >= CURDATE() - INTERVAL 15 DAY
                     """)
     data3 = cur.fetchall()
-    cur.execute("""
-        SELECT
-            SUM(monto) AS Total
-        FROM
-            Transaccion
-        WHERE
-            pagado = TRUE
-            AND fecha_pago >= CURDATE() - INTERVAL 15 DAY
-
-    """)
-    data4 = cur.fetchall()
 
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
                                'Mes', 'Fecha de Pago'])
-
-    df2 = pd.DataFrame(data4, columns=['TOTAL'])
-
-    # Agregar los datos de la segunda consulta debajo de los datos del primer DataFrame
-    df = pd.concat([df, df2], ignore_index=True)
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
@@ -533,9 +517,38 @@ def export_excelQuincenal():
     # Escribe el DataFrame en una hoja de cálculo Excel
     df.to_excel(writer, sheet_name='ExcelQuincenal', index=False)
 
-    # Ajusta el ancho de las columnas
+    # Obtener la hoja de trabajo actual
     workbook = writer.book
     worksheet = writer.sheets['ExcelQuincenal']
+
+    try:
+
+        cur.execute("""SELECT
+                    SUM(monto) AS Total
+                FROM
+                    Transaccion
+                WHERE
+                    pagado = TRUE
+                    AND fecha_pago >= CURDATE() - INTERVAL 15 DAY""")
+        totganado = "${:,.2f}".format(cur.fetchall()[0][0])
+    except (IndexError, TypeError):
+        totganado = "$0.00"
+
+    # Agregar el título, subtítulo y fecha
+    worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Quincenal', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
+    worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
+    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
+    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
+    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
+    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
+    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
+    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
+    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
+    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
+    # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
         column_width = max(df[col].astype(str).map(len).max(), len(str(col)))
         worksheet.set_column(i, i, column_width)
@@ -555,6 +568,7 @@ def export_excelQuincenal():
     response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
     return response
+
 
 @app.route('/export_excelMensual')
 def export_excelMensual():
@@ -597,10 +611,10 @@ def export_excelMensual():
                                'Mes', 'Fecha de Pago'
                                ])
 
-    df2 = pd.DataFrame(data4, columns=['TOTAL'])
+
 
     # Agregar los datos de la segunda consulta debajo de los datos del primer DataFrame
-    df = pd.concat([df, df2], ignore_index=True)
+    df = pd.concat([df], ignore_index=True)
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
