@@ -591,30 +591,14 @@ def export_excelMensual():
                             Grupo AS G ON E.id_grupo = G.id
                     WHERE
                         T.pagado = TRUE
-                        AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                        AND T.fecha_pago >= CURDATE() - INTERVAL 15 DAY
                         """)
     data3 = cur.fetchall()
-    cur.execute("""
-            SELECT
-                SUM(monto) AS Total
-            FROM
-                Transaccion
-            WHERE
-                pagado = TRUE
-                AND fecha_pago >= CURDATE() - INTERVAL 1 MONTH
-        """)
-    data4 = cur.fetchall()
 
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'
-                               ])
-
-
-
-    # Agregar los datos de la segunda consulta debajo de los datos del primer DataFrame
-    df = pd.concat([df], ignore_index=True)
+                               'Mes', 'Fecha de Pago'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
@@ -623,18 +607,54 @@ def export_excelMensual():
     # Escribe el DataFrame en una hoja de cálculo Excel
     df.to_excel(writer, sheet_name='ExcelMensual', index=False)
 
-    # Ajusta el ancho de las columnas
+    # Obtener la hoja de trabajo actual
     workbook = writer.book
     worksheet = writer.sheets['ExcelMensual']
+
+    try:
+
+        cur.execute("""SELECT
+                        SUM(monto) AS Total
+                    FROM
+                        Transaccion
+                    WHERE
+                        pagado = TRUE
+                        AND fecha_pago >= CURDATE() - INTERVAL 1 MONTH""")
+        totganado = "${:,.2f}".format(cur.fetchall()[0][0])
+    except (IndexError, TypeError):
+        totganado = "$0.00"
+
+    # Agregar el título, subtítulo y fecha
+    worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia',
+                          workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Quincenal',
+                          workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}',
+                          workbook.add_format({'font_size': 12, 'align': 'center'}))
+    worksheet.merge_range('A4:H4', f'Total: {totganado}',
+                          workbook.add_format({'bold': True, 'font_size': 15, 'align': 'center'}))
+    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
+    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
+    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
+    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
+    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
+    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
+    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
+    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
+    # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
-        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))  # Cambio en esta línea
+        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))
         worksheet.set_column(i, i, column_width)
 
     # Cierra el objeto writer para guardar el archivo correctamente
     writer.close()
 
+    # Lleva la posición del cursor al inicio del BytesIO
+    output.seek(0)
+
     # Guarda el contenido del archivo de Excel en una variable
-    excel_data = output.getvalue()
+    excel_data = output.read()
 
     # Crea una respuesta HTTP con el archivo de Excel adjunto
     response = make_response(excel_data)
@@ -647,49 +667,32 @@ def export_excelMensual():
 def export_excelEfectivo():
     cur = mysql.connection.cursor()
     cur.execute("""
-                            SELECT
-                        E.id AS estudiante_id,
-                        E.matricula,
-                        E.nombre AS estudiante_nombre,
-                        G.nombre AS nombre_grupo,   
-                        T.monto,
-                        T.metodo,
-                        T.concepto,
-                        T.fecha_pago 
-                        FROM
-                            Estudiante AS E
-                        JOIN
-                            Transaccion AS T ON E.id = T.id_estudiante
-                        JOIN
-                                Grupo AS G ON E.id_grupo = G.id
-                        WHERE
-                            T.pagado = TRUE
-                            AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
-                            AND metodo = 'Efectivo' 
-                            """)
+                        SELECT
+                    E.id AS estudiante_id,
+                    E.matricula,
+                    E.nombre AS estudiante_nombre,
+                    G.nombre AS nombre_grupo,   
+                    T.monto,
+                    T.metodo,
+                    T.concepto,
+                    T.fecha_pago 
+                    FROM
+                        Estudiante AS E
+                    JOIN
+                        Transaccion AS T ON E.id = T.id_estudiante
+                    JOIN
+                            Grupo AS G ON E.id_grupo = G.id
+                    WHERE
+                        T.pagado = TRUE
+                        AND T.fecha_pago >= CURDATE() - INTERVAL 15 DAY
+                        AND T.metodo = 'Efectivo'
+                        """)
     data3 = cur.fetchall()
-    cur.execute("""
-                SELECT
-                    SUM(monto) AS Total
-                FROM
-                    Transaccion
-                WHERE
-                    pagado = TRUE
-                    AND fecha_pago >= CURDATE() - INTERVAL 1 MONTH
-                    AND metodo = 'Efectivo'
-            """)
-    data4 = cur.fetchall()
 
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'
-                               ])
-
-    df2 = pd.DataFrame(data4, columns=['TOTAL'])
-
-    # Agregar los datos de la segunda consulta debajo de los datos del primer DataFrame
-    df = pd.concat([df, df2], ignore_index=True)
+                               'Mes', 'Fecha de Pago'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
@@ -698,18 +701,56 @@ def export_excelEfectivo():
     # Escribe el DataFrame en una hoja de cálculo Excel
     df.to_excel(writer, sheet_name='ExcelEfectivo', index=False)
 
-    # Ajusta el ancho de las columnas
+    # Obtener la hoja de trabajo actual
     workbook = writer.book
     worksheet = writer.sheets['ExcelEfectivo']
+
+    try:
+
+        cur.execute("""SELECT
+                        SUM(monto) AS Total
+                    FROM
+                        Transaccion
+                    WHERE
+                        pagado = TRUE
+                        AND fecha_pago >= CURDATE() - INTERVAL 15 DAY
+                        AND metodo = 'Efectivo'
+                        """)
+        totganado = "${:,.2f}".format(cur.fetchall()[0][0])
+    except (IndexError, TypeError):
+        totganado = "$0.00"
+
+    # Agregar el título, subtítulo y fecha
+    worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia',
+                          workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Quincenal',
+                          workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}',
+                          workbook.add_format({'font_size': 12, 'align': 'center'}))
+    worksheet.merge_range('A4:H4', f'Total: {totganado}',
+                          workbook.add_format({'bold': True, 'font_size': 15, 'align': 'center'}))
+    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
+    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
+    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
+    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
+    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
+    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
+    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
+    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
+    # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
-        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))  # Cambio en esta línea
+        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))
         worksheet.set_column(i, i, column_width)
 
     # Cierra el objeto writer para guardar el archivo correctamente
     writer.close()
 
+    # Lleva la posición del cursor al inicio del BytesIO
+    output.seek(0)
+
     # Guarda el contenido del archivo de Excel en una variable
-    excel_data = output.getvalue()
+    excel_data = output.read()
 
     # Crea una respuesta HTTP con el archivo de Excel adjunto
     response = make_response(excel_data)
@@ -722,47 +763,32 @@ def export_excelEfectivo():
 def export_excelDiario():
     cur = mysql.connection.cursor()
     cur.execute("""
-                                SELECT
-                            E.id AS estudiante_id,
-                            E.matricula,
-                            E.nombre AS estudiante_nombre,
-                            G.nombre AS nombre_grupo,   
-                            T.monto,
-                            T.metodo,
-                            T.concepto,
-                            T.fecha_pago 
-                            FROM
-                                Estudiante AS E
-                            JOIN
-                                Transaccion AS T ON E.id = T.id_estudiante
-                            JOIN
-                                    Grupo AS G ON E.id_grupo = G.id
-                            WHERE
-                                T.pagado = TRUE
-                                AND T.fecha_pago >= CURDATE() 
-                                """)
-    data3 = cur.fetchall()
-    cur.execute("""
-                    SELECT
-                        SUM(monto) AS Total
+                        SELECT
+                    E.id AS estudiante_id,
+                    E.matricula,
+                    E.nombre AS estudiante_nombre,
+                    G.nombre AS nombre_grupo,   
+                    T.monto,
+                    T.metodo,
+                    T.concepto,
+                    T.fecha_pago 
                     FROM
-                        Transaccion
+                        Estudiante AS E
+                    JOIN
+                        Transaccion AS T ON E.id = T.id_estudiante
+                    JOIN
+                            Grupo AS G ON E.id_grupo = G.id
                     WHERE
-                        pagado = TRUE
-                        AND fecha_pago >= CURDATE()
-                """)
-    data4 = cur.fetchall()
+                        T.pagado = TRUE
+                        AND T.fecha_pago >= CURDATE() 
+                        """)
+    data3 = cur.fetchall()
 
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'
-                               ])
+                               'Mes', 'Fecha de Pago'])
 
-    df2 = pd.DataFrame(data4, columns=['TOTAL'])
-
-    # Agregar los datos de la segunda consulta debajo de los datos del primer DataFrame
-    df = pd.concat([df, df2], ignore_index=True)
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
@@ -770,18 +796,54 @@ def export_excelDiario():
     # Escribe el DataFrame en una hoja de cálculo Excel
     df.to_excel(writer, sheet_name='ExcelDiario', index=False)
 
-    # Ajusta el ancho de las columnas
+    # Obtener la hoja de trabajo actual
     workbook = writer.book
     worksheet = writer.sheets['ExcelDiario']
+
+    try:
+
+        cur.execute("""SELECT
+                        SUM(monto) AS Total
+                    FROM
+                        Transaccion
+                    WHERE
+                        pagado = TRUE
+                        AND fecha_pago >= CURDATE()""")
+        totganado = "${:,.2f}".format(cur.fetchall()[0][0])
+    except (IndexError, TypeError):
+        totganado = "$0.00"
+
+    # Agregar el título, subtítulo y fecha
+    worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia',
+                          workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Quincenal',
+                          workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}',
+                          workbook.add_format({'font_size': 12, 'align': 'center'}))
+    worksheet.merge_range('A4:H4', f'Total: {totganado}',
+                          workbook.add_format({'bold': True, 'font_size': 15, 'align': 'center'}))
+    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
+    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
+    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
+    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
+    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
+    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
+    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
+    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
+    # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
-        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))  # Cambio en esta línea
+        column_width = max(df[col].astype(str).map(len).max(), len(str(col)))
         worksheet.set_column(i, i, column_width)
 
     # Cierra el objeto writer para guardar el archivo correctamente
     writer.close()
 
+    # Lleva la posición del cursor al inicio del BytesIO
+    output.seek(0)
+
     # Guarda el contenido del archivo de Excel en una variable
-    excel_data = output.getvalue()
+    excel_data = output.read()
 
     # Crea una respuesta HTTP con el archivo de Excel adjunto
     response = make_response(excel_data)
@@ -888,19 +950,23 @@ def alumno_nuevo(gid):
         db.execute(insert_contacto2, contacto2_data)
 
         monto_colegiatura = 2750 if int(gid) < 6 else 2800
+        montoreeinscripcion = 2750 if int(gid) < 4 else 2800
 
         # Definir las fechas y montos de las transacciones
         transacciones = [
-            ("Colegiatura Septiembre", "2023-09-6", "2023-09-01", monto_colegiatura),
+            ("Colegiatura Septiembre", "2023-09-06", "2023-08-28", monto_colegiatura),
             ("Colegiatura Octubre", "2023-10-10", "2023-10-01", monto_colegiatura),
             ("Colegiatura Noviembre", "2023-11-10", "2023-11-01", monto_colegiatura),
-            ("Colegiatura Diciembre y Agosto", "2023-12-10", "2023-12-01", monto_colegiatura * 2),
+            ("Colegiatura Agosto", "2023-12-10", "2023-12-01", monto_colegiatura),
+            ("Colegiatura Diciembre", "2023-12-10", "2023-12-01", monto_colegiatura),
             ("Colegiatura Enero", "2024-01-10", "2024-01-01", monto_colegiatura),
+            ("Reinscripción CICLO ESCOLAR 2024-2025 ", "2024-02-02", "2024-01-22", montoreeinscripcion),
             ("Colegiatura Febrero", "2024-02-10", "2024-02-01", monto_colegiatura),
             ("Colegiatura Marzo", "2024-03-10", "2024-03-01", monto_colegiatura),
-            ("Colegiatura Abril", "2024-04-10", "2024-04-01", monto_colegiatura),
+            ("Colegiatura Abril", "2024-04-12", "2024-04-01", monto_colegiatura),
             ("Colegiatura Mayo", "2024-05-10", "2024-05-01", monto_colegiatura),
-            ("Colegiatura Junio y Julio", "2024-06-10", "2024-06-01", monto_colegiatura * 2)
+            ("Colegiatura Junio", "2024-06-10", "2024-06-01", monto_colegiatura),
+            ("Colegiatura Julio", "2024-06-10", "2024-06-01", monto_colegiatura)
         ]
 
         # Insertar las transacciones en la tabla Transaccion
@@ -1139,9 +1205,16 @@ def edit_student(id):
 def delete_student(gid, id):
     if not check_login():
         return redirect(url_for('login'))
+
     db = mysql.connection.cursor()
+
+    # Delete associated Estudiante_Contacto records first
+    db.execute("DELETE FROM Estudiante_Contacto WHERE id_estudiante = {}".format(id))
+
+    # Now, delete the student record
     db.execute("DELETE FROM Estudiante WHERE id = {}".format(id))
     db.connection.commit()
+
     return redirect(url_for('get_group', id=gid))
 
 
