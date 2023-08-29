@@ -446,7 +446,7 @@ def get_nuevafactura(aid, id):
                       FROM Estudiante WHERE id={}""".format(aid))
     data5 = db.fetchone()
 
-    if data5 and data5[0] != 0:
+    if data5 and data5[0] is not None and data5[0] != 0:
         descuento = (data5[0] * total_con_recargo[0]) / 100
         transaccion_original = total_con_recargo[0] - descuento
     else:
@@ -947,7 +947,7 @@ def edit_pagon(aid, id):
                   FROM Estudiante WHERE id={}""".format(aid))
     data5 = db.fetchone()
 
-    if data5 and data5[0] != 0:
+    if data5 and data5[0] is not None and data5[0] != 0:
         descuento = (data5[0] * total_con_recargo1[0]) / 100
         transaccion_original = total_con_recargo1[0] - descuento
     else:
