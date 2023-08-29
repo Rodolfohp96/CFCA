@@ -1179,6 +1179,45 @@ def pagoAnual(id, gid):
     return redirect(url_for('get_student', id=id))
 
 
+@app.route('/reinicioColegiaturas/<id>/<gid>', methods=['POST', 'GET'])
+def reinicioCol(id, gid):
+    if not check_login():
+        return redirect(url_for('login'))
+    db = mysql.connection.cursor()
+    # Obtener el monto de la colegiatura anual
+    estudiante_id = id
+    id_grupo = gid
+    monto_colegiatura = 2750 if int(gid) <= 6 else 2800
+    montoreeinscripcion = 2750 if int(gid) <= 4 else 2800
+
+    # Definir las fechas y montos de las transacciones
+    transacciones = [
+        ("Colegiatura Septiembre", "2023-09-06", "2023-08-28", monto_colegiatura),
+        ("Colegiatura Octubre", "2023-10-10", "2023-10-01", monto_colegiatura),
+        ("Colegiatura Noviembre", "2023-11-10", "2023-11-01", monto_colegiatura),
+        ("Colegiatura Agosto", "2023-12-10", "2023-12-01", monto_colegiatura),
+        ("Colegiatura Diciembre", "2023-12-10", "2023-12-01", monto_colegiatura),
+        ("Colegiatura Enero", "2024-01-10", "2024-01-01", monto_colegiatura),
+        ("Reinscripción CICLO ESCOLAR 2024-2025 ", "2024-02-02", "2024-01-22", montoreeinscripcion),
+        ("Colegiatura Febrero", "2024-02-10", "2024-02-01", monto_colegiatura),
+        ("Colegiatura Marzo", "2024-03-10", "2024-03-01", monto_colegiatura),
+        ("Colegiatura Abril", "2024-04-12", "2024-04-01", monto_colegiatura),
+        ("Colegiatura Mayo", "2024-05-10", "2024-05-01", monto_colegiatura),
+        ("Colegiatura Junio", "2024-06-10", "2024-06-01", monto_colegiatura),
+        ("Colegiatura Julio", "2024-06-10", "2024-06-01", monto_colegiatura)
+    ]
+    for nombre, fecha_pago, fecha_activacion, monto in transacciones:
+        fecha_limite = datetime.strptime(fecha_pago, "%Y-%m-%d").date()
+        fecha_activacion = datetime.strptime(fecha_activacion, "%Y-%m-%d").date()
+        db.execute(
+            "INSERT INTO Transaccion (monto, concepto, fecha_limite, fechaActivacion, activado, pagado, id_estudiante) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            (monto, nombre, fecha_limite, fecha_activacion, False, False, estudiante_id))
+
+    db.connection.commit()
+    return redirect(url_for('get_student', id=id))
+
+
+
 @app.route('/generate_email/<aid>/<id>', methods=['GET'])
 def generate_email(aid, id):
     db = mysql.connection.cursor()
