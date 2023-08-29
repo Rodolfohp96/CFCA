@@ -299,8 +299,8 @@ def setup_db():
             for estudiante in estudiantes:
                 estudiante_id = estudiante[0]
                 id_grupo = estudiante[1]
-                monto_colegiatura = 2750 if id_grupo < 6 else 2800
-                montoreeinscripcion = 2750 if id_grupo < 4 else 2800
+                monto_colegiatura = 2750 if id_grupo <= 6 else 2800
+                montoreeinscripcion = 2750 if id_grupo <= 4 else 2800
 
                 # Definir las fechas y montos de las transacciones
                 transacciones = [

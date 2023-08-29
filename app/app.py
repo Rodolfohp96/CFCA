@@ -1682,7 +1682,8 @@ def export_excelDiarioEP():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago 
+            T.fecha_pago,
+            T.id AS transaccion_id  
         FROM
             Estudiante AS E
         JOIN
@@ -1691,24 +1692,28 @@ def export_excelDiarioEP():
             Grupo AS G ON E.id_grupo = G.id
         WHERE
             T.pagado = TRUE
-            AND T.fecha_pago >= CURDATE() 
+            AND T.fecha_pago >= CURDATE()
             AND E.id_grupo <= 6
             AND T.metodo = 'Efectivo'
     """)
 
     data3 = cur.fetchall()
 
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
+
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago','ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='ExcelDiarioEfectivoPreescolar', index=False)
+    df.to_excel(writer, sheet_name='ExcelDiarioEfectivoPreescolar', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
@@ -1735,17 +1740,10 @@ def export_excelDiarioEP():
 
     # Agregar el título, subtítulo y fecha
     worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
-    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Diario Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
     worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
     worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
@@ -1779,7 +1777,8 @@ def export_excelDiarioTP():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago 
+            T.fecha_pago,
+            T.id AS transaccion_id 
         FROM
             Estudiante AS E
         JOIN
@@ -1795,17 +1794,21 @@ def export_excelDiarioTP():
 
     data3 = cur.fetchall()
 
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
+
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago','ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='DiarioTransferenciaPreescolar', index=False)
+    df.to_excel(writer, sheet_name='DiarioTransferenciaPreescolar', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
@@ -1825,24 +1828,17 @@ def export_excelDiarioTP():
                     T.pagado = TRUE
                     AND T.fecha_pago >= CURDATE()
                     AND E.id_grupo <= 6
-                    AND T.metodo = 'Efectivo'""")
+                    AND T.metodo = 'Transferencia'""")
         totganado = "${:,.2f}".format(cur.fetchall()[0][0])
     except (IndexError, TypeError):
         totganado = "$0.00"
 
     # Agregar el título, subtítulo y fecha
     worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
-    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Diario Preescolar en transferencia', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
     worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
     worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
@@ -1876,7 +1872,8 @@ def export_excelQuincenalEP():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago 
+            T.fecha_pago,
+            T.id AS transaccion_id  
         FROM
             Estudiante AS E
         JOIN
@@ -1892,17 +1889,21 @@ def export_excelQuincenalEP():
 
     data3 = cur.fetchall()
 
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
+
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago','ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='ExcelQuincenal', index=False)
+    df.to_excel(writer, sheet_name='ExcelQuincenal', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
@@ -1931,14 +1932,7 @@ def export_excelQuincenalEP():
     worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
     worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
     worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
@@ -1972,7 +1966,8 @@ def export_excelQuincenalTP():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago 
+            T.fecha_pago,
+            T.id AS transaccion_id  
         FROM
             Estudiante AS E
         JOIN
@@ -1988,21 +1983,25 @@ def export_excelQuincenalTP():
 
     data3 = cur.fetchall()
 
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
+
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago','ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='ExcelQuincenal', index=False)
+    df.to_excel(writer, sheet_name='QuinceTransferenciaPreescolar', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
-    worksheet = writer.sheets['ExcelQuincenal']
+    worksheet = writer.sheets['QuinceTransferenciaPreescolar']
 
     try:
 
@@ -2018,24 +2017,17 @@ def export_excelQuincenalTP():
                     T.pagado = TRUE
                     AND T.fecha_pago >= CURDATE() - INTERVAL 15 DAY
                     AND E.id_grupo <= 6
-                    AND T.metodo = 'Efectivo'""")
+                    AND T.metodo = 'Transferencia'""")
         totganado = "${:,.2f}".format(cur.fetchall()[0][0])
     except (IndexError, TypeError):
         totganado = "$0.00"
 
     # Agregar el título, subtítulo y fecha
     worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
-    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en transferencia', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
     worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
     worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
@@ -2053,7 +2045,7 @@ def export_excelQuincenalTP():
 
     # Crea una respuesta HTTP con el archivo de Excel adjunto
     response = make_response(excel_data)
-    response.headers['Content-Disposition'] = 'attachment; filename=ExcelQuincenal.xlsx'
+    response.headers['Content-Disposition'] = 'attachment; filename=QuinceTransferenciaPreescolar.xlsx'
     response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
     return response
@@ -2070,7 +2062,8 @@ def export_excelMensualEP():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago 
+            T.fecha_pago,
+            T.id AS transaccion_id  
         FROM
             Estudiante AS E
         JOIN
@@ -2086,17 +2079,21 @@ def export_excelMensualEP():
 
     data3 = cur.fetchall()
 
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
+
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago','ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='ExcelMensualEfectivoPreescolar', index=False)
+    df.to_excel(writer, sheet_name='ExcelMensualEfectivoPreescolar', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
@@ -2122,17 +2119,10 @@ def export_excelMensualEP():
 
     # Agregar el título, subtítulo y fecha
     worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
-    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Mensual Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
     worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
     worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
@@ -2166,7 +2156,8 @@ def export_excelMensualTP():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago 
+            T.fecha_pago,
+            T.id AS transaccion_id  
         FROM
             Estudiante AS E
         JOIN
@@ -2182,17 +2173,21 @@ def export_excelMensualTP():
 
     data3 = cur.fetchall()
 
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
+
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago','ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='MensualTransferenciaPreescolar', index=False)
+    df.to_excel(writer, sheet_name='MensualTransferenciaPreescolar', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
@@ -2212,24 +2207,17 @@ def export_excelMensualTP():
                     T.pagado = TRUE
                     AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
                     AND E.id_grupo <= 6
-                    AND T.metodo = 'Efectivo'""")
+                    AND T.metodo = 'Transferencia'""")
         totganado = "${:,.2f}".format(cur.fetchall()[0][0])
     except (IndexError, TypeError):
         totganado = "$0.00"
 
     # Agregar el título, subtítulo y fecha
     worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
-    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Mensual Preescolar en transferencia', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
     worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
     worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
@@ -2266,7 +2254,8 @@ def export_excelDiarioEPrimaria():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago 
+            T.fecha_pago,
+            T.id AS transaccion_id   
         FROM
             Estudiante AS E
         JOIN
@@ -2282,17 +2271,21 @@ def export_excelDiarioEPrimaria():
 
     data3 = cur.fetchall()
 
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
+
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago','ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='ExcelDiarioEfectivoPrimaria', index=False)
+    df.to_excel(writer, sheet_name='ExcelDiarioEfectivoPrimaria', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
@@ -2319,17 +2312,10 @@ def export_excelDiarioEPrimaria():
 
     # Agregar el título, subtítulo y fecha
     worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
-    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Diario Primaria en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
     worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
     worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
@@ -2363,7 +2349,8 @@ def export_excelDiarioTPrimaria():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago 
+            T.fecha_pago,
+            T.id AS transaccion_id    
         FROM
             Estudiante AS E
         JOIN
@@ -2379,21 +2366,25 @@ def export_excelDiarioTPrimaria():
 
     data3 = cur.fetchall()
 
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
+
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago','ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='ExcelDiarioTransferenciaPrimaria', index=False)
+    df.to_excel(writer, sheet_name='DiarioTransferenciaPrimaria', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
-    worksheet = writer.sheets['ExcelDiarioTransferenciaPrimaria']
+    worksheet = writer.sheets['DiarioTransferenciaPrimaria']
 
     try:
 
@@ -2409,24 +2400,17 @@ def export_excelDiarioTPrimaria():
                     T.pagado = TRUE
                     AND T.fecha_pago >= CURDATE()
                     AND E.id_grupo >= 7
-                    AND T.metodo = 'Efectivo'""")
+                    AND T.metodo = 'Transferencia'""")
         totganado = "${:,.2f}".format(cur.fetchall()[0][0])
     except (IndexError, TypeError):
         totganado = "$0.00"
 
     # Agregar el título, subtítulo y fecha
     worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
-    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Diario Primaria en transferencia', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
     worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
     worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
@@ -2444,7 +2428,7 @@ def export_excelDiarioTPrimaria():
 
     # Crea una respuesta HTTP con el archivo de Excel adjunto
     response = make_response(excel_data)
-    response.headers['Content-Disposition'] = 'attachment; filename=ExcelDiarioTransferenciaPrimaria.xlsx'
+    response.headers['Content-Disposition'] = 'attachment; filename=DiarioTransferenciaPrimaria.xlsx'
     response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
     return response
@@ -2460,7 +2444,8 @@ def export_excelQuincenalEPrimaria():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago 
+            T.fecha_pago,
+            T.id AS transaccion_id   
         FROM
             Estudiante AS E
         JOIN
@@ -2476,17 +2461,21 @@ def export_excelQuincenalEPrimaria():
 
     data3 = cur.fetchall()
 
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
+
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago','ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='ExcelQuincenalEfectivoPrimaria', index=False)
+    df.to_excel(writer, sheet_name='ExcelQuincenalEfectivoPrimaria', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
@@ -2513,17 +2502,10 @@ def export_excelQuincenalEPrimaria():
 
     # Agregar el título, subtítulo y fecha
     worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
-    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Quincenal Primaria en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
     worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
     worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
@@ -2557,7 +2539,8 @@ def export_excelQuincenalTPrimaria():
             T.monto,
             T.metodo,
             T.concepto,
-            T.fecha_pago 
+            T.fecha_pago,
+            T.id AS transaccion_id   
         FROM
             Estudiante AS E
         JOIN
@@ -2573,21 +2556,25 @@ def export_excelQuincenalTPrimaria():
 
     data3 = cur.fetchall()
 
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
+
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago','ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='ExcelQuincenalTransferenciaPrimaria', index=False)
+    df.to_excel(writer, sheet_name='QuincenalTransferenciaPrimaria', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
-    worksheet = writer.sheets['ExcelQuincenalTransferenciaPrimaria']
+    worksheet = writer.sheets['QuincenalTransferenciaPrimaria']
 
     try:
 
@@ -2610,17 +2597,10 @@ def export_excelQuincenalTPrimaria():
 
     # Agregar el título, subtítulo y fecha
     worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
-    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Quincenal Primaria en Transferencia', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
     worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
     worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
@@ -2638,7 +2618,7 @@ def export_excelQuincenalTPrimaria():
 
     # Crea una respuesta HTTP con el archivo de Excel adjunto
     response = make_response(excel_data)
-    response.headers['Content-Disposition'] = 'attachment; filename=ExcelQuincenalEfectivoPrimaria.xlsx'
+    response.headers['Content-Disposition'] = 'attachment; filename=QuincenalTransferenciaPrimaria.xlsx'
     response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
     return response
@@ -2648,40 +2628,45 @@ def export_excelMensualEPrimaria():
     cur = mysql.connection.cursor()
     cur.execute("""
         SELECT
-            E.id AS estudiante_id,
-            E.matricula,
-            E.nombre AS estudiante_nombre,
-            G.nombre AS nombre_grupo,   
-            T.monto,
-            T.metodo,
-            T.concepto,
-            T.fecha_pago 
-        FROM
-            Estudiante AS E
-        JOIN
-            Transaccion AS T ON E.id = T.id_estudiante
-        JOIN
-            Grupo AS G ON E.id_grupo = G.id
-        WHERE
-            T.pagado = TRUE
-            AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
-            AND E.id_grupo >= 7
-            AND T.metodo = 'Efectivo'
+                    E.id AS estudiante_id,
+                    E.matricula,
+                    E.nombre AS estudiante_nombre,
+                    G.nombre AS nombre_grupo,   
+                    T.monto,
+                    T.metodo,
+                    T.concepto,
+                    T.fecha_pago,
+                    T.id AS transaccion_id  
+                FROM
+                    Estudiante AS E
+                JOIN
+                    Transaccion AS T ON E.id = T.id_estudiante
+                JOIN
+                    Grupo AS G ON E.id_grupo = G.id
+                WHERE
+                    T.pagado = TRUE
+                    AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                    AND E.id_grupo >= 7
+                    AND T.metodo = 'Efectivo'
     """)
 
     data3 = cur.fetchall()
 
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
+
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago', 'ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='ExcelMensualEfectivoPrimaria', index=False)
+    df.to_excel(writer, sheet_name='ExcelMensualEfectivoPrimaria', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
@@ -2708,22 +2693,18 @@ def export_excelMensualEPrimaria():
 
     # Agregar el título, subtítulo y fecha
     worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
-    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Mensual Primaria en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
     worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
     worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
         column_width = max(df[col].astype(str).map(len).max(), len(str(col)))
         worksheet.set_column(i, i, column_width)
+
+    # Escribir los datos del DataFrame a partir de la fila 6
+    df.to_excel(writer, sheet_name='ExcelMensualEfectivoPrimaria', startrow=5, index=False)
 
     # Cierra el objeto writer para guardar el archivo correctamente
     writer.close()
@@ -2744,83 +2725,88 @@ def export_excelMensualEPrimaria():
 def export_excelMensualTPrimaria():
     cur = mysql.connection.cursor()
     cur.execute("""
-        SELECT
-            E.id AS estudiante_id,
-            E.matricula,
-            E.nombre AS estudiante_nombre,
-            G.nombre AS nombre_grupo,   
-            T.monto,
-            T.metodo,
-            T.concepto,
-            T.fecha_pago 
-        FROM
-            Estudiante AS E
-        JOIN
-            Transaccion AS T ON E.id = T.id_estudiante
-        JOIN
-            Grupo AS G ON E.id_grupo = G.id
-        WHERE
-            T.pagado = TRUE
-            AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
-            AND E.id_grupo >= 7
-            AND T.metodo = 'Transferencia'
-    """)
+            SELECT
+                        E.id AS estudiante_id,
+                        E.matricula,
+                        E.nombre AS estudiante_nombre,
+                        G.nombre AS nombre_grupo,   
+                        T.monto,
+                        T.metodo,
+                        T.concepto,
+                        T.fecha_pago,
+                        T.id AS transaccion_id 
+                    FROM
+                        Estudiante AS E
+                    JOIN
+                        Transaccion AS T ON E.id = T.id_estudiante
+                    JOIN
+                        Grupo AS G ON E.id_grupo = G.id
+                    WHERE
+                        T.pagado = TRUE
+                        AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                        AND E.id_grupo >= 7
+                        AND T.metodo = 'Transferencia'
+        """)
 
     data3 = cur.fetchall()
+
+    # Si data3 está vacío, crea una lista vacía con valores None
+    if not data3:
+        data3 = [(None,) * 9]  # 8 porque tienes 8 columnas en tu DataFrame
 
     # Crea un DataFrame de pandas con los datos
     df = pd.DataFrame(data3,
                       columns=['ID alumno App', 'Matricula ', 'Nombre ', 'Grado y Grupo', 'Monto', 'Forma de pago',
-                               'Mes', 'Fecha de Pago'])
+                               'Mes', 'Fecha de Pago', 'ID Recibo'])
 
     # Crea un objeto ExcelWriter utilizando XlsxWriter como motor de escritura
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
     # Escribe el DataFrame en una hoja de cálculo Excel
-    df.to_excel(writer, sheet_name='ExcelMensualTransferenciaPrimaria', index=False)
+    df.to_excel(writer, sheet_name='TransferenciaMensualPrimaria', startrow=5, index=False)
 
     # Obtener la hoja de trabajo actual
     workbook = writer.book
-    worksheet = writer.sheets['ExcelMensualTransferenciaPrimaria']
+    worksheet = writer.sheets['TransferenciaMensualPrimaria']
 
     try:
 
         cur.execute("""SELECT
-                    SUM(monto) AS Total
-                FROM
-                    Estudiante AS E
-                JOIN
-                    Transaccion AS T ON E.id = T.id_estudiante
-                JOIN
-                    Grupo AS G ON E.id_grupo = G.id
-                WHERE
-                    T.pagado = TRUE
-                    AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
-                    AND E.id_grupo >= 7
-                    AND T.metodo = 'Efectivo'""")
+                        SUM(monto) AS Total
+                    FROM
+                        Estudiante AS E
+                    JOIN
+                        Transaccion AS T ON E.id = T.id_estudiante
+                    JOIN
+                        Grupo AS G ON E.id_grupo = G.id
+                    WHERE
+                        T.pagado = TRUE
+                        AND T.fecha_pago >= CURDATE() - INTERVAL 1 MONTH
+                        AND E.id_grupo >= 7
+                        AND T.metodo = 'Transferencia'""")
         totganado = "${:,.2f}".format(cur.fetchall()[0][0])
     except (IndexError, TypeError):
         totganado = "$0.00"
 
     # Agregar el título, subtítulo y fecha
-    worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia', workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
-    worksheet.merge_range('A2:H2', 'Reporte Quincenal Preescolar en efectivo', workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
-    worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}', workbook.add_format({'font_size': 12, 'align': 'center'}))
-    worksheet.merge_range('A4:H4', f'Total: {totganado}', workbook.add_format({'bold': True,'font_size': 15, 'align': 'center'}))
-    worksheet.write('A5', 'ID alumno App', workbook.add_format({'bold': True}))
-    worksheet.write('B5', 'Matricula', workbook.add_format({'bold': True}))
-    worksheet.write('C5', 'Nombre', workbook.add_format({'bold': True}))
-    worksheet.write('D5', 'Grado y Grupo', workbook.add_format({'bold': True}))
-    worksheet.write('E5', 'Monto', workbook.add_format({'bold': True}))
-    worksheet.write('F5', 'Forma de pago', workbook.add_format({'bold': True}))
-    worksheet.write('G5', 'Mes', workbook.add_format({'bold': True}))
-    worksheet.write('H5', 'Fecha de Pago', workbook.add_format({'bold': True}))
+    worksheet.merge_range('A1:H1', 'Colegio Felipe Carbajal Arcia',
+                          workbook.add_format({'bold': True, 'font_size': 16, 'align': 'center'}))
+    worksheet.merge_range('A2:H2', 'Reporte Mensual Primaria en Transferencia',
+                          workbook.add_format({'bold': True, 'font_size': 14, 'align': 'center'}))
+    worksheet.merge_range('A3:H3', f'Fecha: {datetime.now().strftime("%Y-%m-%d")}',
+                          workbook.add_format({'font_size': 12, 'align': 'center'}))
+    worksheet.merge_range('A4:H4', f'Total: {totganado}',
+                          workbook.add_format({'bold': True, 'font_size': 15, 'align': 'center'}))
+
 
     # Ajusta el ancho de las columnas
     for i, col in enumerate(df.columns):
         column_width = max(df[col].astype(str).map(len).max(), len(str(col)))
         worksheet.set_column(i, i, column_width)
+
+    # Escribir los datos del DataFrame a partir de la fila 6
+    df.to_excel(writer, sheet_name='TransferenciaMensualPrimaria', startrow=5, index=False)
 
     # Cierra el objeto writer para guardar el archivo correctamente
     writer.close()
@@ -2833,10 +2819,11 @@ def export_excelMensualTPrimaria():
 
     # Crea una respuesta HTTP con el archivo de Excel adjunto
     response = make_response(excel_data)
-    response.headers['Content-Disposition'] = 'attachment; filename=ExcelMensualTransferenciaPrimaria.xlsx'
+    response.headers['Content-Disposition'] = 'attachment; filename=TransferenciaMensualPrimaria.xlsx'
     response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
     return response
+
 
 if __name__ == "__main__":
     app.run()
