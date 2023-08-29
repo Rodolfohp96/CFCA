@@ -1185,7 +1185,12 @@ def reinicioCol(id, gid):
         return redirect(url_for('login'))
     db = mysql.connection.cursor()
     # Obtener el monto de la colegiatura anual
+
     estudiante_id = id
+    # Borrar todas las transacciones del estudiante
+    db.execute("""DELETE FROM Transaccion 
+                                    WHERE id_estudiante={}""".format(id))
+    db.connection.commit()
     id_grupo = gid
     monto_colegiatura = 2750 if int(gid) <= 6 else 2800
     montoreeinscripcion = 2750 if int(gid) <= 4 else 2800
