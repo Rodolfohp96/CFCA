@@ -941,23 +941,26 @@ def edit_pagon(aid, id):
                         FROM Transaccion WHERE id={}""".format(id))
     data = db.fetchone()
     # Ejemplo de uso
-    # transaccion_original = data[1]
+
+    total_con_recargo1 = calcular_recargo(data[1], data[4])
     db.execute("""SELECT beca
                   FROM Estudiante WHERE id={}""".format(aid))
     data5 = db.fetchone()
 
     if data5 and data5[0] != 0:
-        descuento = (data5[0] * data[1]) / 100
-        transaccion_original = data[1] - descuento
+        descuento = (data5[0] * total_con_recargo1[0]) / 100
+        transaccion_original = total_con_recargo1[0] - descuento
     else:
-        transaccion_original = data[1]
+        transaccion_original = total_con_recargo1[0]
+
+
 
     total_con_recargo = calcular_recargo(transaccion_original, data[4])
     fechahoy = date.today()
 
     if request.method == 'POST':
         try:
-            monto = float(total_con_recargo[0])
+            monto = float(transaccion_original)
             metodo = request.form['metodo']
             if not metodo:
                 metodo = " "
