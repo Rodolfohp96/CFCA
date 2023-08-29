@@ -1269,7 +1269,9 @@ def send_email(aid, id):
     logo_url = url_for('static', filename='images/logocfca.jpg')
 
     html_content = render_template('recibocorreo.html', info=_info, noticia=noticia, id=aid, correoinfo=correoinfo,
-                                   css_url=css_url, logo_url=logo_url)
+                                   css_url=css_url, logo_url=logo_url, spc = spc)
+
+
 
     # Configurar los detalles del correo electrónico
     sender_email = 'Colegio Felipe Carbajal Arcia'
