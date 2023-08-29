@@ -440,10 +440,23 @@ def get_nuevafactura(aid, id):
     transaccion_original = data[1]
 
     total_con_recargo = calcular_recargo(transaccion_original, data[4])
+
+    ###
+    db.execute("""SELECT beca
+                      FROM Estudiante WHERE id={}""".format(aid))
+    data5 = db.fetchone()
+
+    if data5 and data5[0] != 0:
+        descuento = (data5[0] * total_con_recargo[0]) / 100
+        transaccion_original = total_con_recargo[0] - descuento
+    else:
+        transaccion_original = total_con_recargo[0]
+
+    ###
     _info = {"msg": msg, "id": id, "aid": aid, "data": data, "trans": trans}
     fechahoy = date.today()
     return render_template('factura.html', info=_info, student=studentsi, fechahoy=fechahoy,
-                           total_con_recargo=total_con_recargo)
+                           total_con_recargo=total_con_recargo,transaccion_original=transaccion_original)
 
 
 def calcular_recargo(monto, fechalimite):
@@ -928,7 +941,17 @@ def edit_pagon(aid, id):
                         FROM Transaccion WHERE id={}""".format(id))
     data = db.fetchone()
     # Ejemplo de uso
-    transaccion_original = data[1]
+    # transaccion_original = data[1]
+    db.execute("""SELECT beca
+                  FROM Estudiante WHERE id={}""".format(aid))
+    data5 = db.fetchone()
+
+    if data5 and data5[0] != 0:
+        descuento = (data5[0] * data[1]) / 100
+        transaccion_original = data[1] - descuento
+    else:
+        transaccion_original = data[1]
+
     total_con_recargo = calcular_recargo(transaccion_original, data[4])
     fechahoy = date.today()
 
