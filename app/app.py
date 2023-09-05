@@ -904,6 +904,7 @@ def edit_pago(aid, id):
                 metodo = " "
             concepto = request.form['concepto']
             limit = request.form['fechalimite']
+            fechpag = request.form['fecha_pago']
             pagado = "TRUE" if request.form['pagado'] == '1' else "FALSE"
             inputs = [monto, metodo, concepto, limit, pagado]
             if fempties(inputs):
@@ -914,15 +915,16 @@ def edit_pago(aid, id):
                             metodo=\"{}\",
                             concepto=\"{}\",
                             fecha_limite=\"{}\",
+                            fecha_pago=\"{}\",
                             pagado={}
                             WHERE id={}
-                        """.format(monto, metodo, concepto, limit, pagado, id))
+                        """.format(monto, metodo, concepto, limit,fechpag, pagado, id))
             db.connection.commit()
             return redirect(url_for('get_student', id=aid))
         except ValueError:
             msg = "Ocurrió un error al agregar la informacón"
     db = mysql.connection.cursor()
-    db.execute("""SELECT id, monto, metodo, concepto, fecha_limite, pagado
+    db.execute("""SELECT id, monto, metodo, concepto, fecha_limite, pagado, fecha_pago
                     FROM Transaccion WHERE id={}""".format(id))
     data = db.fetchone()
     _info = {"msg": msg, "id": id, "aid": aid, "data": data}
