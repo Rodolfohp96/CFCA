@@ -1154,7 +1154,7 @@ def pagoAnual(id, gid):
         return redirect(url_for('login'))
     db = mysql.connection.cursor()
     # Obtener el monto de la colegiatura anual
-    monto_colegiatura = 30250 if int(gid) < 6 else 30800
+    monto_colegiatura = 30250 if int(gid) <= 6 else 30800
     print(monto_colegiatura)
 
     # Borrar todas las transacciones del estudiante
@@ -1184,7 +1184,7 @@ def pagoAnualEfe(id, gid):
         return redirect(url_for('login'))
     db = mysql.connection.cursor()
     # Obtener el monto de la colegiatura anual
-    monto_colegiatura = 30250 if int(gid) < 6 else 30800
+    monto_colegiatura = 30250 if int(gid) <= 6 else 30800
     print(monto_colegiatura)
 
     # Borrar todas las transacciones del estudiante
