@@ -592,8 +592,8 @@ def alumno_nuevo(gid):
             tutor2CFDI, tutor2RFC, tutor2CP, tutor2dirfact, n)
         db.execute(insert_contacto2, contacto2_data)
 
-        monto_colegiatura = 2750 if int(gid) < 6 else 2800
-        montoreeinscripcion = 2750 if int(gid) < 4 else 2800
+        monto_colegiatura = 2750 if int(gid) <= 6 else 2800
+        montoreeinscripcion = 2750 if int(gid) <= 4 else 2800
 
         # Definir las fechas y montos de las transacciones
         transacciones = [
@@ -1121,7 +1121,7 @@ def insertColegiaturas(estudiante_id):
     # Obtener el grupo del estudiante
     db.execute("SELECT id_grupo FROM Estudiante WHERE id = %s", (estudiante_id,))
     id_grupo = db.fetchone()[0]
-    monto_colegiatura = 2750 if id_grupo < 6 else 2800
+    monto_colegiatura = 2750 if id_grupo <= 6 else 2800
 
     # Definir las fechas y montos de las transacciones
     transacciones = [
@@ -1167,6 +1167,36 @@ def pagoAnual(id, gid):
     db.execute(
         "INSERT INTO Transaccion (monto, concepto, fecha_pago, activado, pagado, id_estudiante, metodo) VALUES (%s, %s, %s, %s, %s, %s, %s)",
         (monto_colegiatura, nombre_concepto, fecha_pago, True, True, id, 'Transferencia'))
+    db.connection.commit()
+    montoreeinscripcion = 2750 if int(gid) < 4 else 2800
+    nombre_conceptoIns = "Reinscripción CICLO ESCOLAR 2024-2025 "
+    fecha_pagoR = "2024-02-02"
+    fecha_activacionR ="2024-01-22"
+    db.execute(
+        "INSERT INTO Transaccion (monto, concepto, fecha_pago,fechaActivacion, pagado, id_estudiante) VALUES (%s, %s, %s, %s, %s,%s)",
+        (montoreeinscripcion, nombre_conceptoIns, fecha_pagoR,fecha_activacionR, False, id ))
+    db.connection.commit()
+    return redirect(url_for('get_student', id=id))
+
+@app.route('/pagoAnualEfectivo/<id>/<gid>', methods=['POST', 'GET'])
+def pagoAnualEfe(id, gid):
+    if not check_login():
+        return redirect(url_for('login'))
+    db = mysql.connection.cursor()
+    # Obtener el monto de la colegiatura anual
+    monto_colegiatura = 30250 if int(gid) < 6 else 30800
+    print(monto_colegiatura)
+
+    # Borrar todas las transacciones del estudiante
+    db.execute("""DELETE FROM Transaccion 
+                                WHERE id_estudiante={}""".format(id))
+    db.connection.commit()
+    # Agregar la nueva transacción para la colegiatura anual
+    nombre_concepto = "Colegiatura Anual"
+    fecha_pago = date.today()
+    db.execute(
+        "INSERT INTO Transaccion (monto, concepto, fecha_pago, activado, pagado, id_estudiante, metodo) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+        (monto_colegiatura, nombre_concepto, fecha_pago, True, True, id, 'Efectivo'))
     db.connection.commit()
     montoreeinscripcion = 2750 if int(gid) < 4 else 2800
     nombre_conceptoIns = "Reinscripción CICLO ESCOLAR 2024-2025 "
