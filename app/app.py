@@ -1434,7 +1434,7 @@ def send_email(aid, id):
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
     smtp_username = 'felipecarbajalarcia@gmail.com'
-    smtp_password = 'wqovjkhmaxycrrjx'
+    smtp_password = 'acyhtagclztpxyse'
 
     server = smtplib.SMTP(smtp_server, smtp_port)
     server.starttls()
