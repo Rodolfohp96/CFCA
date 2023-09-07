@@ -459,12 +459,52 @@ def get_nuevafactura(aid, id):
                            total_con_recargo=total_con_recargo,transaccion_original=transaccion_original)
 
 
+# def calcular_recargo(monto, fechalimite):
+#     fecha_actual = date.today()
+#     fecha_limite = fechalimite
+#
+#     if fecha_limite is not None:
+#         dias_atraso = (fecha_actual - fecha_limite).days
+#     else:
+#         # Handle the case where fecha_limite is None
+#         dias_atraso = 0  # or any other appropriate default value
+#
+#     if dias_atraso <= 10:
+#         return monto, 0
+#     elif dias_atraso <= 15:
+#         return monto + 100, 100
+#     elif dias_atraso <= 30:
+#         return monto + 50, 50
+#     else:
+#         meses_atraso = (
+#                                    dias_atraso + 1) // 30  # Obtener la cantidad de meses completos de atraso a partir del mes cumplido
+#
+#         if meses_atraso >= 2:
+#             recargo = 50 + (
+#                         meses_atraso - 1) * 50  # Restar 1 para no contar el primer mes de atraso (que ya está cubierto por el recargo inicial de 50)
+#         else:
+#             recargo = 50
+#
+#         try:
+#             monto_float = float(monto)
+#             total_con_recargo = monto_float + recargo
+#             return total_con_recargo, recargo
+#         except ValueError:
+#             # Si monto no es un número válido, manejar el error o asignar un valor predeterminado
+#             return 0, 0  # Por ejemplo, asignar 0 como valor predeterminado
+
+
+from datetime import date
+
+
 def calcular_recargo(monto, fechalimite):
     fecha_actual = date.today()
-    fecha_limite = fechalimite
 
-    if fecha_limite is not None:
-        dias_atraso = (fecha_actual - fecha_limite).days
+    if fechalimite is not None:
+        if fecha_actual >= fechalimite:
+            return monto + 100, 100
+        else:
+            dias_atraso = (fecha_actual - fechalimite).days
     else:
         # Handle the case where fecha_limite is None
         dias_atraso = 0  # or any other appropriate default value
@@ -477,11 +517,11 @@ def calcular_recargo(monto, fechalimite):
         return monto + 50, 50
     else:
         meses_atraso = (
-                                   dias_atraso + 1) // 30  # Obtener la cantidad de meses completos de atraso a partir del mes cumplido
+                               dias_atraso + 1) // 30  # Obtener la cantidad de meses completos de atraso a partir del mes cumplido
 
         if meses_atraso >= 2:
             recargo = 50 + (
-                        meses_atraso - 1) * 50  # Restar 1 para no contar el primer mes de atraso (que ya está cubierto por el recargo inicial de 50)
+                    meses_atraso - 1) * 50  # Restar 1 para no contar el primer mes de atraso (que ya está cubierto por el recargo inicial de 50)
         else:
             recargo = 50
 
@@ -492,7 +532,6 @@ def calcular_recargo(monto, fechalimite):
         except ValueError:
             # Si monto no es un número válido, manejar el error o asignar un valor predeterminado
             return 0, 0  # Por ejemplo, asignar 0 como valor predeterminado
-
 
 
 @app.route('/busqueda', methods=['POST'])
