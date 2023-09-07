@@ -501,7 +501,7 @@ def calcular_recargo(monto, fechalimite):
     fecha_actual = date.today()
 
     if fechalimite is not None:
-        if fecha_actual >= fechalimite:
+        if fecha_actual > fechalimite:
             return monto + 100, 100
         else:
             dias_atraso = (fecha_actual - fechalimite).days
