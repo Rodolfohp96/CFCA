@@ -447,10 +447,10 @@ def get_nuevafactura(aid, id):
     data5 = db.fetchone()
 
     if data5 and data5[0] is not None and data5[0] != 0:
-        descuento = (data5[0] * total_con_recargo[0]) / 100
-        transaccion_original = total_con_recargo[0] - descuento
+        descuento = (data5[0] * transaccion_original) / 100
+        transaccion_original = transaccion_original - descuento + total_con_recargo[1]
     else:
-        transaccion_original = total_con_recargo[0]
+        transaccion_original = transaccion_original + total_con_recargo[1]
 
     ###
     _info = {"msg": msg, "id": id, "aid": aid, "data": data, "trans": trans}
@@ -753,7 +753,7 @@ def get_student(id):
         if i == 1:
             bcon = cdata[i]
     db.execute(
-        "SELECT id, monto, metodo, concepto, fecha_limite, pagado FROM Transaccion WHERE id_estudiante={}".format(id))
+        "SELECT id, monto, metodo, concepto, fecha_limite, pagado, fecha_pago FROM Transaccion WHERE id_estudiante={}".format(id))
     tdata = db.fetchall()
     trans = []
     for item in tdata:
@@ -761,12 +761,13 @@ def get_student(id):
         monto = "${:,.2f}".format(item[1])
         metodo = item[2]
         concepto = item[3]
+        pago = item[6]
         fecha_limite = item[4]
         pagado = item[5]
         noticia = "PAGADO"
         if item[5] == 0:
             noticia = "ADEUDO"
-        trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "concepto": concepto, "limite": fecha_limite,
+        trans.append({"id": id_adeudo, "monto": monto, "metodo": metodo, "concepto": concepto,"pago": pago, "limite": fecha_limite,
                       "pagado": pagado, "noticia": noticia})
     _info = {"student_id": id, "student": student, "acon": acon, "bcon": bcon, "trans": trans}
     return render_template('student.html', info=_info)
@@ -779,7 +780,7 @@ def edit_student(id):
     msg = ""
 
     if request.method == 'POST':
-        # Extraer los datos del formulario
+        # Extraer los datos del formulario00
         nombre = request.form['nombre']
         fecha_nacimiento = request.form['nacimiento']
         beca = request.form['beca']

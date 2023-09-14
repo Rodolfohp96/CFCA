@@ -253,10 +253,14 @@
                                                     <th>Monto</th>
                                                     <th>Metodo</th>
                                                     <th>Concepto</th>
+
                                                     <th>Fecha Limite</th>
                                                     <th>Estado</th>
+                                                    <th>Fecha de Pago</th>
                                                     <th>Editar</th>
+                                                    <th>Recibo</th>
                                                     <th>Pagar</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -264,11 +268,17 @@
                                                 <tr>
                                                     <td>{{tran.monto}}</td>
                                                     <td>{{tran.metodo}}</td>
+
                                                     <td>{{tran.concepto}}</td>
                                                     <td>{{tran.limite}}</td>
                                                     <td>{{tran.noticia}}</td>
+                                                    <td>{{tran.pago}}</td>
+
                                                     <td>
                                                         <a class="btn btn-primary" href="/alumno/{{ info.student_id }}/editar_adeudo/{{tran.id}}">Editar</a>
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-warning" href='/nuevorecibol/{{ info.student_id }}/{{ tran.id }}' >Recibo</a>
                                                     </td>
                                                     <td>
                                                         <a class="btn btn-success" href="/alumno/{{ info.student_id }}/nuevafactura/{{tran.id}}">Pagar</a>
