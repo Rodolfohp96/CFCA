@@ -502,7 +502,7 @@ def calcular_recargo(monto, fechalimite):
 
     if fechalimite is not None:
         if fecha_actual > fechalimite:
-            return monto + 250, 250
+            return monto + 50, 50
         else:
             dias_atraso = (fecha_actual - fechalimite).days
     else:
@@ -516,8 +516,7 @@ def calcular_recargo(monto, fechalimite):
     elif dias_atraso <= 30:
         return monto + 50, 50
     else:
-        meses_atraso = (
-                               dias_atraso + 1) // 30  # Obtener la cantidad de meses completos de atraso a partir del mes cumplido
+        meses_atraso = (dias_atraso + 1) // 30  # Obtener la cantidad de meses completos de atraso a partir del mes cumplido
 
         if meses_atraso >= 2:
             recargo = 50 + (
