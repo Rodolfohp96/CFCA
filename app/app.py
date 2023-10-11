@@ -500,7 +500,7 @@ from datetime import date
 def calcular_recargo(monto, fechalimite):
     fecha_actual = date.today()
 
-    if fechalimite == "2023-09-06":
+    if fechalimite == date(2023, 9, 6):
         return monto + 250, 250
     elif fechalimite is not None:
         if fecha_actual > fechalimite:
