@@ -1148,19 +1148,23 @@ def insertColegiaturas(aid):
     db.execute("SELECT id_grupo FROM Estudiante WHERE id = %s", (aid,))
     id_grupo = db.fetchone()[0]
     monto_colegiatura = 2750 if id_grupo <= 6 else 2800
+    montoreeinscripcion = 2750 if id_grupo <= 4 else 2800
 
     # Definir las fechas y montos de las transacciones
     transacciones = [
-        ("Colegiatura Septiembre", "2023-09-10", "2023-09-01", monto_colegiatura),
+        ("Colegiatura Septiembre", "2023-09-06", "2023-08-28", monto_colegiatura),
         ("Colegiatura Octubre", "2023-10-10", "2023-10-01", monto_colegiatura),
         ("Colegiatura Noviembre", "2023-11-10", "2023-11-01", monto_colegiatura),
-        ("Colegiatura Diciembre y Agosto", "2023-12-10", "2023-12-01", monto_colegiatura * 2),
+        ("Colegiatura Agosto", "2023-12-10", "2023-12-01", monto_colegiatura),
+        ("Colegiatura Diciembre", "2023-12-10", "2023-12-01", monto_colegiatura),
         ("Colegiatura Enero", "2024-01-10", "2024-01-01", monto_colegiatura),
+        ("Reinscripción CICLO ESCOLAR 2024-2025 ", "2024-02-02", "2024-01-22", montoreeinscripcion),
         ("Colegiatura Febrero", "2024-02-10", "2024-02-01", monto_colegiatura),
         ("Colegiatura Marzo", "2024-03-10", "2024-03-01", monto_colegiatura),
-        ("Colegiatura Abril", "2024-04-10", "2024-04-01", monto_colegiatura),
+        ("Colegiatura Abril", "2024-04-12", "2024-04-01", monto_colegiatura),
         ("Colegiatura Mayo", "2024-05-10", "2024-05-01", monto_colegiatura),
-        ("Colegiatura Junio y Julio", "2024-06-10", "2024-06-01", monto_colegiatura * 2)
+        ("Colegiatura Junio", "2024-06-10", "2024-06-01", monto_colegiatura),
+        ("Colegiatura Julio", "2024-06-10", "2024-06-01", monto_colegiatura)
     ]
 
     # Insertar las transacciones en la tabla Transaccion
