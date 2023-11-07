@@ -1140,12 +1140,12 @@ def enviar_correo(aid, id):
 
 
 
-
-def insertColegiaturas(estudiante_id):
+@app.route('/insertColegiaturas/<aid>', methods=['GET', 'POST'])
+def insertColegiaturas(aid):
     db = mysql.connection.cursor()
 
     # Obtener el grupo del estudiante
-    db.execute("SELECT id_grupo FROM Estudiante WHERE id = %s", (estudiante_id,))
+    db.execute("SELECT id_grupo FROM Estudiante WHERE id = %s", (aid,))
     id_grupo = db.fetchone()[0]
     monto_colegiatura = 2750 if id_grupo <= 6 else 2800
 
@@ -1169,9 +1169,13 @@ def insertColegiaturas(estudiante_id):
         fecha_activacion = datetime.strptime(fecha_activacion, "%Y-%m-%d").date()
         db.execute(
             "INSERT INTO Transaccion (monto, concepto, fecha_limite, fechaActivacion, activado, pagado, id_estudiante) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            (monto, nombre, fecha_limite, fecha_activacion, False, False, estudiante_id))
+            (monto, nombre, fecha_limite, fecha_activacion, False, False, aid))
 
     db.connection.commit()
+
+    return f'Colegiaturas insertadas exitosamente para el estudiante con ID {aid}'
+
+
 
 
 @app.route('/pagoAnual/<id>/<gid>', methods=['POST', 'GET'])
