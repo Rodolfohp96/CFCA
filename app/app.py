@@ -464,13 +464,18 @@ from datetime import date
 
 def calcular_recargo(monto, fechalimite):
     fecha_actual = date.today()
+    recargo = 0  # Valor predeterminado
+
 
     if fechalimite is None:
+
         return monto, 0  # No hay recargo si la fecha límite es None
 
     dias_atraso = (fecha_actual - fechalimite).days
 
+
     if dias_atraso <= 0:
+
         return monto, 0  # No hay recargo si el pago es puntual
 
     if fechalimite in (date(2023, 9, 6), date(2024, 4, 12)):
@@ -491,29 +496,30 @@ def calcular_recargo(monto, fechalimite):
         else:
             recargo = 0  # No hay recargo para más de 150 días de atraso
     else:
-        if fechalimite.month == fecha_actual.month:
-            if dias_atraso <= 10:
-                recargo = 100  # Recargo estándar dentro de los primeros 10 días
-            elif dias_atraso <= 20:
-                recargo = 150  # Recargo estándar después de 10 días
-            elif dias_atraso <= 30:
-                recargo = 250  # Recargo estándar después de 20 días
-            elif dias_atraso <= 60:
-                recargo = 300  # Recargo estándar después de 30 días
-            elif dias_atraso <= 90:
-                recargo = 350  # Recargo estándar después de 60 días
-            elif dias_atraso <= 120:
-                recargo = 400  # Recargo estándar después de 90 días
-            elif dias_atraso <= 150:
-                recargo = 500  # Recargo estándar después de 120 días
-            else:
-                recargo = 0  # No hay recargo para más de 150 días de atraso
+        if dias_atraso <= 10:
+            recargo = 100  # Recargo estándar dentro de los primeros 10 días
+        elif dias_atraso <= 20:
+            recargo = 150  # Recargo estándar después de 10 días
+        elif dias_atraso <= 30:
+            recargo = 250  # Recargo estándar después de 20 días
+        elif dias_atraso <= 60:
+            recargo = 300  # Recargo estándar después de 30 días
+        elif dias_atraso <= 90:
+            recargo = 350  # Recargo estándar después de 60 días
+        elif dias_atraso <= 120:
+            recargo = 400  # Recargo estándar después de 90 días
+        elif dias_atraso <= 150:
+            recargo = 500  # Recargo estándar después de 120 días
+        else:
+            recargo = 0  # No hay recargo para más de 150 días de atraso
 
     try:
         monto_float = float(monto)
         total_con_recargo = monto_float + recargo
+
         return total_con_recargo, recargo
     except ValueError:
+
         return 0, 0  # Manejar el caso de un monto no válido
 
 
