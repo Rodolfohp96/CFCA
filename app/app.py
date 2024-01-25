@@ -486,13 +486,13 @@ def calcular_recargo(monto, fechalimite):
         elif dias_atraso <= 28:
             recargo = 250  # Recargo estándar después de 20 días
         elif dias_atraso <= 56:
-            recargo = 350  # Recargo estándar después de 30 días
+            recargo = 450  # Recargo estándar después de 30 días
         elif dias_atraso <= 85:
-            recargo = 400  # Recargo estándar después de 60 días
+            recargo = 550  # Recargo estándar después de 60 días
         elif dias_atraso <= 115:
-            recargo = 450  # Recargo estándar después de 90 días
+            recargo = 650  # Recargo estándar después de 90 días
         elif dias_atraso <= 145:
-            recargo = 550  # Recargo estándar después de 120 días
+            recargo = 750  # Recargo estándar después de 120 días
         else:
             recargo = 0  # No hay recargo para más de 150 días de atraso
     else:
@@ -503,13 +503,13 @@ def calcular_recargo(monto, fechalimite):
         elif dias_atraso <= 30:
             recargo = 250  # Recargo estándar después de 20 días
         elif dias_atraso <= 60:
-            recargo = 350  # Recargo estándar después de 30 días
+            recargo = 450  # Recargo estándar después de 30 días
         elif dias_atraso <= 90:
-            recargo = 400  # Recargo estándar después de 60 días
+            recargo = 550  # Recargo estándar después de 60 días
         elif dias_atraso <= 120:
-            recargo = 450  # Recargo estándar después de 90 días
+            recargo = 650  # Recargo estándar después de 90 días
         elif dias_atraso <= 150:
-            recargo = 550  # Recargo estándar después de 120 días
+            recargo = 750  # Recargo estándar después de 120 días
         else:
             recargo = 0  # No hay recargo para más de 150 días de atraso
 
